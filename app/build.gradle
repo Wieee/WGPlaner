@@ -27,6 +27,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:gridlayout-v7:25.3.1'
+    compile 'com.google.firebase:firebase-core:11.0.4'
+    compile 'com.google.firebase:firebase-auth:11.0.4'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
+    apply plugin: 'com.google.gms.google-services'
+    testCompile 'junit:junit:4.12'
+    compile 'com.google.android.gms:play-services:11.0.4'
 }
