@@ -1,64 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_collapseParallaxMultiplier="1.0">
+    app:layout_collapseParallaxMultiplier="1.0"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/add_product_btn"
-        android:layout_width="103dp"
-
-        android:layout_height="wrap_content"
-        android:layout_weight="0.23"
-        android:text="Produkte hinzu"
-        android:visibility="visible" />
-
-    <RadioGroup
-        android:id="@+id/product_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/add_product_btn"
-        android:layout_weight="1"
-        android:layout_x="1dp"
-        android:layout_y="64dp"
-        android:weightSum="1">
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/radioButton1"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Fehlendes Produkt eingeben.." />
+
+        <Button
+            android:id="@+id/add_product_btn"
+            android:layout_width="@android:dimen/app_icon_size"
+
+            android:layout_height="@android:dimen/app_icon_size"
+            android:layout_margin="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@android:drawable/ic_menu_add"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/checkBox4"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:checked="false"
+            android:duplicateParentState="false"
             android:text="Bananen" />
 
-        <RadioButton
-            android:id="@+id/radioButton2"
+        <CheckBox
+            android:id="@+id/checkBox5"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:text="Brot" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="Nudeln"
+            android:layout_height="35dp" />
+
+        <Button
+            android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Äpfel" />
-
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Klopapier" />
-
-        <RadioButton
-            android:id="@+id/radioButton4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Wasser" />
-
-        <RadioButton
-            android:id="@+id/radioButton5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Batterien" />
-
-
-    </RadioGroup>
+            android:layout_weight="1"
+            android:text="gekauft" />
+    </LinearLayout>
 
 </LinearLayout>
 
