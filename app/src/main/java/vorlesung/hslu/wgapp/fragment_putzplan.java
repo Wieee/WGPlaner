@@ -7,18 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by D064744 on 20.10.2017.
- */
+public class fragment_putzplan extends Fragment {
+    View putzplanview;
 
-public class einkaufszettel extends Fragment {
-    View einkaufszettelview ;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-       einkaufszettelview = inflater.inflate(R.layout.einkaufszettel, container, false);
+        putzplanview = inflater.inflate(R.layout.fragment_putzplan, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(
-                "Einkaufszettel");
-        return einkaufszettelview;
+                "Putzplan");
+        return putzplanview;
     }
 }
