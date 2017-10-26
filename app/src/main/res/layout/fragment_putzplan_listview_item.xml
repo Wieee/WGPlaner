@@ -1,52 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardView"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/cardView_putzplan"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginBottom="@dimen/activity_vertical_margin"
+android:clickable="true"
+android:focusable="true"
+android:foreground="?android:attr/selectableItemBackground"
+app:cardCornerRadius="@dimen/activity_vertical_margin"
+app:cardElevation="@dimen/activity_vertical_margin">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/activity_vertical_margin"
-    app:cardElevation="@dimen/activity_vertical_margin">
+    android:padding="16dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/list_item_checkbox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp" />
+    <TextView
+        android:id="@+id/list_item_titel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/list_item_checkbox"
+        android:text="Title"
+        android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/aufgabenname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageView"
-            android:text="Title"
-            android:textSize="30sp" />
+    <TextView
+        android:id="@+id/list_item_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_titel"
+        android:layout_toRightOf="@+id/list_item_checkbox"
+        android:text="Description" />
 
-        <TextView
-            android:id="@+id/beschreibung"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aufgabenname"
-            android:layout_toRightOf="@+id/imageView"
-            android:text="Description" />
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:layout_above="@+id/beschreibung"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-    </RelativeLayout>
+</RelativeLayout>
 
 </android.support.v7.widget.CardView>
