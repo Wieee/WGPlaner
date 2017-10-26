@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="custom1" parent="android:Theme.Material.Light" >
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/place_autocomplete_separator</item>
+        <item name="android:colorPrimary">@color/cast_expanded_controller_ad_label_background_color</item>
+        <item name="android:colorForeground">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/primary_text_material_light</item>
+    </style>
+</resources>

@@ -14,8 +14,7 @@ public class fragment_haushaltsbuch extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         haushaltsbuchview = inflater.inflate(R.layout.fragment_haushaltsbuch, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(
-                "Haushaltsbuch");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Haushaltsbuch");
         return haushaltsbuchview;
     }
 

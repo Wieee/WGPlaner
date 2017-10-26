@@ -1,75 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_collapseParallaxMultiplier="1.0"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_collapseParallaxMultiplier="1.0">
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/listview_einkaufszettel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:orientation="horizontal">
+        android:choiceMode="multipleChoice">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Fehlendes Produkt eingeben.." />
+    </ListView>
 
-        <Button
-            android:id="@+id/add_product_btn"
-            android:layout_width="@android:dimen/app_icon_size"
-
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_margin="1dp"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@android:drawable/ic_menu_add"
-            android:visibility="visible" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <CheckBox
-            android:id="@+id/checkBox4"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:checked="false"
-            android:duplicateParentState="false"
-            android:text="Bananen" />
-
-        <CheckBox
-            android:id="@+id/checkBox5"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:text="Brot" />
-
-        <CheckBox
-            android:id="@+id/checkBox3"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:text="Nudeln"
-            android:layout_height="35dp" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="gekauft" />
-    </LinearLayout>
 
 </LinearLayout>
 
