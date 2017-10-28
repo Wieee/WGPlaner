@@ -36,23 +36,26 @@
             android:hint="Was möchtest du hinzufügen..."
             android:textSize="13sp" />
 
-
-        <SeekBar
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:id="@+id/einkaufszettel_dialog_product_count"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/einkaufszettel_dialog_product_name"
-            android:layout_margin="24dp"
-            android:layout_marginTop="0dp"
-            android:max="9"
-            android:progress="0"
-
+            android:layout_above="@+id/einkaufszettel_dialog_btn"
+            android:layout_alignStart="@+id/einkaufszettel_dialog_product_name"
+            android:layout_marginBottom="13dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            app:dsb_max="10"
+            app:dsb_min="1"
+            app:dsb_rippleColor="@color/colorPrimary"
+            app:dsb_indicatorColor="@color/colorPrimary"
+            app:dsb_progressColor="@color/colorPrimary"
             android:textAlignment="center"
-            android:thumb="?android:attr/textSelectHandle" />
+            android:focusable="true"
+            />
 
         <Button
-            android:id="@+id/hello"
+            android:id="@+id/einkaufszettel_dialog_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
