@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class fragment_putzplan extends Fragment {
+public class PutzplanFragment extends Fragment {
     View putzplanview;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        putzplanview = inflater.inflate(R.layout.fragment_putzplan, container, false);
+        putzplanview = inflater.inflate(R.layout.putzplan_fragment, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(
                 "Putzplan");
         return putzplanview;

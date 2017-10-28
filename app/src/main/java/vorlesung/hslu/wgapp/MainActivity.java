@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
         //Set initial screen
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, new fragment_haushaltsbuch());
+        transaction.replace(R.id.fragment_container, new HaushaltsbuchFragment());
         transaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -80,18 +80,18 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         if (id == R.id.nav_einkaufszettel) {
-            transaction.replace(R.id.fragment_container, new fragment_einkaufszettel());
-            transaction.addToBackStack("fragment_einkaufszettel");
+            transaction.replace(R.id.fragment_container, new EinkaufszettelFragment());
+            transaction.addToBackStack("einkaufszettel_fragment");
             transaction.commit();
 
         } else if (id == R.id.nav_haushaltsbuch) {
-            transaction.replace(R.id.fragment_container, new fragment_haushaltsbuch());
-            transaction.addToBackStack("fragment_haushaltsbuch");
+            transaction.replace(R.id.fragment_container, new HaushaltsbuchFragment());
+            transaction.addToBackStack("haushaltsbuch_fragment");
             transaction.commit();
 
         } else if (id == R.id.nav_putzplan) {
-            transaction.replace(R.id.fragment_container, new fragment_putzplan());
-            transaction.addToBackStack("fragment_putzplan");
+            transaction.replace(R.id.fragment_container, new PutzplanFragment());
+            transaction.addToBackStack("putzplan_fragment");
             transaction.commit();
 
         } else if (id == R.id.nav_manage) {

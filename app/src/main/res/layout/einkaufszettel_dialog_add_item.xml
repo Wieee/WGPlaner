@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:layout_gravity="center"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/einkaufszettel_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="24dp"
+            android:layout_marginBottom="20dp"
+            android:text="Zum Einkaufszettel hinzufügen"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/einkaufszettel_dialog_product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/einkaufszettel_dialog_title"
+            android:layout_margin="24dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="20dp"
+            android:hint="Was möchtest du hinzufügen..."
+            android:textSize="13sp" />
+
+
+        <SeekBar
+            android:id="@+id/einkaufszettel_dialog_product_count"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/einkaufszettel_dialog_product_name"
+            android:layout_margin="24dp"
+            android:layout_marginTop="0dp"
+            android:max="9"
+            android:progress="0"
+
+            android:textAlignment="center"
+            android:thumb="?android:attr/textSelectHandle" />
+
+        <Button
+            android:id="@+id/hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:background="@color/cardview_light_background"
+            android:elevation="0dp"
+            android:text="hinzufügen"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
