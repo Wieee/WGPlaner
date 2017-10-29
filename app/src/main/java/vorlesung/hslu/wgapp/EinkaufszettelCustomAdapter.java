@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class EinkaufszettelCustomAdapter extends BaseAdapter {
     Activity activity;
     ArrayList arrayList;
-    int checkedCounter = 0;
+    public int checkedCounter = 0;
 
     public EinkaufszettelCustomAdapter(Activity activity, ArrayList arrayList) {
         this.activity = activity;

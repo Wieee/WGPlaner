@@ -76,6 +76,7 @@ public class EinkaufszettelFragment extends Fragment {
             }
         }
         customAdapter.notifyDataSetChanged();
+        customAdapter.checkedCounter = 0;
     }
 
     private void MyCustomAlertDialog(){

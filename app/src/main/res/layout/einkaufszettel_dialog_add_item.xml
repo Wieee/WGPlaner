@@ -61,6 +61,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
+            android:padding="8dp"
             android:background="@color/cardview_light_background"
             android:elevation="0dp"
             android:text="hinzufügen"
