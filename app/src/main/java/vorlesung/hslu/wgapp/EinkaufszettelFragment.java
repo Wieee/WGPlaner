@@ -8,14 +8,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.util.ArrayList;
 
 public class EinkaufszettelFragment extends Fragment {
 
     ArrayList<String> einkaufsListe = new ArrayList<>();
+    public static ArrayList<String> gekaufteListe = new ArrayList<>();
+    EinkaufszettelCustomAdapter customAdapter;
 
     @Nullable
     @Override
@@ -24,34 +30,77 @@ public class EinkaufszettelFragment extends Fragment {
         final View einkaufszettelView = inflater.inflate(R.layout.einkaufszettel_fragment, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Einkaufszettel");
 
-        final EinkaufszettelCustomAdapter customAdapter = new EinkaufszettelCustomAdapter(getActivity(), einkaufsListe);
+        customAdapter = new EinkaufszettelCustomAdapter(getActivity(), einkaufsListe);
         ListView listView = (ListView) einkaufszettelView.findViewById(R.id.einkaufszettel_ListView);
         listView.setAdapter(customAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) einkaufszettelView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabAdd = (FloatingActionButton) einkaufszettelView.findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyCustomAlertDialog();
-                addItem(customAdapter, "Eier");
             }
         });
 
-        addItem(customAdapter, "Wurst");
-        addItem(customAdapter, "Käse");
-        addItem(customAdapter, "Brot");
+        FloatingActionButton fabDelete = (FloatingActionButton) einkaufszettelView.findViewById(R.id.fabShopped);
+        fabDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteItems();
+                einkaufszettelView.findViewById(R.id.fabShopped).setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+        addItem("1x Wurst");
+        addItem("2x Käse");
+        addItem("1x Brot");
 
         return einkaufszettelView;
     }
 
-    private void addItem(BaseAdapter customAdapter, String string){
+    private void addItem(String string){
         einkaufsListe.add(string);
         customAdapter.notifyDataSetChanged();
     }
 
+    private void deleteItems(){
+        String string;
+        int i = gekaufteListe.size();
+
+        while(i > 0) {
+            string = gekaufteListe.get(--i);
+            if(einkaufsListe.containsAll(gekaufteListe)) {
+                einkaufsListe.remove(string);
+                gekaufteListe.remove(string);
+            }
+        }
+        customAdapter.notifyDataSetChanged();
+    }
+
     private void MyCustomAlertDialog(){
-        Dialog MyDialog = new Dialog(getActivity());
+        final Dialog MyDialog = new Dialog(getActivity());
         MyDialog.setContentView(R.layout.einkaufszettel_dialog_add_item);
         MyDialog.show();
+
+        final EditText text = (EditText) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_name);
+        final DiscreteSeekBar seekBar = (DiscreteSeekBar) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_count);
+        Button button = (Button) MyDialog.findViewById(R.id.einkaufszettel_dialog_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                String newItem = seekBar.getProgress() + "x " + text.getText();
+                addItem(newItem);
+
+                MyDialog.hide();
+
+                Toast toast = Toast.makeText(
+                        view.getContext(),
+                        newItem + " wurde zum Einkaufzettel hinzugefügt.",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
     }
 }

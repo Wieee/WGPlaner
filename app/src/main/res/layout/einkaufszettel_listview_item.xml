@@ -24,7 +24,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:padding="3dp">
 
             <CheckBox
                 android:id="@+id/einkaufszettel_list_item_checkbox"
@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                />
 
             <TextView
                 android:id="@+id/einkaufszettel_list_item_titel"
@@ -41,16 +42,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/einkaufszettel_list_item_checkbox"
                 android:text="Title"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/einkaufszettel_list_item_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/einkaufszettel_list_item_titel"
-                android:layout_toRightOf="@+id/einkaufszettel_list_item_checkbox"
-                android:text="Description" />
-
+                android:layout_centerHorizontal="true"
+                android:textSize="22sp" />
 
         </RelativeLayout>
 

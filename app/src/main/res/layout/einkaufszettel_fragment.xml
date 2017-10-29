@@ -12,12 +12,16 @@
         android:choiceMode="multipleChoice"
         android:divider="@color/white"></ListView>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:layout_gravity="bottom|end">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:src="@mipmap/ic_add"
         android:scaleType="center"
@@ -26,6 +30,20 @@
         app:pressedTranslationZ="12dp"
         />
 
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabShopped"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_shopping_card"
+        android:scaleType="center"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:pressedTranslationZ="12dp"
+        android:visibility="invisible"
+        />
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
 
 
