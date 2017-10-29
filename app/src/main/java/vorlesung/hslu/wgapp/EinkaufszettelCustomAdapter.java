@@ -52,7 +52,7 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
         itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fabShopped);
+                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.einkaufszettel_fabShopped);
                 if (isChecked == true){
                     checkedCounter++;
                     EinkaufszettelFragment.gekaufteListe.add((String) getItem(position));

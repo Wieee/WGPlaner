@@ -6,4 +6,7 @@
     <color name="white"> #FFFFFF</color>
     <color name="accent_material_light_1">#FFF273</color>
     <color name="primary_text_material_light">#A69700</color>
+    <color name="haushaltsbuch_plus_money">#00B64F</color>
+    <color name="haushaltsbuch_minus_money">#FF3500</color>
+
 </resources>

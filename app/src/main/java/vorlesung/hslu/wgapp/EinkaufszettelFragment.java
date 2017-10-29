@@ -34,20 +34,20 @@ public class EinkaufszettelFragment extends Fragment {
         ListView listView = (ListView) einkaufszettelView.findViewById(R.id.einkaufszettel_ListView);
         listView.setAdapter(customAdapter);
 
-        FloatingActionButton fabAdd = (FloatingActionButton) einkaufszettelView.findViewById(R.id.fabAdd);
+        FloatingActionButton fabAdd = (FloatingActionButton) einkaufszettelView.findViewById(R.id.einkaufszettel_fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyCustomAlertDialog();
+                customAlertDialog();
             }
         });
 
-        FloatingActionButton fabDelete = (FloatingActionButton) einkaufszettelView.findViewById(R.id.fabShopped);
+        FloatingActionButton fabDelete = (FloatingActionButton) einkaufszettelView.findViewById(R.id.einkaufszettel_fabShopped);
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteItems();
-                einkaufszettelView.findViewById(R.id.fabShopped).setVisibility(View.INVISIBLE);
+                einkaufszettelView.findViewById(R.id.einkaufszettel_fabShopped).setVisibility(View.INVISIBLE);
             }
         });
 
@@ -59,18 +59,18 @@ public class EinkaufszettelFragment extends Fragment {
         return einkaufszettelView;
     }
 
-    private void addItem(String string){
+    private void addItem(String string) {
         einkaufsListe.add(string);
         customAdapter.notifyDataSetChanged();
     }
 
-    private void deleteItems(){
+    private void deleteItems() {
         String string;
         int i = gekaufteListe.size();
 
-        while(i > 0) {
+        while (i > 0) {
             string = gekaufteListe.get(--i);
-            if(einkaufsListe.containsAll(gekaufteListe)) {
+            if (einkaufsListe.containsAll(gekaufteListe)) {
                 einkaufsListe.remove(string);
                 gekaufteListe.remove(string);
             }
@@ -79,18 +79,18 @@ public class EinkaufszettelFragment extends Fragment {
         customAdapter.checkedCounter = 0;
     }
 
-    private void MyCustomAlertDialog(){
+    private void customAlertDialog() {
         final Dialog MyDialog = new Dialog(getActivity());
         MyDialog.setContentView(R.layout.einkaufszettel_dialog_add_item);
         MyDialog.show();
 
-        final EditText text = (EditText) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_name);
-        final DiscreteSeekBar seekBar = (DiscreteSeekBar) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_count);
+
         Button button = (Button) MyDialog.findViewById(R.id.einkaufszettel_dialog_btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                String newItem = seekBar.getProgress() + "x " + text.getText();
+            public void onClick(View view) {
+                String newItem = ((DiscreteSeekBar) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress()
+                        + "x " + ((EditText) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText();
                 addItem(newItem);
 
                 MyDialog.hide();

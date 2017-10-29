@@ -18,7 +18,7 @@
         android:layout_gravity="bottom|end">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAdd"
+        android:id="@+id/einkaufszettel_fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -32,7 +32,7 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabShopped"
+        android:id="@+id/einkaufszettel_fabShopped"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
