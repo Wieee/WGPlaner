@@ -5,4 +5,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string-array name="Personen">
+        <item>Luca</item>
+        <item>Jan</item>
+        <item>Maik</item>
+        <item>Ash</item>
+        <item>Rosa</item>
+    </string-array>
 </resources>
