@@ -29,6 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SeekBar;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 import org.w3c.dom.Text;
 
@@ -81,6 +84,10 @@ public class PutzplanFragment extends Fragment {
        Date datum = new Date(31-10-2017);
         Putzdaten erstedaten = new Putzdaten("Wohnung saugen", "wöchentlich", datum, R.drawable.profil_mann1);
         addItem(erstedaten);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
 
 
 

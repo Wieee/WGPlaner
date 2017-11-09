@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1035102689864-r9hbsld99j8oc7ah87oc4o0gjr34mlim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vorlesung.hslu.wgapp",
+            "certificate_hash": "d23082354a979f5058706eb17bca34bb499aa285"
+          }
+        },
+        {
+          "client_id": "1035102689864-b91qrginurfqt5ednhah0oehis5jcmrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vorlesung.hslu.wgapp",
+            "certificate_hash": "899d2e224e900162c631784afe8dbb6165b2e7c9"
+          }
+        },
+        {
           "client_id": "1035102689864-22a7tkan2r8su576ka14hsf6gmclt9en.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
