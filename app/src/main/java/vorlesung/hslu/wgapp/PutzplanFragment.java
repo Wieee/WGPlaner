@@ -1,49 +1,31 @@
 package vorlesung.hslu.wgapp;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.icu.text.SimpleDateFormat;
-import android.media.Image;
-import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SeekBar;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-
-import static vorlesung.hslu.wgapp.R.id.date;
-import static vorlesung.hslu.wgapp.R.id.parent;
-import static vorlesung.hslu.wgapp.R.id.text;
 
 public class PutzplanFragment extends Fragment {
     View putzplanview;
@@ -82,25 +64,21 @@ public class PutzplanFragment extends Fragment {
             }
         });
        Date datum = new Date(31-10-2017);
-        Putzdaten erstedaten = new Putzdaten("Wohnung saugen", "wöchentlich", datum, R.drawable.profil_mann1);
+        PutzplanAufgabe erstedaten = new PutzplanAufgabe("Wohnung saugen", "wöchentlich", datum);
         addItem(erstedaten);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
 
         myRef.setValue("Hello, World!");
 
-
-
-
         return putzplanview;
-
     }
 
 
 
 
 
-    private void addItem(Putzdaten daten ){
+    private void addItem(PutzplanAufgabe daten ){
         putzliste.add(daten);
         customAdapter.notifyDataSetChanged();
 
@@ -196,7 +174,7 @@ public class PutzplanFragment extends Fragment {
 
                 Date datum = new Date(1-11-2017);
                 String haeufigkeit = textview.getText().toString();
-                Putzdaten neueDaten = new Putzdaten(aufgabenname,haeufigkeit,datum, R.drawable.profil_mann1);
+                PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname,haeufigkeit,datum);
                 addItem(neueDaten);
 
                 MyDialog.hide();

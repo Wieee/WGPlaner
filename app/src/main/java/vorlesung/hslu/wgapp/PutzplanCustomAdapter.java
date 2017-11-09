@@ -36,25 +36,22 @@ public class PutzplanCustomAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView( final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View row = convertView;
-        if (row==null) {
-            LayoutInflater inflater=(LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (row == null) {
+            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.putzplan_listview_item, parent, false);
         }
         ImageView itempicture = (ImageView) row.findViewById((R.id.list_item_picture));
         TextView itemTitel = (TextView) row.findViewById(R.id.list_item_titel);
         TextView itemDescription = (TextView) row.findViewById(R.id.list_item_description);
 
-        Putzdaten data = (Putzdaten) arrayList.get(position);
+        PutzplanAufgabe data = (PutzplanAufgabe) arrayList.get(position);
 
-           itemTitel.setText(data.aufgabe);
+        itemTitel.setText(data.aufgabe);
 
-           itemDescription.setText(data.haeufigkeit);
-
-           itempicture.setImageResource(data.profilbild);
-
+        itemDescription.setText(data.haeufigkeit);
 
         return row;
     }

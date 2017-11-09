@@ -40,6 +40,8 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
         TextView itemTitel = (TextView) row.findViewById(R.id.haushaltsbuch_list_item_name);
         TextView itemAmount = (TextView) row.findViewById(R.id.haushaltsbuch_list_item_amount);
 
+
+        //USER LISTE EINPFLEGEN
         itemTitel.setText("Erste Person");
         itemAmount.setText("+25€");
         return row;

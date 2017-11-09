@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class HaushaltsbuchFragment extends Fragment {
     View haushaltsbuchView;
     BaseAdapter customAdapter;
-    ArrayList<HaushaltsbuchAusgabenObjekt> ausgabenListe;
-    ArrayList<String> usersListe;
+    ArrayList<HaushaltsbuchAusgabe> ausgabenListe = new ArrayList<>();
+    ArrayList<Person> usersListe = new ArrayList<>();
 
     @Nullable
     @Override
@@ -37,15 +37,14 @@ public class HaushaltsbuchFragment extends Fragment {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                customAlertDialog();
+                customDialogAddExpense();
             }
         });
-
 
         return haushaltsbuchView;
     }
 
-    private void customAlertDialog() {
+    private void customDialogAddExpense() {
         final Dialog MyDialog = new Dialog(getActivity());
         MyDialog.setContentView(R.layout.haushaltsbuch_dialog_new_expense);
         MyDialog.show();
@@ -55,7 +54,8 @@ public class HaushaltsbuchFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //NOCH NICHT FUNKTIONSTÜCHTIG
+                //abfrage falls felder leer und button trotzdem geclickt wurde
+
                 String name = ((EditText) MyDialog.findViewById(R.id.haushaltsbuch_dialog_product_name)).getText() + "";
 
                 //amount muss double(am besten neue Klasse Währung einführen) sein, um verrechnung möglich zu machen
@@ -64,16 +64,24 @@ public class HaushaltsbuchFragment extends Fragment {
                 //date Struktur angucken, ist das notwendig?
                 String date = ((EditText) MyDialog.findViewById(R.id.haushaltsbuch_dialog_date)).getText() + "";
 
-                HaushaltsbuchAusgabenObjekt newExpense = new HaushaltsbuchAusgabenObjekt(name, amount, date);
+                HaushaltsbuchAusgabe newExpense = new HaushaltsbuchAusgabe(name, amount, date);
                 ausgabenListe.add(newExpense);
 
                 MyDialog.hide();
                 Toast toast = Toast.makeText(
                         view.getContext(),
-                        newExpense + " wurde erstellt.",
+                        newExpense.toString() + " wurde erstellt.",
                         Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
     }
+
+    private void customDialogUserExpenses() {
+        final Dialog MyDialog = new Dialog(getActivity());
+        MyDialog.setContentView(R.layout.haushaltsbuch_dialog_user_screen);
+        MyDialog.show();
+    }
+
+
 }

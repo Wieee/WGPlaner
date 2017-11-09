@@ -51,7 +51,6 @@ public class EinkaufszettelFragment extends Fragment {
             }
         });
 
-
         addItem("1x Wurst");
         addItem("2x Käse");
         addItem("1x Brot");
