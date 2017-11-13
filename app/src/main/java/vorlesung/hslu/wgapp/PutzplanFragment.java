@@ -20,9 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,9 +44,9 @@ public class PutzplanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         putzplanview = inflater.inflate(R.layout.putzplan_fragment, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(
+        ((ActivityMain) getActivity()).getSupportActionBar().setTitle(
                 "Putzplan");
-        customAdapter = new PutzplanCustomAdapter(getActivity(),putzliste);
+        customAdapter = new PutzplanCustomAdapter(getActivity(), putzliste);
         ListView listView = (ListView) putzplanview.findViewById(R.id.putzplan_ListView);
         listView.setAdapter(customAdapter);
 
@@ -57,69 +54,63 @@ public class PutzplanFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               MyCustomAlertDialog();
-
+                MyCustomAlertDialog();
 
 
             }
         });
-       Date datum = new Date(31-10-2017);
+        Date datum = new Date(31 - 10 - 2017);
         PutzplanAufgabe erstedaten = new PutzplanAufgabe("Wohnung saugen", "wöchentlich", datum);
         addItem(erstedaten);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
 
         return putzplanview;
     }
 
 
-
-
-
-    private void addItem(PutzplanAufgabe daten ){
+    private void addItem(PutzplanAufgabe daten) {
         putzliste.add(daten);
         customAdapter.notifyDataSetChanged();
 
     }
-    private void MyCustomAlertDialog(){
+
+    private void MyCustomAlertDialog() {
         MyDialog = new Dialog(getActivity());
         MyDialog.setContentView(R.layout.putzplan_dialog_add_item);
-        putzerspinner  = (Spinner) MyDialog.findViewById(R.id.putzplan_dialog_start_putzer);
+        putzerspinner = (Spinner) MyDialog.findViewById(R.id.putzplan_dialog_start_putzer);
         seekbar = (SeekBar) MyDialog.findViewById(R.id.putzplan_dialog_haeufigkeit);
-        textview = (TextView)  MyDialog.findViewById(R.id.putzplan_dialog_haeufigkeit_text);
+        textview = (TextView) MyDialog.findViewById(R.id.putzplan_dialog_haeufigkeit_text);
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
+
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 progress = i;
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-               if(progress == 1) {
-                   textview.setText("täglich");
-               }
-               else if (progress == 2){
-                   textview.setText("wöchentlich");
-               }
-               else if(progress == 3 ) {
-                   textview.setText("1 mal im Monat");
-               }
+                if (progress == 1) {
+                    textview.setText("täglich");
+                } else if (progress == 2) {
+                    textview.setText("wöchentlich");
+                } else if (progress == 3) {
+                    textview.setText("1 mal im Monat");
+                }
             }
         });
 
 
-        String[] items = new String[] { "Luca", "Jan", "Ash", "Rosa", "Maik" };
+        String[] items = new String[]{"Luca", "Jan", "Ash", "Rosa", "Maik"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, items);
         putzerspinner.setAdapter(adapter);
 
 
-       putzerspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        putzerspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
@@ -127,13 +118,15 @@ public class PutzplanFragment extends Fragment {
                         "Erster Putzer : " + parent.getItemAtPosition(position).toString(),
                         Toast.LENGTH_SHORT).show();
             }
-           @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-               // TODO Auto-generated method stub
-           }  });
 
-        btnDatePicker=(Button)MyDialog.findViewById(R.id.btn_date);
-        txtDate=(TextView)MyDialog.findViewById(R.id.in_date);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        btnDatePicker = (Button) MyDialog.findViewById(R.id.btn_date);
+        txtDate = (TextView) MyDialog.findViewById(R.id.in_date);
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +156,6 @@ public class PutzplanFragment extends Fragment {
         });
 
 
-
         MyDialog.show();
 
         Button button = (Button) MyDialog.findViewById(R.id.putzplan_dialog_btn);
@@ -172,9 +164,9 @@ public class PutzplanFragment extends Fragment {
             public void onClick(View view) {
                 String aufgabenname = ((EditText) MyDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
 
-                Date datum = new Date(1-11-2017);
+                Date datum = new Date(1 - 11 - 2017);
                 String haeufigkeit = textview.getText().toString();
-                PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname,haeufigkeit,datum);
+                PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum);
                 addItem(neueDaten);
 
                 MyDialog.hide();
@@ -189,14 +181,7 @@ public class PutzplanFragment extends Fragment {
     }
 
 
-
-
-
-
-
-
-
-        }
+}
 
 
 

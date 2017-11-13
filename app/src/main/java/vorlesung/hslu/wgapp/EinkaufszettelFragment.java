@@ -28,7 +28,7 @@ public class EinkaufszettelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View einkaufszettelView = inflater.inflate(R.layout.einkaufszettel_fragment, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Einkaufszettel");
+        ((ActivityMain) getActivity()).getSupportActionBar().setTitle("Einkaufszettel");
 
         customAdapter = new EinkaufszettelCustomAdapter(getActivity(), einkaufsListe);
         ListView listView = (ListView) einkaufszettelView.findViewById(R.id.einkaufszettel_ListView);

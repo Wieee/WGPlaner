@@ -27,7 +27,7 @@ public class HaushaltsbuchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         haushaltsbuchView = inflater.inflate(R.layout.haushaltsbuch_fragment, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Haushaltsbuch");
+        ((ActivityMain) getActivity()).getSupportActionBar().setTitle("Haushaltsbuch");
 
         customAdapter = new HaushaltsbuchCustomAdapter(getActivity());
         ListView listView = (ListView) haushaltsbuchView.findViewById(R.id.haushaltsbuch_ListView);
