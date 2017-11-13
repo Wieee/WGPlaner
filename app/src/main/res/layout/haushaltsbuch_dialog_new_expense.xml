@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -38,7 +38,7 @@
             android:id="@+id/haushaltsbuch_dialog_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margintop="12dp"
+            android:layout_marginTop="12dp"
             android:layout_marginRight="24dp"
             android:layout_marginLeft="24dp"
             android:ems="10"
