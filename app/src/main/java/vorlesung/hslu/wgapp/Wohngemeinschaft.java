@@ -16,13 +16,19 @@ public class Wohngemeinschaft {
     private ArrayList<PutzplanAufgabe> putzplan;
 
     private Wohngemeinschaft(){
-
-        //JSON ABSPEICHERUNG
+        //JSON LADEN
 
         mitbewohner = new ArrayList<>();
         einkaufszettel = new ArrayList<>();
         haushaltsbuch = new ArrayList<>();
         putzplan = new ArrayList<>();
+    }
+
+    public static Wohngemeinschaft getInstance(){
+        if (wg == null){
+            wg = new Wohngemeinschaft();
+        }
+        return wg;
     }
 
     //EIGENTLICH UNNÖTIG
@@ -49,21 +55,23 @@ public class Wohngemeinschaft {
         putzplan.add(aufgabe);
     }
 
-    public static Wohngemeinschaft getInstance(){
-        if (wg == null){
-            wg = new Wohngemeinschaft();
-        }
-        return wg;
+    public ArrayList getMitbewohner(){
+        return mitbewohner;
     }
 
-    public ArrayList getAttr(String name){
-        switch (name){
-            case "mitbewohner": return mitbewohner;
-            case "einkaufszettel": return einkaufszettel;
-            case "haushaltsbuch": return haushaltsbuch;
-            case "putzplan": return putzplan;
-            default: return null;
-        }
+
+    public ArrayList getEinkaufszettel(){
+        return einkaufszettel;
+    }
+
+
+    public ArrayList getHaushaltsbuch(){
+        return haushaltsbuch;
+    }
+
+
+    public ArrayList getPutzplan(){
+        return putzplan;
     }
 
 }
