@@ -48,11 +48,14 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/signup_btn_signup"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_gravity="center"
             android:padding="12dp"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+
             android:text="Account Erstellen" />
 
         <TextView
