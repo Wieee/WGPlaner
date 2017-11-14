@@ -20,6 +20,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,6 +76,17 @@ public class PutzplanFragment extends Fragment {
     private void addItem(PutzplanAufgabe daten) {
         putzliste.add(daten);
         customAdapter.notifyDataSetChanged();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        // Schreiben von daten
+        DatabaseReference objctRef = database.getReference("aufgabe");
+        objctRef.push().setValue(daten);
+        //lesen von daten
+        objctRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {PutzplanAufgabe test = dataSnapshot.getValue(PutzplanAufgabe.class);}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
     }
 
