@@ -11,7 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    >
 
     <TextView
         android:layout_width="match_parent"

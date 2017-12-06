@@ -33,6 +33,7 @@ import java.util.Date;
 public class PutzplanFragment extends Fragment {
     View putzplanview;
     ArrayList putzliste = new ArrayList();
+  public static ArrayList geputzteListe = new ArrayList();
 
     Spinner putzerspinner;
     Button btnDatePicker;
@@ -62,7 +63,14 @@ public class PutzplanFragment extends Fragment {
             public void onClick(View view) {
                 MyCustomAlertDialog();
 
-
+            }
+        });
+        FloatingActionButton fabDelete = (FloatingActionButton)putzplanview.findViewById(R.id.putz_delete);
+        fabDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteItems();
+               putzplanview.findViewById(R.id.putz_delete).setVisibility(View.INVISIBLE);
             }
         });
         Date datum = new Date(31 - 10 - 2017);
@@ -88,6 +96,20 @@ public class PutzplanFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
+    }
+    private void deleteItems() {
+        PutzplanAufgabe aufgabe;
+        int i = geputzteListe.size();
+
+        while (i > 0) {
+           aufgabe = (PutzplanAufgabe) geputzteListe.get(--i);
+            if (putzliste.containsAll(geputzteListe)) {
+                putzliste.remove(aufgabe);
+                geputzteListe.remove(aufgabe);
+            }
+        }
+        customAdapter.notifyDataSetChanged();
+        customAdapter.checkedCounter = 0;
     }
 
     private void MyCustomAlertDialog() {

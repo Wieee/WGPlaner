@@ -10,12 +10,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar = null;
     NavigationView navigationView = null;
+    TextView username = null;
+    FirebaseAuth mAuth;
+    String name = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +32,24 @@ public class ActivityMain extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //Set initial screen
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, new HaushaltsbuchFragment());
         transaction.commit();
+
+     /**   username = (TextView) findViewById((R.id.textview_show_username));
+        mAuth = FirebaseAuth.getInstance();
+       FirebaseUser currentUser = mAuth.getCurrentUser();
+        try {
+            name = currentUser.getDisplayName();
+        }
+        catch(NullPointerException exception)
+        {
+            name = "Name not given";
+        }
+        username.setText(name.toString()); **/
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
