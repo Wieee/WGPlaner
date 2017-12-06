@@ -17,6 +17,7 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
     Activity activity;
     ArrayList arrayList;
     public int checkedCounter = 0;
+    EinkaufszettelProdukt data;
 
     public EinkaufszettelCustomAdapter(Activity activity, ArrayList arrayList) {
         this.activity = activity;
@@ -48,6 +49,7 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
         }
         final TextView itemTitel = (TextView) row.findViewById(R.id.einkaufszettel_list_item_titel);
         CheckBox itemCheck = (CheckBox) row.findViewById(R.id.einkaufszettel_list_item_checkbox);
+        data = (EinkaufszettelProdukt) arrayList.get(position);
         itemCheck.setChecked(false);
         itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
@@ -55,11 +57,11 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
                 FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.einkaufszettel_fabShopped);
                 if (isChecked == true){
                     checkedCounter++;
-                    EinkaufszettelFragment.gekaufteListe.add((String) getItem(position));
+                    EinkaufszettelFragment.gekaufteListe.add((EinkaufszettelProdukt) getItem(position));
                 }
                 else if (isChecked == false){
                     checkedCounter--;
-                    if (EinkaufszettelFragment.gekaufteListe.equals(itemTitel)) {
+                    if (EinkaufszettelFragment.gekaufteListe.equals(data)) {
                         EinkaufszettelFragment.gekaufteListe.remove(getItem(position));
                     }
                 }
@@ -70,7 +72,10 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
                 }
             }
         } );
-        itemTitel.setText(arrayList.get(position).toString());
+
+        itemTitel.setText(data.getAmount() +"x " + data.getName());
+
+
 
         return row;
     }

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class EinkaufszettelFragment extends Fragment {
 
-    ArrayList<String> einkaufsListe = new ArrayList<>();
-    public static ArrayList<String> gekaufteListe = new ArrayList<>();
+    ArrayList einkaufsListe = new ArrayList();
+    public static ArrayList gekaufteListe = new ArrayList();
     EinkaufszettelCustomAdapter customAdapter;
 
     @Nullable
@@ -50,28 +50,28 @@ public class EinkaufszettelFragment extends Fragment {
                 einkaufszettelView.findViewById(R.id.einkaufszettel_fabShopped).setVisibility(View.INVISIBLE);
             }
         });
+        EinkaufszettelProdukt wurst = new EinkaufszettelProdukt("wurst",1,"");
 
-        addItem("1x Wurst");
-        addItem("2x Käse");
-        addItem("1x Brot");
+        addItem(wurst);
+
 
         return einkaufszettelView;
     }
 
-    private void addItem(String string) {
-        einkaufsListe.add(string);
+    private void addItem(EinkaufszettelProdukt produkt) {
+        einkaufsListe.add(produkt);
         customAdapter.notifyDataSetChanged();
     }
 
     private void deleteItems() {
-        String string;
+       EinkaufszettelProdukt produkt;
         int i = gekaufteListe.size();
 
         while (i > 0) {
-            string = gekaufteListe.get(--i);
+            produkt  = (EinkaufszettelProdukt) gekaufteListe.get(--i);
             if (einkaufsListe.containsAll(gekaufteListe)) {
-                einkaufsListe.remove(string);
-                gekaufteListe.remove(string);
+                einkaufsListe.remove(produkt);
+                gekaufteListe.remove(produkt);
             }
         }
         customAdapter.notifyDataSetChanged();
@@ -88,15 +88,20 @@ public class EinkaufszettelFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newItem = ((DiscreteSeekBar) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress()
-                        + "x " + ((EditText) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText();
-                addItem(newItem);
+               // String newItem = ((DiscreteSeekBar) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress()
+               //         + "x " + ((EditText) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText();
+                String name = ((EditText) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText().toString();
+                int amount = ((DiscreteSeekBar) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
+
+                EinkaufszettelProdukt  newProduct = new EinkaufszettelProdukt(name, amount, "");
+
+                addItem(newProduct);
 
                 MyDialog.hide();
 
                 Toast toast = Toast.makeText(
                         view.getContext(),
-                        newItem + " wurde zum Einkaufzettel hinzugefügt.",
+                        newProduct.getName() + " wurde zum Einkaufzettel hinzugefügt.",
                         Toast.LENGTH_SHORT);
                 toast.show();
             }
