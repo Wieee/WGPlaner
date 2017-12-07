@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+/**
+ * Created by Meike on 9.11.2017
+ */
 
 public class PutzplanCustomAdapter extends BaseAdapter {
     Activity activity;

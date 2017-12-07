@@ -29,6 +29,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Meike on 9.11.2017
+ */
 
 public class PutzplanFragment extends Fragment {
     View putzplanview;
@@ -86,10 +92,18 @@ public class PutzplanFragment extends Fragment {
         customAdapter.notifyDataSetChanged();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         // Schreiben von daten
-        DatabaseReference objctRef = database.getReference("aufgabe");
-        objctRef.push().setValue(daten);
+        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+        wg.addPutzplanAufgaben(daten);
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> postValues = daten.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/putzplan/" + daten.aufgabe, postValues);
+        mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
+
+
         //lesen von daten
-        objctRef.addValueEventListener(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {PutzplanAufgabe test = dataSnapshot.getValue(PutzplanAufgabe.class);}
             @Override
