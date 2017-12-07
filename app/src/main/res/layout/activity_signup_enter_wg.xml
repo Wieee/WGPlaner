@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="56dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:src="@mipmap/ic_logo" />
+
+
+        <EditText
+            android:id="@+id/signup_input_wgcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="Butzen Code"
+            android:inputType="number" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/signup_btn_wg_enter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="12dp"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:text="Butze Beitreten" />
+
+        <TextView
+            android:id="@+id/signup_link_new_wg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="Noch keine Butze? Dann hier entlang..."
+            android:textSize="16dip" />
+
+    </LinearLayout>
+</ScrollView>

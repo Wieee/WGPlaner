@@ -23,11 +23,12 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText inputName;
     EditText inputEmail;
     EditText inputPassword;
+    Person person;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_signup_createaccount);
 
         //Views and onClickListener!
         Button signUpEmail = (Button) this.findViewById(R.id.signup_btn_signup);
@@ -45,15 +46,19 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
 
+
+        //Nav to Activity Login
         TextView login = (TextView) this.findViewById(R.id.signup_link_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login = new Intent(ActivitySignUp.this, ActivityLogin.class );
+                Intent login = new Intent(ActivitySignUp.this, ActivityLogin.class);
                 finish();
                 startActivity(login);
             }
         });
+
+        //Not necessary
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -74,26 +79,20 @@ public class ActivitySignUp extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            Person person = new Person(user.getDisplayName(), user.getEmail());
-                            Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-                            wg.addMitbewohner(person);
+                            person = new Person(user.getDisplayName(), user.getEmail());
+                            screen_enter_wg();
 
-                            //Nicht in MainAcitivity gehen sondern weiter zum Screen um WG einzugeben, oder neue WG zu gründen
-                            Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class );
-                            finish();
-                            startActivity(mainActivity);
                         } else {
                             Toast.makeText(ActivitySignUp.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
     }
 
     private boolean validateForm(String name, String email, String password) {
         boolean valid = true;
 
-        if (TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)) {
             Toast.makeText(ActivitySignUp.this, "Please check the name", Toast.LENGTH_LONG).show();
             valid = false;
         }
@@ -106,5 +105,60 @@ public class ActivitySignUp extends AppCompatActivity {
             valid = false;
         }
         return valid;
+    }
+
+    private void screen_enter_wg() {
+        setContentView(R.layout.activity_signup_enter_wg);
+
+        Button enter_wg = (Button) this.findViewById(R.id.signup_btn_wg_enter);
+        final EditText inputCode = (EditText) this.findViewById(R.id.signup_input_wgcode);
+        enter_wg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            // BEI VORHANDENER WG MUSS HIER ZUWEISUNG ZU DIESER WG ERFOLGEN
+                String code = inputCode.getText().toString();
+
+                //WG AUS FIREBASE HOLEN
+                //NUTZER IN WG EINTRAGEN
+
+                Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
+                finish();
+                startActivity(mainActivity);
+            }
+        });
+
+        TextView new_wg = (TextView) this.findViewById(R.id.signup_link_new_wg);
+        new_wg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                screen_new_wg();
+            }
+        });
+    }
+
+    private void screen_new_wg() {
+        setContentView(R.layout.activity_signup_create_wg);
+
+        Button create_wg = (Button) this.findViewById(R.id.signup_btn_new_wg);
+        final EditText inputWGname = (EditText) this.findViewById(R.id.signup_wg_input_wgname);
+        create_wg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = inputWGname.getText().toString();
+
+
+                //NEUE WG IN FIREBASE SPEICHERN
+                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+                wg.setName(name);
+                wg.addMitbewohner(person);
+
+                Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
+                finish();
+                startActivity(mainActivity);
+            }
+        });
+
+        // CODE FÜR FREUNDE MUSS GENRIERT WERDEN  --> EINMALIG PRO WG? SPÄTER AUCH IN SETTINGS O.Ä. AUFRUFBAR
     }
 }

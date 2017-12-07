@@ -10,6 +10,7 @@ public class Wohngemeinschaft {
 
     private static Wohngemeinschaft wg;
     private String id;
+    private String name;
     private ArrayList<Person> mitbewohner;
     private ArrayList<EinkaufszettelProdukt> einkaufszettel;
     private ArrayList<HaushaltsbuchAusgabe> haushaltsbuch;
@@ -17,7 +18,6 @@ public class Wohngemeinschaft {
 
     private Wohngemeinschaft(){
         //JSON LADEN
-
         mitbewohner = new ArrayList<>();
         einkaufszettel = new ArrayList<>();
         haushaltsbuch = new ArrayList<>();
@@ -74,4 +74,11 @@ public class Wohngemeinschaft {
         return putzplan;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
