@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class EinkaufszettelCustomAdapter extends BaseAdapter {
     Activity activity;
     ArrayList arrayList;
-    public int checkedCounter = 0;
     EinkaufszettelProdukt data;
 
     public EinkaufszettelCustomAdapter(Activity activity, ArrayList arrayList) {
@@ -56,20 +55,14 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.einkaufszettel_fabShopped);
                 if (isChecked == true){
-                    checkedCounter++;
                     EinkaufszettelFragment.gekaufteListe.add((EinkaufszettelProdukt) getItem(position));
                 }
                 else if (isChecked == false){
-                    checkedCounter--;
                     if (EinkaufszettelFragment.gekaufteListe.equals(data)) {
                         EinkaufszettelFragment.gekaufteListe.remove(getItem(position));
                     }
                 }
-                if (checkedCounter > 0){
-                    fab.setVisibility(View.VISIBLE);
-                } else {
-                    fab.setVisibility(View.INVISIBLE);
-                }
+
             }
         } );
 

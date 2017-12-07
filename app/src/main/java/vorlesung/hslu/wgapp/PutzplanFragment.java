@@ -57,7 +57,7 @@ public class PutzplanFragment extends Fragment {
         ListView listView = (ListView) putzplanview.findViewById(R.id.putzplan_ListView);
         listView.setAdapter(customAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) putzplanview.findViewById(R.id.putzfab);
+        FloatingActionButton fab = (FloatingActionButton) putzplanview.findViewById(R.id.putzfab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,12 +65,12 @@ public class PutzplanFragment extends Fragment {
 
             }
         });
-        FloatingActionButton fabDelete = (FloatingActionButton)putzplanview.findViewById(R.id.putz_delete);
+        FloatingActionButton fabDelete = (FloatingActionButton)putzplanview.findViewById(R.id.putzfab_delete);
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteItems();
-               putzplanview.findViewById(R.id.putz_delete).setVisibility(View.INVISIBLE);
+               putzplanview.findViewById(R.id.putzfab_delete).setVisibility(View.INVISIBLE);
             }
         });
         Date datum = new Date(31 - 10 - 2017);

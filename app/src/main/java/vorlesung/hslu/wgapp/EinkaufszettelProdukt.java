@@ -20,6 +20,11 @@ public class EinkaufszettelProdukt {
         this.description = description;
     }
 
+    public EinkaufszettelProdukt(String name, int amount){
+        this.name = name;
+        this.amount = amount;
+    }
+
     public String getName() {
         return name;
     }
@@ -42,5 +47,9 @@ public class EinkaufszettelProdukt {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String toString(){
+        return amount + "x " + name;
     }
 }

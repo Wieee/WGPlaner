@@ -57,7 +57,7 @@ public class PutzplanCustomAdapter extends BaseAdapter {
         itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.putz_delete);
+                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.putzfab_delete);
                 if (isChecked == true){
                     checkedCounter++;
                     PutzplanFragment.geputzteListe.add( (PutzplanAufgabe) getItem(position));
