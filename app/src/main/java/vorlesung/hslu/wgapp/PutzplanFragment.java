@@ -203,6 +203,7 @@ public class PutzplanFragment extends Fragment {
             public void onClick(View view) {
                 String aufgabenname = ((EditText) MyDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
 
+                //Nicht lieber String anstatt ein Datum nehmen anstatt den Datentyp Datum?
                 Date datum = new Date(1 - 11 - 2017);
                 String haeufigkeit = textview.getText().toString();
                 PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum);
