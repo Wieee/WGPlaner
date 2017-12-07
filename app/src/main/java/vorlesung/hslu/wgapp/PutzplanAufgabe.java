@@ -1,6 +1,12 @@
 package vorlesung.hslu.wgapp;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Meike on 9.11.2017
+ */
 
 public class PutzplanAufgabe {
 
@@ -19,4 +25,14 @@ public class PutzplanAufgabe {
         this.ersterTag = ersterTag;
     }
 
+    public Map<String,Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
+        result.put("aufgabe", aufgabe);
+        result.put("haeufigkeit", haeufigkeit);
+        result.put("ersterTag", ersterTag);
+
+
+        return result;
+    }
 }

@@ -51,7 +51,7 @@ public class Wohngemeinschaft {
         haushaltsbuch.add(ausgabe);
     }
 
-    public void addPutzplanAufageb(PutzplanAufgabe aufgabe){
+    public void addPutzplanAufgaben(PutzplanAufgabe aufgabe){
         putzplan.add(aufgabe);
     }
 

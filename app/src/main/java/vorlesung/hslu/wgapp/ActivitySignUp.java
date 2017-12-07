@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ActivitySignUp extends AppCompatActivity {
 
@@ -146,12 +148,14 @@ public class ActivitySignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = inputWGname.getText().toString();
-
-
-                //NEUE WG IN FIREBASE SPEICHERN
                 Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
                 wg.setName(name);
                 wg.addMitbewohner(person);
+
+                //NEUE WG IN FIREBASE SPEICHERN
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference objctRef = database.getReference("wg");
+                objctRef.child(wg.getName()).setValue(wg);
 
                 Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
                 finish();
