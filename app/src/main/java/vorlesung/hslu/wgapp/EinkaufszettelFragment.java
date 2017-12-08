@@ -95,22 +95,23 @@ public class EinkaufszettelFragment extends Fragment {
     }
 
     private void customAlertDialog() {
-        final Dialog MyDialog = new Dialog(getActivity());
-        MyDialog.setContentView(R.layout.einkaufszettel_dialog_add_item);
-        MyDialog.show();
+        final Dialog myDialog = new Dialog(getActivity());
+        myDialog.setTitle("Zum Einkaufszettel packen");
+        myDialog.setContentView(R.layout.einkaufszettel_dialog_add_item);
+        myDialog.show();
 
-        Button button = (Button) MyDialog.findViewById(R.id.einkaufszettel_dialog_btn);
+        Button button = (Button) myDialog.findViewById(R.id.einkaufszettel_dialog_btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = ((EditText) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText().toString();
-                int amount = ((DiscreteSeekBar) MyDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
+                String name = ((EditText) myDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText().toString();
+                int amount = ((DiscreteSeekBar) myDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
 
                 EinkaufszettelProdukt newProduct = new EinkaufszettelProdukt(name, amount, "");
 
                 addItem(newProduct);
 
-                MyDialog.hide();
+                myDialog.hide();
 
                 Toast toast = Toast.makeText(
                         view.getContext(),

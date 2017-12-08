@@ -44,7 +44,7 @@ public class PutzplanFragment extends Fragment {
     Spinner putzerspinner;
     Button btnDatePicker;
     TextView txtDate;
-    Dialog MyDialog;
+    Dialog myDialog;
     private int mYear, mMonth, mDay;
     SeekBar seekbar;
     TextView textview;
@@ -127,11 +127,12 @@ public class PutzplanFragment extends Fragment {
     }
 
     private void MyCustomAlertDialog() {
-        MyDialog = new Dialog(getActivity());
-        MyDialog.setContentView(R.layout.putzplan_dialog_add_item);
-        putzerspinner = (Spinner) MyDialog.findViewById(R.id.putzplan_dialog_start_putzer);
-        seekbar = (SeekBar) MyDialog.findViewById(R.id.putzplan_dialog_haeufigkeit);
-        textview = (TextView) MyDialog.findViewById(R.id.putzplan_dialog_haeufigkeit_text);
+        myDialog = new Dialog(getActivity());
+        myDialog.setTitle("Neue Aufgabe erstellen");
+        myDialog.setContentView(R.layout.putzplan_dialog_add_item);
+        putzerspinner = (Spinner) myDialog.findViewById(R.id.putzplan_dialog_start_putzer);
+        seekbar = (SeekBar) myDialog.findViewById(R.id.putzplan_dialog_haeufigkeit);
+        textview = (TextView) myDialog.findViewById(R.id.putzplan_dialog_haeufigkeit_text);
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
 
@@ -178,8 +179,8 @@ public class PutzplanFragment extends Fragment {
             }
         });
 
-        btnDatePicker = (Button) MyDialog.findViewById(R.id.btn_date);
-        txtDate = (TextView) MyDialog.findViewById(R.id.in_date);
+        btnDatePicker = (Button) myDialog.findViewById(R.id.btn_date);
+        txtDate = (TextView) myDialog.findViewById(R.id.in_date);
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,13 +210,13 @@ public class PutzplanFragment extends Fragment {
         });
 
 
-        MyDialog.show();
+        myDialog.show();
 
-        Button button = (Button) MyDialog.findViewById(R.id.putzplan_dialog_btn);
+        Button button = (Button) myDialog.findViewById(R.id.putzplan_dialog_btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String aufgabenname = ((EditText) MyDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
+                String aufgabenname = ((EditText) myDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
 
                 //Nicht lieber String anstatt ein Datum nehmen anstatt den Datentyp Datum?
                 Date datum = new Date(1 - 11 - 2017);
@@ -223,7 +224,7 @@ public class PutzplanFragment extends Fragment {
                 PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum);
                 addItem(neueDaten);
 
-                MyDialog.hide();
+                myDialog.hide();
 
                 Toast toast = Toast.makeText(
                         view.getContext(),

@@ -2,7 +2,6 @@ package vorlesung.hslu.wgapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,23 +52,18 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
         itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.einkaufszettel_fabShopped);
-                if (isChecked == true){
+                if (isChecked){
                     EinkaufszettelFragment.gekaufteListe.add((EinkaufszettelProdukt) getItem(position));
                 }
-                else if (isChecked == false){
+                else if (!isChecked){
                     if (EinkaufszettelFragment.gekaufteListe.equals(data)) {
                         EinkaufszettelFragment.gekaufteListe.remove(getItem(position));
                     }
                 }
-
             }
         } );
 
         itemTitel.setText(data.getAmount() +"x " + data.getName());
-
-
-
         return row;
     }
 
