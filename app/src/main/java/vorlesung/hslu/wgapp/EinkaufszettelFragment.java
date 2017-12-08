@@ -13,9 +13,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EinkaufszettelFragment extends Fragment {
 
@@ -63,9 +68,14 @@ public class EinkaufszettelFragment extends Fragment {
                 return;
             }
         }
-
+    Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
         einkaufsListe.add(product);
         customAdapter.notifyDataSetChanged();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> postValues = product.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/einkauszettel/" + product.getName(), postValues);
+        mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
     }
 
     private void deleteItems() {

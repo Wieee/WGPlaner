@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +17,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActivitySignUp extends AppCompatActivity {
 
@@ -25,12 +32,18 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText inputName;
     EditText inputEmail;
     EditText inputPassword;
-    Person person;
-
+   static Person person;
+    FirebaseDatabase database;
+    DatabaseReference mDatabase;
+    public  Wohngemeinschaft wg ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_createaccount);
+
+        //Setting up Database connection
+        database = FirebaseDatabase.getInstance();
+        mDatabase = database.getReference("wg");
 
         //Views and onClickListener!
         Button signUpEmail = (Button) this.findViewById(R.id.signup_btn_signup);
@@ -81,7 +94,7 @@ public class ActivitySignUp extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            person = new Person(user.getDisplayName(), user.getEmail());
+                            person = new Person(inputName.getText().toString(), user.getEmail());
                             screen_enter_wg();
 
                         } else {
@@ -119,10 +132,42 @@ public class ActivitySignUp extends AppCompatActivity {
             public void onClick(View view) {
 
             // BEI VORHANDENER WG MUSS HIER ZUWEISUNG ZU DIESER WG ERFOLGEN
-                String code = inputCode.getText().toString();
+               final String code = inputCode.getText().toString();
 
-                //WG AUS FIREBASE HOLEN
-                //NUTZER IN WG EINTRAGEN
+                //lesen von daten
+                ValueEventListener valueEventListener = mDatabase.addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                        Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
+                        for (DataSnapshot singlesnap : snapshot) {
+                            String key = singlesnap.getKey();
+                            if (singlesnap.getKey().equals(code)) {
+                               //hier ist das Problem!! Expected List while deserializing,but got a HashMap
+                                wg = singlesnap.getValue(Wohngemeinschaft.class);
+                                wg.addMitbewohner(person);
+                                mAuth = FirebaseAuth.getInstance();
+                                Map<String, Object> postValues = person.toMap();
+                                Map<String, Object> childUpdates = new HashMap<>();
+                                childUpdates.put("/mitbewohner/"+ mAuth.getCurrentUser().getUid()+"/", postValues);
+                                mDatabase.child(code).updateChildren(childUpdates);
+
+                            }
+                        }
+                        if (wg == null) {
+                            Toast.makeText(ActivitySignUp.this, "Das ist keine Butze.", Toast.LENGTH_SHORT).show();
+                        }
+                     }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+                   // wg.addMitbewohner(person);
+               // Log.i("wg mitbewohner in liste", wg.getMitbewohner().toString());
+
+                   // mDatabase.child(code).child("mitbewohner").setValue(wg.getMitbewohner());
+
 
                 Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
                 finish();
@@ -144,18 +189,21 @@ public class ActivitySignUp extends AppCompatActivity {
 
         Button create_wg = (Button) this.findViewById(R.id.signup_btn_new_wg);
         final EditText inputWGname = (EditText) this.findViewById(R.id.signup_wg_input_wgname);
-        create_wg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = inputWGname.getText().toString();
-                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-                wg.setName(name);
-                wg.addMitbewohner(person);
 
+
+                create_wg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = inputWGname.getText().toString();
+                        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+                        wg.setName(name);
+                        wg.addMitbewohner(person);
                 //NEUE WG IN FIREBASE SPEICHERN
-                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference objctRef = database.getReference("wg");
-                objctRef.child(wg.getName()).setValue(wg);
+                     mDatabase.child(wg.getName()).setValue(wg);
+                        Map<String, Object> postValues = person.toMap();
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/mitbewohner/"+ mAuth.getCurrentUser().getUid()+"/", postValues);
+                        mDatabase.child(wg.getName()).updateChildren(childUpdates);
 
                 Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
                 finish();

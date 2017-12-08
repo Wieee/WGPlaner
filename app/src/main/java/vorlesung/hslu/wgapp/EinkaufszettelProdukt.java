@@ -1,5 +1,8 @@
 package vorlesung.hslu.wgapp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by lukas on 08.11.2017.
  */
@@ -18,9 +21,10 @@ public class EinkaufszettelProdukt {
         this.name = name;
         this.amount = amount;
         this.description = description;
+        this.amount = amount;
     }
 
-    public EinkaufszettelProdukt(String name, int amount){
+    public EinkaufszettelProdukt(String name, int amount) {
         this.name = name;
         this.amount = amount;
     }
@@ -49,7 +53,17 @@ public class EinkaufszettelProdukt {
         this.description = description;
     }
 
-    public String toString(){
+    public String toString() {
         return amount + "x " + name;
     }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("description", description);
+        result.put("amount", amount);
+        return result;
+    }
 }
+

@@ -1,6 +1,8 @@
 package vorlesung.hslu.wgapp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lukas on 08.11.2017.
@@ -80,5 +82,15 @@ public class Wohngemeinschaft {
 
     public String getName() {
         return name;
+    }
+
+    public Map<String,Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("mitbewohner", mitbewohner);
+        result.put("einkaufszettel", einkaufszettel);
+        result.put("haushaltsbuch", haushaltsbuch);
+        result.put("putzplan", putzplan);
+        return result;
     }
 }
