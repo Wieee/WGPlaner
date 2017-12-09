@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class PutzplanCustomAdapter extends BaseAdapter {
     Activity activity;
     ArrayList arrayList;
-    public int checkedCounter = 0;
     PutzplanAufgabe data;
 
     public PutzplanCustomAdapter(Activity activity, ArrayList arrayList) {
@@ -57,28 +56,18 @@ public class PutzplanCustomAdapter extends BaseAdapter {
         data = (PutzplanAufgabe) arrayList.get(position);
         CheckBox itemCheck = (CheckBox) row.findViewById(R.id.putzplan_checkbox);
         itemCheck.setChecked(false);
-        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.putzfab_delete);
-                if (isChecked == true){
-                    checkedCounter++;
-                    PutzplanFragment.geputzteListe.add( (PutzplanAufgabe) getItem(position));
-                }
-                else if (isChecked == false){
-                    checkedCounter--;
-                    if ( PutzplanFragment.geputzteListe.equals(data)) {
+                if (isChecked) {
+                    PutzplanFragment.geputzteListe.add((PutzplanAufgabe) getItem(position));
+                } else if (!isChecked) {
+                    if (PutzplanFragment.geputzteListe.equals(data)) {
                         PutzplanFragment.geputzteListe.remove(getItem(position));
                     }
                 }
-                if (checkedCounter > 0){
-                    fab.setVisibility(View.VISIBLE);
-                } else {
-                    fab.setVisibility(View.INVISIBLE);
-                }
             }
-        } );
-
+        });
 
 
         itemTitel.setText(data.aufgabe);

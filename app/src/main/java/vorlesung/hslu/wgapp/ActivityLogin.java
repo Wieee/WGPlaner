@@ -93,7 +93,7 @@ public class ActivityLogin extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Intent mainActivity = new Intent(ActivityLogin.this, ActivityMain.class );
                             final String uID = mAuth.getCurrentUser().getUid();
-                            ValueEventListener valueEventListener = mDatabase.addValueEventListener(new ValueEventListener() {
+                             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();

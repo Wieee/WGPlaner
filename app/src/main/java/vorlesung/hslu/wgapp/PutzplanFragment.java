@@ -26,8 +26,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +40,8 @@ import java.util.Map;
 
 public class PutzplanFragment extends Fragment {
     View putzplanview;
-    ArrayList putzliste = new ArrayList();
+    ArrayList<PutzplanAufgabe> putzliste = new ArrayList<PutzplanAufgabe>();
+
   public static ArrayList geputzteListe = new ArrayList();
 
     Spinner putzerspinner;
@@ -70,7 +73,6 @@ public class PutzplanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 MyCustomAlertDialog();
-
             }
         });
         FloatingActionButton fabDelete = (FloatingActionButton)putzplanview.findViewById(R.id.putzfab_delete);
@@ -78,7 +80,7 @@ public class PutzplanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 deleteItems();
-               putzplanview.findViewById(R.id.putzfab_delete).setVisibility(View.INVISIBLE);
+
             }
         });
 
@@ -88,16 +90,18 @@ public class PutzplanFragment extends Fragment {
                 Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
                 for (DataSnapshot singlesnap : snapshot) {
                     if (singlesnap.getKey().toString().equals(wg.getName())) {
-                        Iterable<DataSnapshot>  cleaningtasks = singlesnap.child("putzplan").getChildren();
-                        for (DataSnapshot singletask : cleaningtasks){
-                           PutzplanAufgabe task= singletask.getValue(PutzplanAufgabe.class);
-                            if(task!=null) {
-                               putzliste.add(task);
+                        Iterable<DataSnapshot> cleaningtasks = singlesnap.child("putzplan").getChildren();
+                        for (DataSnapshot singletask : cleaningtasks) {
+                            PutzplanAufgabe task = singletask.getValue(PutzplanAufgabe.class);
+                            if (task != null) {
+                                putzliste.add(task);
 
                             }
                         }
                         customAdapter.notifyDataSetChanged();
+
                     }
+
                 }
             }
 
@@ -127,21 +131,13 @@ public class PutzplanFragment extends Fragment {
         mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
 
 
-        //lesen von daten
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {PutzplanAufgabe test = dataSnapshot.getValue(PutzplanAufgabe.class);}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-
     }
     private void deleteItems() {
         PutzplanAufgabe aufgabe;
         int i = geputzteListe.size();
 
         while (i > 0) {
-           aufgabe = (PutzplanAufgabe) geputzteListe.get(--i);
+            aufgabe = (PutzplanAufgabe) geputzteListe.get(--i);
             if (putzliste.containsAll(geputzteListe)) {
                 putzliste.remove(aufgabe);
                 geputzteListe.remove(aufgabe);
@@ -149,10 +145,16 @@ public class PutzplanFragment extends Fragment {
             }
         }
         customAdapter.notifyDataSetChanged();
-        customAdapter.checkedCounter = 0;
+
+
     }
 
+
+
+
     private void MyCustomAlertDialog() {
+       final  ArrayList<String> cleaner = new ArrayList<String>();
+        wg = Wohngemeinschaft.getInstance();
         myDialog = new Dialog(getActivity());
         myDialog.setTitle("Neue Aufgabe erstellen");
         myDialog.setContentView(R.layout.putzplan_dialog_add_item);
@@ -183,10 +185,18 @@ public class PutzplanFragment extends Fragment {
         });
 
 
-        String[] items = new String[]{"Luca", "Jan", "Ash", "Rosa", "Maik"};
+        HashMap<String, Person> mitbewohner = wg.getMitbewohner();
+        for (Person value : mitbewohner.values()) {
+            cleaner.add(value.getName());
+        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, items);
+
+        //Adapter can not work with ArrayList without errors therefore conversion to String[]
+        String[] finalcleaner = cleaner.toArray(new String[cleaner.size()]);
+
+
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,finalcleaner);
+
         putzerspinner.setAdapter(adapter);
 
 
@@ -243,20 +253,31 @@ public class PutzplanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String aufgabenname = ((EditText) myDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
+                if(aufgabenname.trim().equals(" ")) {
 
-                //Nicht lieber String anstatt ein Datum nehmen anstatt den Datentyp Datum?
-                Date datum = new Date(1 - 11 - 2017);
-                String haeufigkeit = textview.getText().toString();
-                PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum);
-                addItem(neueDaten);
+                    Toast toast = Toast.makeText(
+                            view.getContext(),
+                            "Bitte gib einen Namen für die Aufgabe an",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else{
+                    //Nicht lieber String anstatt ein Datum nehmen anstatt den Datentyp Datum?
+                    Date datum = new Date(1 - 11 - 2017);
+                    String haeufigkeit = textview.getText().toString();
+                    PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum);
 
-                myDialog.hide();
+                    addItem(neueDaten);
 
-                Toast toast = Toast.makeText(
-                        view.getContext(),
-                        "neue Aufgabe wurde hinzugefügt.",
-                        Toast.LENGTH_SHORT);
-                toast.show();
+                    myDialog.hide();
+
+                    Toast toast = Toast.makeText(
+                            view.getContext(),
+                            "neue Aufgabe wurde hinzugefügt.",
+                            Toast.LENGTH_SHORT);
+                    toast.show();}
+
+
             }
         });
     }

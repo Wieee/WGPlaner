@@ -40,7 +40,7 @@
         app:elevation="6dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
-        android:visibility="invisible"
+
         />
 
     </RelativeLayout>
