@@ -51,6 +51,8 @@ public class PutzplanFragment extends Fragment {
 
 
     PutzplanCustomAdapter customAdapter;
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
+    Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
 
 
     @Nullable
@@ -79,9 +81,32 @@ public class PutzplanFragment extends Fragment {
                putzplanview.findViewById(R.id.putzfab_delete).setVisibility(View.INVISIBLE);
             }
         });
-        Date datum = new Date(31 - 10 - 2017);
-        PutzplanAufgabe erstedaten = new PutzplanAufgabe("Wohnung saugen", "wöchentlich", datum);
-        addItem(erstedaten);
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
+                for (DataSnapshot singlesnap : snapshot) {
+                    if (singlesnap.getKey().toString().equals(wg.getName())) {
+                        Iterable<DataSnapshot>  cleaningtasks = singlesnap.child("putzplan").getChildren();
+                        for (DataSnapshot singletask : cleaningtasks){
+                           PutzplanAufgabe task= singletask.getValue(PutzplanAufgabe.class);
+                            if(task!=null) {
+                               putzliste.add(task);
+
+                            }
+                        }
+                        customAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         return putzplanview;
     }
@@ -120,6 +145,7 @@ public class PutzplanFragment extends Fragment {
             if (putzliste.containsAll(geputzteListe)) {
                 putzliste.remove(aufgabe);
                 geputzteListe.remove(aufgabe);
+                mDatabase.child(wg.getName()).child("putzplan").child(aufgabe.getAufgabe()).setValue(null);
             }
         }
         customAdapter.notifyDataSetChanged();

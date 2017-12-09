@@ -13,8 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -27,10 +30,14 @@ public class EinkaufszettelFragment extends Fragment {
     ArrayList<EinkaufszettelProdukt> einkaufsListe = new ArrayList();
     public static ArrayList<EinkaufszettelProdukt> gekaufteListe = new ArrayList();
     EinkaufszettelCustomAdapter customAdapter;
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
+    Wohngemeinschaft wg;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        wg = Wohngemeinschaft.getInstance();
+
 
         final View einkaufszettelView = inflater.inflate(R.layout.einkaufszettel_fragment, container, false);
         ((ActivityMain) getActivity()).getSupportActionBar().setTitle("Einkaufszettel");
@@ -55,6 +62,32 @@ public class EinkaufszettelFragment extends Fragment {
             }
         });
 
+
+         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
+                for (DataSnapshot singlesnap : snapshot) {
+                    if (singlesnap.getKey().toString().equals(wg.getName())) {
+                       Iterable<DataSnapshot>  einkaufproducts = singlesnap.child("einkaufszettel").getChildren();
+                        for (DataSnapshot singleproduct : einkaufproducts){
+                            EinkaufszettelProdukt product = singleproduct.getValue(EinkaufszettelProdukt.class);
+                            if(product!=null) {
+                                einkaufsListe.add(product);
+
+                            }
+                        }
+                        customAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         return einkaufszettelView;
     }
 
@@ -64,31 +97,42 @@ public class EinkaufszettelFragment extends Fragment {
             if (listedItem.getName().equals(product.getName())) {
                 listedItem.setAmount(listedItem.getAmount() + product.getAmount());
                 einkaufsListe.set(i, listedItem);
+
+                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                Map<String, Object> postValues = listedItem.toMap();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/einkaufszettel/" + listedItem.getName(), postValues);
+                mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
                 customAdapter.notifyDataSetChanged();
                 return;
             }
         }
     Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+
         einkaufsListe.add(product);
         customAdapter.notifyDataSetChanged();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> postValues = product.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/einkauszettel/" + product.getName(), postValues);
+        childUpdates.put("/einkaufszettel/" + product.getName(), postValues);
         mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
     }
 
     private void deleteItems() {
 
         //NOCH NICHT ZU 100 PROZENT RICHTIG
-        EinkaufszettelProdukt produkt;
+        EinkaufszettelProdukt product;
         int i = gekaufteListe.size();
 
         while (i > 0) {
-            produkt = (EinkaufszettelProdukt) gekaufteListe.get(--i);
+            product = (EinkaufszettelProdukt) gekaufteListe.get(--i);
             if (einkaufsListe.containsAll(gekaufteListe)) {
-                einkaufsListe.remove(produkt);
-                gekaufteListe.remove(produkt);
+                einkaufsListe.remove(product);
+                gekaufteListe.remove(product);
+                mDatabase.child(wg.getName()).child("einkaufszettel").child(product.getName()).setValue(null);
+
             }
         }
         customAdapter.notifyDataSetChanged();

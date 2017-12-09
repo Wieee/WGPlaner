@@ -24,6 +24,13 @@ public class PutzplanAufgabe {
         this.haeufigkeit = haeufigkeit;
         this.ersterTag = ersterTag;
     }
+    public String getAufgabe(){
+    return this.aufgabe;
+    }
+
+    public Person getNextCleaner(){
+        return null;
+    }
 
     public Map<String,Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

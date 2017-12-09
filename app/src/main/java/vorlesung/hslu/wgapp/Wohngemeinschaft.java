@@ -13,17 +13,17 @@ public class Wohngemeinschaft {
     private static Wohngemeinschaft wg;
     private String id;
     private String name;
-    private ArrayList<Person> mitbewohner;
-    private ArrayList<EinkaufszettelProdukt> einkaufszettel;
+    private HashMap<String,Person> mitbewohner;
+    private HashMap<String,EinkaufszettelProdukt> einkaufszettel;
     private ArrayList<HaushaltsbuchAusgabe> haushaltsbuch;
-    private ArrayList<PutzplanAufgabe> putzplan;
+    private HashMap <String,PutzplanAufgabe> putzplan;
 
     private Wohngemeinschaft(){
         //JSON LADEN
-        mitbewohner = new ArrayList<>();
-        einkaufszettel = new ArrayList<>();
+        mitbewohner = new HashMap<String,Person>();
+        einkaufszettel = new HashMap<String,EinkaufszettelProdukt>();
         haushaltsbuch = new ArrayList<>();
-        putzplan = new ArrayList<>();
+        putzplan = new HashMap<String,PutzplanAufgabe>();
     }
 
     public static Wohngemeinschaft getInstance(){
@@ -33,8 +33,13 @@ public class Wohngemeinschaft {
         return wg;
     }
 
+    public static void  setInstance(Wohngemeinschaft neuewg)
+    {
+        wg = neuewg;
+    }
+
     //EIGENTLICH UNNÖTIG
-    private Wohngemeinschaft(ArrayList<Person> mitbewohner, ArrayList<EinkaufszettelProdukt> einkaufszettel, ArrayList<HaushaltsbuchAusgabe> haushaltsbuch, ArrayList<PutzplanAufgabe> putzplan){
+    private Wohngemeinschaft(HashMap<String,Person> mitbewohner,HashMap<String,EinkaufszettelProdukt> einkaufszettel, ArrayList<HaushaltsbuchAusgabe> haushaltsbuch, HashMap<String,PutzplanAufgabe> putzplan){
         this.mitbewohner = mitbewohner;
         this.einkaufszettel = einkaufszettel;
         this.haushaltsbuch = haushaltsbuch;
@@ -42,11 +47,11 @@ public class Wohngemeinschaft {
     }
 
     public void addMitbewohner(Person person){
-        mitbewohner.add(person);
+        mitbewohner.put(person.getName(),person );
     }
 
     public void addEinkaufszettelProdukt(EinkaufszettelProdukt produkt){
-        einkaufszettel.add(produkt);
+        einkaufszettel.put(produkt.getName(),produkt);
     }
 
     public void addHaushaltsbuchAusgabe(HaushaltsbuchAusgabe ausgabe){
@@ -54,15 +59,15 @@ public class Wohngemeinschaft {
     }
 
     public void addPutzplanAufgaben(PutzplanAufgabe aufgabe){
-        putzplan.add(aufgabe);
+        putzplan.put(aufgabe.getAufgabe(),aufgabe);
     }
 
-    public ArrayList getMitbewohner(){
+    public HashMap<String, Person> getMitbewohner(){
         return mitbewohner;
     }
 
 
-    public ArrayList getEinkaufszettel(){
+    public HashMap<String,EinkaufszettelProdukt> getEinkaufszettel(){
         return einkaufszettel;
     }
 
@@ -72,7 +77,7 @@ public class Wohngemeinschaft {
     }
 
 
-    public ArrayList getPutzplan(){
+    public HashMap<String, PutzplanAufgabe> getPutzplan(){
         return putzplan;
     }
 

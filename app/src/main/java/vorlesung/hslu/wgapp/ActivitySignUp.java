@@ -23,7 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ActivitySignUp extends AppCompatActivity {
@@ -142,22 +144,26 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
                         Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
+
                         for (DataSnapshot singlesnap : snapshot) {
                             String key = singlesnap.getKey();
                             if (singlesnap.getKey().equals(code)) {
                                //hier ist das Problem!! Expected List while deserializing,but got a HashMap
-                                wg = singlesnap.getValue(Wohngemeinschaft.class);
+
+                               wg = singlesnap.getValue(Wohngemeinschaft.class);
                                 wg.addMitbewohner(person);
                                 mAuth = FirebaseAuth.getInstance();
                                 Map<String, Object> postValues = person.toMap();
                                 Map<String, Object> childUpdates = new HashMap<>();
                                 childUpdates.put("/mitbewohner/"+ mAuth.getCurrentUser().getUid()+"/", postValues);
                                 mDatabase.child(code).updateChildren(childUpdates);
+                                Wohngemeinschaft.setInstance(wg);
 
                             }
                         }
                         if (wg == null) {
                             Toast.makeText(ActivitySignUp.this, "Das ist keine Butze.", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                      }
                     @Override
@@ -197,9 +203,11 @@ public class ActivitySignUp extends AppCompatActivity {
                         String name = inputWGname.getText().toString();
                         Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
                         wg.setName(name);
-                        wg.addMitbewohner(person);
-                //NEUE WG IN FIREBASE SPEICHERN
+
+                    //NEUE WG IN FIREBASE SPEICHERN
                      mDatabase.child(wg.getName()).setValue(wg);
+                     //person hinzufügen und ebenfalls speichern
+                        wg.addMitbewohner(person);
                         Map<String, Object> postValues = person.toMap();
                         Map<String, Object> childUpdates = new HashMap<>();
                         childUpdates.put("/mitbewohner/"+ mAuth.getCurrentUser().getUid()+"/", postValues);
