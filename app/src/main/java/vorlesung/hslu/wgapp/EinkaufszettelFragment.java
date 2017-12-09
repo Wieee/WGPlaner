@@ -148,22 +148,33 @@ public class EinkaufszettelFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String name = ((EditText) myDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText().toString();
-                int amount = ((DiscreteSeekBar) myDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
+                if(name.trim().equals("")){
+                    Toast toast = Toast.makeText(
+                            view.getContext(),
+                            "Bitte einen Produktnamen angeben",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    int amount = ((DiscreteSeekBar) myDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
 
-                EinkaufszettelProdukt newProduct = new EinkaufszettelProdukt(name, amount, "");
+                    EinkaufszettelProdukt newProduct = new EinkaufszettelProdukt(name, amount, "");
 
-                addItem(newProduct);
+                    addItem(newProduct);
 
-                myDialog.hide();
+                    myDialog.hide();
 
-                Toast toast = Toast.makeText(
-                        view.getContext(),
-                        newProduct.toString() + " wurde zum Einkaufzettel hinzugefügt.",
-                        Toast.LENGTH_SHORT);
-                toast.show();
+                    Toast toast = Toast.makeText(
+                            view.getContext(),
+                            newProduct.toString() + " wurde zum Einkaufzettel hinzugefügt.",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
+
 
     }
 }

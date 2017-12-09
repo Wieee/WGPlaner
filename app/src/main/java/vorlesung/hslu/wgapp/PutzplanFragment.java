@@ -253,7 +253,7 @@ public class PutzplanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String aufgabenname = ((EditText) myDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
-                if(aufgabenname.trim().equals(" ")) {
+                if(aufgabenname.trim().equals("")) {
 
                     Toast toast = Toast.makeText(
                             view.getContext(),
