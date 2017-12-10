@@ -15,6 +15,7 @@
         android:layout_margin="8dp"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:clickable="true"
+        android:longClickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/activity_vertical_margin"
@@ -26,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/cardView"
             android:layout_alignTop="@+id/cardView"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:longClickable="true">
 
             <ImageView
                 android:id="@+id/list_item_picture"
@@ -64,7 +66,15 @@
                 android:layout_below="@+id/list_item_titel"
                 android:layout_marginStart="6dp"
                 android:layout_toEndOf="@+id/putzplan_checkbox"
-                android:text="Description" />
+                android:text="description" />
+            <TextView
+                android:id="@+id/list_item_firstCleaner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list_item_titel"
+                android:layout_marginStart="6dp"
+                android:layout_toEndOf="@+id/list_item_description"
+                android:text="cleaner" />
 
 
         </RelativeLayout>

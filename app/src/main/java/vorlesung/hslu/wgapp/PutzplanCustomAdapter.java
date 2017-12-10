@@ -53,6 +53,7 @@ public class PutzplanCustomAdapter extends BaseAdapter {
         ImageView itempicture = (ImageView) row.findViewById((R.id.list_item_picture));
         TextView itemTitel = (TextView) row.findViewById(R.id.list_item_titel);
         TextView itemDescription = (TextView) row.findViewById(R.id.list_item_description);
+        TextView itemCleaner = (TextView) row.findViewById(R.id.list_item_firstCleaner);
         data = (PutzplanAufgabe) arrayList.get(position);
         CheckBox itemCheck = (CheckBox) row.findViewById(R.id.putzplan_checkbox);
         itemCheck.setChecked(false);
@@ -63,6 +64,7 @@ public class PutzplanCustomAdapter extends BaseAdapter {
                     PutzplanFragment.geputzteListe.add((PutzplanAufgabe) getItem(position));
                 } else if (!isChecked) {
                     if (PutzplanFragment.geputzteListe.equals(data)) {
+
                         PutzplanFragment.geputzteListe.remove(getItem(position));
                     }
                 }
@@ -73,6 +75,7 @@ public class PutzplanCustomAdapter extends BaseAdapter {
         itemTitel.setText(data.aufgabe);
 
         itemDescription.setText(data.haeufigkeit);
+        itemCleaner.setText(data.getFirstCleaner().getName());
 
         return row;
     }

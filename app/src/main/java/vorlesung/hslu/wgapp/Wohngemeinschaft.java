@@ -61,6 +61,9 @@ public class Wohngemeinschaft {
     public void addPutzplanAufgaben(PutzplanAufgabe aufgabe){
         putzplan.put(aufgabe.getAufgabe(),aufgabe);
     }
+    public void removePutzplanAufgabe(PutzplanAufgabe aufgabe){
+        putzplan.remove(aufgabe.getAufgabe());
+    }
 
     public HashMap<String, Person> getMitbewohner(){
         return mitbewohner;

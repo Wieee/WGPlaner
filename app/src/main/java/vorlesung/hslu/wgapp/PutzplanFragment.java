@@ -1,8 +1,11 @@
 package vorlesung.hslu.wgapp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -41,8 +44,11 @@ import java.util.Map;
 public class PutzplanFragment extends Fragment {
     View putzplanview;
     ArrayList<PutzplanAufgabe> putzliste = new ArrayList<PutzplanAufgabe>();
+    String selectedCleaner = "";
+    HashMap<String, Person> mitbewohner;
 
-  public static ArrayList geputzteListe = new ArrayList();
+
+    public static ArrayList geputzteListe = new ArrayList();
 
     Spinner putzerspinner;
     Button btnDatePicker;
@@ -51,6 +57,7 @@ public class PutzplanFragment extends Fragment {
     private int mYear, mMonth, mDay;
     SeekBar seekbar;
     TextView textview;
+    boolean answer;
 
 
     PutzplanCustomAdapter customAdapter;
@@ -66,7 +73,16 @@ public class PutzplanFragment extends Fragment {
                 "Putzplan");
         customAdapter = new PutzplanCustomAdapter(getActivity(), putzliste);
         ListView listView = (ListView) putzplanview.findViewById(R.id.putzplan_ListView);
+        listView.setLongClickable(true);
         listView.setAdapter(customAdapter);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+             showDialog("Möchtest du diese Aufgabe wirklich löschen?", "" , position);
+               return true;
+
+            }
+        });
+
 
         FloatingActionButton fab = (FloatingActionButton) putzplanview.findViewById(R.id.putzfab_add);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -75,11 +91,11 @@ public class PutzplanFragment extends Fragment {
                 MyCustomAlertDialog();
             }
         });
-        FloatingActionButton fabDelete = (FloatingActionButton)putzplanview.findViewById(R.id.putzfab_delete);
+        FloatingActionButton fabDelete = (FloatingActionButton) putzplanview.findViewById(R.id.putzfab_delete);
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteItems();
+                itemcleaned();
 
             }
         });
@@ -115,6 +131,31 @@ public class PutzplanFragment extends Fragment {
         return putzplanview;
     }
 
+    public void showDialog(String title, CharSequence message, final int  position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        if (title != null) builder.setTitle(title);
+
+        builder.setMessage(message);
+
+        builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                removeItem(position);
+                customAdapter.notifyDataSetChanged();
+
+            }
+        })
+                .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        builder.show();
+
+    }
+
+
 
     private void addItem(PutzplanAufgabe daten) {
         putzliste.add(daten);
@@ -131,17 +172,47 @@ public class PutzplanFragment extends Fragment {
         mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
 
 
+
     }
-    private void deleteItems() {
+    private void removeItem(int position){
+
+        PutzplanAufgabe aufgabe;
+
+
+
+            aufgabe = (PutzplanAufgabe) putzliste.get(position);
+                 putzliste.remove(aufgabe);
+
+                wg.removePutzplanAufgabe(aufgabe);
+
+                mDatabase.child(wg.getName()).child("putzplan").child(aufgabe.getAufgabe()).setValue(null);
+            }
+
+
+
+
+
+    private void itemcleaned() {
         PutzplanAufgabe aufgabe;
         int i = geputzteListe.size();
 
         while (i > 0) {
             aufgabe = (PutzplanAufgabe) geputzteListe.get(--i);
             if (putzliste.containsAll(geputzteListe)) {
+                //remove item and change it then add it again
                 putzliste.remove(aufgabe);
                 geputzteListe.remove(aufgabe);
-                mDatabase.child(wg.getName()).child("putzplan").child(aufgabe.getAufgabe()).setValue(null);
+                wg.removePutzplanAufgabe(aufgabe);
+
+
+                aufgabe.setFirstCleaner(aufgabe.getNextCleaner());
+                addItem(aufgabe);
+
+
+                Map<String, Object> postValues = aufgabe.toMap();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/putzplan/" + aufgabe.aufgabe, postValues);
+                mDatabase.child(wg.getName()).updateChildren(childUpdates);
             }
         }
         customAdapter.notifyDataSetChanged();
@@ -185,7 +256,7 @@ public class PutzplanFragment extends Fragment {
         });
 
 
-        HashMap<String, Person> mitbewohner = wg.getMitbewohner();
+        mitbewohner = wg.getMitbewohner();
         for (Person value : mitbewohner.values()) {
             cleaner.add(value.getName());
         }
@@ -204,6 +275,7 @@ public class PutzplanFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
+                selectedCleaner = parent.getItemAtPosition(position).toString();
                 Toast.makeText(parent.getContext(),
                         "Erster Putzer : " + parent.getItemAtPosition(position).toString(),
                         Toast.LENGTH_SHORT).show();
@@ -265,7 +337,14 @@ public class PutzplanFragment extends Fragment {
                     //Nicht lieber String anstatt ein Datum nehmen anstatt den Datentyp Datum?
                     Date datum = new Date(1 - 11 - 2017);
                     String haeufigkeit = textview.getText().toString();
-                    PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum);
+                    Person cleaner = null ;
+                    for (Person value : mitbewohner.values()) {
+                        if(value.getName().equals(selectedCleaner)){
+                            cleaner = value;
+
+                        }
+                    }
+                    PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum,cleaner);
 
                     addItem(neueDaten);
 
