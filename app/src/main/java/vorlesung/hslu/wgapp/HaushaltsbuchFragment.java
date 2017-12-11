@@ -10,21 +10,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
-public class HaushaltsbuchFragment extends Fragment{
+public class HaushaltsbuchFragment extends Fragment {
     View haushaltsbuchView;
     BaseAdapter customAdapter;
-    ArrayList<HaushaltsbuchAusgabe> ausgabenListe = new ArrayList<>();
-    ArrayList<Person> usersListe = new ArrayList<>();
+    Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
 
     @Nullable
     @Override
@@ -37,16 +36,6 @@ public class HaushaltsbuchFragment extends Fragment{
         ListView listView = (ListView) haushaltsbuchView.findViewById(R.id.haushaltsbuch_ListView);
         listView.setAdapter(customAdapter);
 
-
-        //KLAPPT NOCH NICHT, WENN MAN AUF EIN OBJEKT KLICKT SOLL MAN ZUM NÄCHSTEN SCREEN KOMMEN - EIN KLICKEN LÖST ALLERDINGS NOCH KEIN EVENT AUS...
-        //VERMUTLICH ABSORBIERT DER BASE ADAPTER DAS SIEHE: https://www.milesburton.com/Android_-_Building_a_ListView_with_an_OnClick_Position
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        dialogUserExpenses();
-            }
-        });
-
         FloatingActionButton fabAdd = (FloatingActionButton) haushaltsbuchView.findViewById(R.id.haushaltsbuch_fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,20 +44,15 @@ public class HaushaltsbuchFragment extends Fragment{
             }
         });
 
-        //NUR ZU TEST ZWECKEN
-        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-        wg.addMitbewohner(new Person("Meike", ""));
-        wg.addMitbewohner(new Person("Lukas", ""));
-
         return haushaltsbuchView;
     }
 
     private void dialogAddExpense() {
 
-        Dialog myDialog = new Dialog(getActivity());
+        final Dialog myDialog = new Dialog(getActivity());
 
-        LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View newExpenseView = inflater.inflate(R.layout.haushaltsbuch_dialog_new_expense, null);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View newExpenseView = inflater.inflate(R.layout.haushaltsbuch_dialog_new_expense, null);
 
         final Button btnDatePicker = (Button) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_btn_date);
         final TextView txtDate = (TextView) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_date);
@@ -106,25 +90,25 @@ public class HaushaltsbuchFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                //abfrage falls felder leer und button trotzdem geclickt wurde
-                //String name = ((EditText) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_product_name)).getText().toString();
+                //abfrage falls felder leer und button trotzdem geclickt wurde - validate function
+                String name = ((EditText) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_product_name)).getText().toString();
 
                 //amount muss double(am besten neue Klasse Währung einführen) sein, um verrechnung möglich zu machen
-                //String amount = ((EditText) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_amount)).getText().toString();
+                String amount = ((EditText) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_amount)).getText().toString();
+                String date = ((EditText) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_date)).getText().toString();
 
-                //date Struktur angucken, ist das notwendig?
-                //String date = ((EditText) newExpenseView.findViewById(R.id.haushaltsbuch_dialog_date)).getText().toString();
+                HaushaltsbuchAusgabe newExpense = new HaushaltsbuchAusgabe(name, amount, date);
+                if(validate(newExpense)){ //validate()
+                    wg.addHaushaltsbuchAusgabe(newExpense);
+                }
 
-                //HaushaltsbuchAusgabe newExpense = new HaushaltsbuchAusgabe(name, amount, date);
-                //ausgabenListe.add(newExpense);
+                myDialog.hide();
 
-                //myDialog.hide(); ZURÜCK ZUR LISTE GEHEN
-
-                //Toast toast = Toast.makeText(
-                //        view.getContext(),
-                //       newExpense.toString() + " wurde erstellt.",
-                //        Toast.LENGTH_SHORT);
-                //toast.show();
+                Toast toast = Toast.makeText(
+                        view.getContext(),
+                       newExpense.toString() + " wurde erstellt.",
+                        Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 
@@ -135,16 +119,12 @@ public class HaushaltsbuchFragment extends Fragment{
 
     }
 
-    private void dialogUserExpenses() {
-
-        Dialog myDialog = new Dialog(getActivity());
-
-        LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.haushaltsbuch_dialog_user_screen, null);
-
-        myDialog.setTitle("Ausgabenübersicht");
-        myDialog.setContentView(view);
-        myDialog.show();
+    private boolean validate(HaushaltsbuchAusgabe expense){
+        //abfrage ob name vorhanden
+        //abfrage ob amount passt, 2 stellen nach dem komma
+        //abfrage ob boughtby und boughtfor angegeben
+        //falls kein date - aktuellenTag angeben
+        return false;
     }
 }
 

@@ -3,7 +3,6 @@ package vorlesung.hslu.wgapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -18,18 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static vorlesung.hslu.wgapp.ActivitySignUp.person;
 
 public class ActivityLogin extends AppCompatActivity {
 
@@ -92,20 +81,7 @@ public class ActivityLogin extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Intent mainActivity = new Intent(ActivityLogin.this, ActivityMain.class );
-                            final String uID = mAuth.getCurrentUser().getUid();
-                             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
-                                    for (DataSnapshot singlesnap : snapshot) {
-                                        if (singlesnap.child("mitbewohner").hasChild(uID)) {
-                                            wg  = singlesnap.getValue(Wohngemeinschaft.class);
-                                            Wohngemeinschaft.setInstance(wg);
-                                        }
-                                    }
-                                }
-                                public void onCancelled(DatabaseError databaseError) {}
-                            });
+                            wg = Wohngemeinschaft.getInstance();
                             finish();
                             startActivity(mainActivity);
                         } else {

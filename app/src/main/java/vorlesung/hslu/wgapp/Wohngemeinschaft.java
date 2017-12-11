@@ -1,5 +1,12 @@
 package vorlesung.hslu.wgapp;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +25,30 @@ public class Wohngemeinschaft {
     private ArrayList<HaushaltsbuchAusgabe> haushaltsbuch;
     private HashMap <String,PutzplanAufgabe> putzplan;
 
+    private FirebaseDatabase database;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+
     private Wohngemeinschaft(){
-        //JSON LADEN
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        mDatabase = database.getReference("wg");
+        final String uID = mAuth.getCurrentUser().getUid();
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
+                for (DataSnapshot singlesnap : snapshot) {
+                    if (singlesnap.child("mitbewohner").hasChild(uID)) {
+                        wg  = singlesnap.getValue(Wohngemeinschaft.class);
+                    }
+                }
+            }
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
         mitbewohner = new HashMap<String,Person>();
         einkaufszettel = new HashMap<String,EinkaufszettelProdukt>();
         haushaltsbuch = new ArrayList<>();
@@ -38,13 +67,6 @@ public class Wohngemeinschaft {
         wg = neuewg;
     }
 
-    //EIGENTLICH UNNÖTIG
-    private Wohngemeinschaft(HashMap<String,Person> mitbewohner,HashMap<String,EinkaufszettelProdukt> einkaufszettel, ArrayList<HaushaltsbuchAusgabe> haushaltsbuch, HashMap<String,PutzplanAufgabe> putzplan){
-        this.mitbewohner = mitbewohner;
-        this.einkaufszettel = einkaufszettel;
-        this.haushaltsbuch = haushaltsbuch;
-        this.putzplan = putzplan;
-    }
 
     public void addMitbewohner(Person person){
         mitbewohner.put(person.getName(),person );

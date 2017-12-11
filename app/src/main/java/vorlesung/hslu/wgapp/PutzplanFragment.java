@@ -1,6 +1,5 @@
 package vorlesung.hslu.wgapp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -29,10 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +40,7 @@ import java.util.Map;
 
 public class PutzplanFragment extends Fragment {
     View putzplanview;
-    ArrayList<PutzplanAufgabe> putzliste = new ArrayList<PutzplanAufgabe>();
+    ArrayList<PutzplanAufgabe> putzliste = new ArrayList<>();
     String selectedCleaner = "";
     HashMap<String, Person> mitbewohner;
 

@@ -38,11 +38,28 @@ public class Person {
         this.email = email;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getPicture() {
+        return picture;
+    }
+
+    public void setPicture(int picture) {
+        this.picture = picture;
+    }
+
     public Map<String,Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("name", name);
         result.put("email", email);
+
         result.put("picture", picture);
         return result;
 }

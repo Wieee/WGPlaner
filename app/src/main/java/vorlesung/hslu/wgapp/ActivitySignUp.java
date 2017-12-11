@@ -1,11 +1,10 @@
 package vorlesung.hslu.wgapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,9 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ActivitySignUp extends AppCompatActivity {
@@ -34,10 +31,11 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText inputName;
     EditText inputEmail;
     EditText inputPassword;
-   static Person person;
+    static Person person;
     FirebaseDatabase database;
     DatabaseReference mDatabase;
-    public  Wohngemeinschaft wg ;
+    public Wohngemeinschaft wg;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,51 +131,40 @@ public class ActivitySignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-            // BEI VORHANDENER WG MUSS HIER ZUWEISUNG ZU DIESER WG ERFOLGEN
-               final String code = inputCode.getText().toString();
+                final String code = inputCode.getText().toString();
 
                 //lesen von daten
-                ValueEventListener valueEventListener = mDatabase.addValueEventListener(new ValueEventListener() {
-
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
-
                         Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
 
                         for (DataSnapshot singlesnap : snapshot) {
-                            String key = singlesnap.getKey();
                             if (singlesnap.getKey().equals(code)) {
-                               //hier ist das Problem!! Expected List while deserializing,but got a HashMap
-
-                               wg = singlesnap.getValue(Wohngemeinschaft.class);
+                                //hier ist das Problem!! Expected List while deserializing,but got a HashMap
+                                wg = singlesnap.getValue(Wohngemeinschaft.class);
                                 wg.addMitbewohner(person);
                                 mAuth = FirebaseAuth.getInstance();
                                 Map<String, Object> postValues = person.toMap();
                                 Map<String, Object> childUpdates = new HashMap<>();
-                                childUpdates.put("/mitbewohner/"+ mAuth.getCurrentUser().getUid()+"/", postValues);
+                                childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
                                 mDatabase.child(code).updateChildren(childUpdates);
                                 Wohngemeinschaft.setInstance(wg);
-
+                                start_nexta_activity();
+                                return;
                             }
                         }
                         if (wg == null) {
                             Toast.makeText(ActivitySignUp.this, "Das ist keine Butze.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                     }
+                    }
+
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {}
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
-                   // wg.addMitbewohner(person);
-               // Log.i("wg mitbewohner in liste", wg.getMitbewohner().toString());
 
-                   // mDatabase.child(code).child("mitbewohner").setValue(wg.getMitbewohner());
-
-
-                Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
-                finish();
-                startActivity(mainActivity);
             }
         });
 
@@ -197,21 +184,21 @@ public class ActivitySignUp extends AppCompatActivity {
         final EditText inputWGname = (EditText) this.findViewById(R.id.signup_wg_input_wgname);
 
 
-                create_wg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = inputWGname.getText().toString();
-                        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-                        wg.setName(name);
+        create_wg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = inputWGname.getText().toString();
+                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+                wg.setName(name);
 
-                    //NEUE WG IN FIREBASE SPEICHERN
-                     mDatabase.child(wg.getName()).setValue(wg);
-                     //person hinzufügen und ebenfalls speichern
-                        wg.addMitbewohner(person);
-                        Map<String, Object> postValues = person.toMap();
-                        Map<String, Object> childUpdates = new HashMap<>();
-                        childUpdates.put("/mitbewohner/"+ mAuth.getCurrentUser().getUid()+"/", postValues);
-                        mDatabase.child(wg.getName()).updateChildren(childUpdates);
+                //NEUE WG IN FIREBASE SPEICHERN
+                mDatabase.child(wg.getName()).setValue(wg);
+                //person hinzufügen und ebenfalls speichern
+                wg.addMitbewohner(person);
+                Map<String, Object> postValues = person.toMap();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
+                mDatabase.child(wg.getName()).updateChildren(childUpdates);
 
                 Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
                 finish();
@@ -220,5 +207,12 @@ public class ActivitySignUp extends AppCompatActivity {
         });
 
         // CODE FÜR FREUNDE MUSS GENRIERT WERDEN  --> EINMALIG PRO WG? SPÄTER AUCH IN SETTINGS O.Ä. AUFRUFBAR
+    }
+
+
+    private void start_nexta_activity() {
+        Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
+        finish();
+        startActivity(mainActivity);
     }
 }

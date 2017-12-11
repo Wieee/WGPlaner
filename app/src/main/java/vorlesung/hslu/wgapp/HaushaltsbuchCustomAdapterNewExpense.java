@@ -9,14 +9,18 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
 
     Activity activity;
     Wohngemeinschaft wg;
+    ArrayList<Person> arrayList;
 
     public HaushaltsbuchCustomAdapterNewExpense(Activity activity){
         this.activity = activity;
         wg = Wohngemeinschaft.getInstance();
+        arrayList = new ArrayList<Person>(wg.getMitbewohner().values());
     }
     @Override
     public int getCount() {
@@ -42,7 +46,7 @@ public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
             row = inflater.inflate(R.layout.haushaltsbuch_dialog_new_expense_user_item, parent, false);
         }
 
-        Person user = (Person) wg.getMitbewohner().get(position);
+        Person user = arrayList.get(position);
 
         CheckBox check = (CheckBox) row.findViewById(R.id.haushaltsbuch_dialog_new_expense_user_item_checkbox);
         TextView name = (TextView) row.findViewById(R.id.haushaltsbuch_dialog_new_expense_user_item_name);
