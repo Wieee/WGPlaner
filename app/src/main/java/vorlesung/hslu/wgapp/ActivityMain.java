@@ -14,6 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
+
+import java.util.Iterator;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,17 +49,37 @@ public class ActivityMain extends AppCompatActivity
         transaction.replace(R.id.fragment_container, new HaushaltsbuchFragment());
         transaction.commit();
 
-     /**   username = (TextView) findViewById((R.id.textview_show_username));
-        mAuth = FirebaseAuth.getInstance();
-       FirebaseUser currentUser = mAuth.getCurrentUser();
-        try {
-            name = currentUser.getDisplayName();
-        }
-        catch(NullPointerException exception)
-        {
-            name = "Name not given";
-        }
-        username.setText(name.toString()); **/
+       /**wg = Wohngemeinschaft.getInstance();   // warum ist das leer ??
+        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
+       mDatabase.child(wg.getName()).child("mitbewohner").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               Iterable<DataSnapshot> p = dataSnapshot.getChildren();
+               for (DataSnapshot s: p)
+               {
+                   Person aktuell = s.getValue(Person.class);
+                   try {
+                       name = aktuell.getName();
+                       username.setText(name);
+                   }
+                   catch(NullPointerException exception)
+                   {
+                       name = "Name not given";
+                   }
+               }
+
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
+**/
+
+
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

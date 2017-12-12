@@ -188,18 +188,21 @@ public class ActivitySignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = inputWGname.getText().toString();
-                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-                wg.setName(name);
+               // Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+              //  wg.setName(name);
 
                 //NEUE WG IN FIREBASE SPEICHERN
-                mDatabase.child(wg.getName()).setValue(wg);
+                mDatabase.child(name);
                 //person hinzufügen und ebenfalls speichern
-                wg.addMitbewohner(person);
+               // wg.addMitbewohner(person);
                 Map<String, Object> postValues = person.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
-                mDatabase.child(wg.getName()).updateChildren(childUpdates);
-
+                mDatabase.child(inputWGname.getText().toString()).updateChildren(childUpdates);
+                mDatabase.child(name).child("name").setValue(name);
+                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+                wg.setName(name);
+                wg.addMitbewohner(person);
                 Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
                 finish();
                 startActivity(mainActivity);
