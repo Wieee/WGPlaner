@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -37,7 +36,7 @@ public class ActivityMain extends AppCompatActivity
         //Set initial screen
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, new HaushaltsbuchFragment());
+        transaction.replace(R.id.fragment_container, new HomeFragment());
         transaction.commit();
 
      /**   username = (TextView) findViewById((R.id.textview_show_username));
