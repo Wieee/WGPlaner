@@ -13,9 +13,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class EinkaufszettelCustomAdapter extends BaseAdapter {
-    Activity activity;
-    ArrayList arrayList;
-    EinkaufszettelProdukt data;
+    private Activity activity;
+    private ArrayList arrayList;
+    private EinkaufszettelProdukt data;
 
     public EinkaufszettelCustomAdapter(Activity activity, ArrayList arrayList) {
         this.activity = activity;
