@@ -48,34 +48,6 @@ public class ActivityMain extends AppCompatActivity
         transaction.replace(R.id.fragment_container, new HomeFragment());
         transaction.commit();
 
-       /**wg = Wohngemeinschaft.getInstance();   // warum ist das leer ??
-        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
-       mDatabase.child(wg.getName()).child("mitbewohner").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-               Iterable<DataSnapshot> p = dataSnapshot.getChildren();
-               for (DataSnapshot s: p)
-               {
-                   Person aktuell = s.getValue(Person.class);
-                   try {
-                       name = aktuell.getName();
-                       username.setText(name);
-                   }
-                   catch(NullPointerException exception)
-                   {
-                       name = "Name not given";
-                   }
-               }
-
-           }
-
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
-
-           }
-       });
-**/
 
 
 

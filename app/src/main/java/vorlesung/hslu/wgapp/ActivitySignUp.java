@@ -81,8 +81,8 @@ public class ActivitySignUp extends AppCompatActivity {
     public void onStart() {
         super.onStart();
     }
-
-    private void signUp(final String name, final String email, final String password) {
+    //protected for Testing purpose
+    protected void signUp(final String name, final String email, final String password) {
         if (!validateForm(name, email, password)) {
             return;
         }
