@@ -23,4 +23,6 @@ public class ExampleInstrumentedTest {
 
         assertEquals("vorlesung.hslu.wgapp", appContext.getPackageName());
     }
+
+
 }

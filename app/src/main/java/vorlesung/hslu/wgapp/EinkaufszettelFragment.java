@@ -90,8 +90,8 @@ public class EinkaufszettelFragment extends Fragment {
 
         return einkaufszettelView;
     }
-
-    private void addItem(EinkaufszettelProdukt product) {
+    // protected to enable testing
+    protected void addItem(EinkaufszettelProdukt product) {
         for (int i = 0; i < einkaufsListe.size(); i++) {
             EinkaufszettelProdukt listedItem = einkaufsListe.get(i);
             if (listedItem.getName().equals(product.getName())) {
