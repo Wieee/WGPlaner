@@ -1,6 +1,7 @@
 package vorlesung.hslu.wgapp;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,19 +20,12 @@ public class ActivityMain extends AppCompatActivity
 
     Toolbar toolbar = null;
     NavigationView navigationView = null;
-    TextView username = null;
-    FirebaseAuth mAuth;
-    String name = "";
     Wohngemeinschaft wg;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         //Set initial screen
         android.app.FragmentManager fragmentManager = getFragmentManager();
@@ -39,43 +33,10 @@ public class ActivityMain extends AppCompatActivity
         transaction.replace(R.id.fragment_container, new HomeFragment());
         transaction.commit();
 
-       /**wg = Wohngemeinschaft.getInstance();   // warum ist das leer ??
-        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
-       mDatabase.child(wg.getName()).child("mitbewohner").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-               Iterable<DataSnapshot> p = dataSnapshot.getChildren();
-               for (DataSnapshot s: p)
-               {
-                   Person aktuell = s.getValue(Person.class);
-                   try {
-                       name = aktuell.getName();
-                       username.setText(name);
-                   }
-                   catch(NullPointerException exception)
-                   {
-                       name = "Name not given";
-                   }
-               }
-
-           }
-
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
-
-           }
-       });
-**/
-
-
-
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -83,6 +44,16 @@ public class ActivityMain extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.findViewById(R.id.nav_view_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Wohngemeinschaft.setInstance(null);
+                FirebaseAuth.getInstance().signOut();
+                Intent login = new Intent(ActivityMain.this, ActivityLogin.class);
+                finish();
+                startActivity(login);
+            }
+        });
     }
 
     @Override
@@ -105,11 +76,9 @@ public class ActivityMain extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -126,19 +95,18 @@ public class ActivityMain extends AppCompatActivity
             transaction.replace(R.id.fragment_container, new EinkaufszettelFragment());
             transaction.addToBackStack("einkaufszettel_fragment");
             transaction.commit();
-
         } else if (id == R.id.nav_haushaltsbuch) {
             transaction.replace(R.id.fragment_container, new HaushaltsbuchFragment());
             transaction.addToBackStack("haushaltsbuch_fragment");
             transaction.commit();
-
         } else if (id == R.id.nav_putzplan) {
             transaction.replace(R.id.fragment_container, new PutzplanFragment());
             transaction.addToBackStack("putzplan_fragment");
             transaction.commit();
-
         } else if (id == R.id.nav_manage) {
-
+            transaction.replace(R.id.fragment_container, new OptionsFragment());
+            transaction.addToBackStack("options_fragment");
+            transaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
