@@ -36,33 +36,6 @@
         android:layout_marginTop="6dp"
         android:backgroundTint="@color/colorAccent" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
-
-        <TextView
-            android:id="@+id/in_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="16dp"
-            android:hint="DD.MM.YYYY"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/btn_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Datum"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/haeufigkeit_label"
         android:layout_width="wrap_content"

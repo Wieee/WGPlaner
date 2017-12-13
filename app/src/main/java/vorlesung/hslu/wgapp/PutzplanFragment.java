@@ -1,7 +1,6 @@
 package vorlesung.hslu.wgapp;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -29,8 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,10 +39,7 @@ public class PutzplanFragment extends Fragment {
     public static ArrayList geputzteListe = new ArrayList();
 
     Spinner putzerspinner;
-    Button btnDatePicker;
-    TextView txtDate;
     Dialog myDialog;
-    private int mYear, mMonth, mDay;
     SeekBar seekbar;
     TextView textview;
     boolean answer;
@@ -140,7 +133,7 @@ public class PutzplanFragment extends Fragment {
     private void addItem(PutzplanAufgabe daten) {
         putzliste.add(daten);
         customAdapter.notifyDataSetChanged();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         wg.addPutzplanAufgaben(daten);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -243,35 +236,6 @@ public class PutzplanFragment extends Fragment {
             }
         });
 
-        btnDatePicker = (Button) myDialog.findViewById(R.id.btn_date);
-        txtDate = (TextView) myDialog.findViewById(R.id.in_date);
-        btnDatePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v == btnDatePicker) {
-
-                    // Get Current Date
-                    final Calendar c = Calendar.getInstance();
-                    mYear = c.get(Calendar.YEAR);
-                    mMonth = c.get(Calendar.MONTH);
-                    mDay = c.get(Calendar.DAY_OF_MONTH);
-
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                            new DatePickerDialog.OnDateSetListener() {
-
-                                @Override
-                                public void onDateSet(DatePicker view, int year,
-                                                      int monthOfYear, int dayOfMonth) {
-
-                                    txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                                }
-                            }, mYear, mMonth, mDay);
-                    datePickerDialog.show();
-                }
-            }
-        });
-
         myDialog.show();
 
         Button button = (Button) myDialog.findViewById(R.id.putzplan_dialog_btn);
@@ -288,7 +252,6 @@ public class PutzplanFragment extends Fragment {
                     toast.show();
                 } else {
                     //Nicht lieber String anstatt ein Datum nehmen anstatt den Datentyp Datum?
-                    Date datum = new Date(1 - 11 - 2017);
                     String haeufigkeit = textview.getText().toString();
                     Person cleaner = null;
                     for (Person value : mitbewohner.values()) {
@@ -296,7 +259,7 @@ public class PutzplanFragment extends Fragment {
                             cleaner = value;
                         }
                     }
-                    PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum, cleaner);
+                    PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, cleaner);
 
                     addItem(neueDaten);
 

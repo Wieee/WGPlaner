@@ -1,6 +1,5 @@
 package vorlesung.hslu.wgapp;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +12,6 @@ public class PutzplanAufgabe {
     private String id;
     String aufgabe;
     String haeufigkeit;
-    Date ersterTag;
     Person firstCleaner;
 
     //Liste für Mitbewohner, "wer ist als nächstes dran mit putzen"
@@ -40,18 +38,9 @@ public class PutzplanAufgabe {
         this.haeufigkeit = haeufigkeit;
     }
 
-    public Date getErsterTag() {
-        return ersterTag;
-    }
-
-    public void setErsterTag(Date ersterTag) {
-        this.ersterTag = ersterTag;
-    }
-
-    public PutzplanAufgabe(String aufgabe, String haeufigkeit, Date ersterTag, Person firstCleaner) {
+    public PutzplanAufgabe(String aufgabe, String haeufigkeit, Person firstCleaner) {
         this.aufgabe = aufgabe;
         this.haeufigkeit = haeufigkeit;
-        this.ersterTag = ersterTag;
         this.firstCleaner = firstCleaner;
     }
     public String getAufgabe(){
@@ -86,7 +75,6 @@ public class PutzplanAufgabe {
         result.put("id", id);
         result.put("aufgabe", aufgabe);
         result.put("haeufigkeit", haeufigkeit);
-        result.put("ersterTag", ersterTag);
         result.put("firstCleaner",firstCleaner);
 
 
