@@ -20,17 +20,34 @@ public class Wohngemeinschaft {
     private HashMap<String, EinkaufszettelProdukt> einkaufszettel;
     private HashMap<String, HaushaltsbuchAusgabe> haushaltsbuch;
     private HashMap<String, PutzplanAufgabe> putzplan;
-
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+    private String uID;
+
+    public static Wohngemeinschaft getInstance() {
+        if (wg == null) {
+            wg = new Wohngemeinschaft();
+        }
+        return wg;
+    }
+
+    public static void setInstance(Wohngemeinschaft neuewg) {
+        wg = neuewg;
+    }
 
     private Wohngemeinschaft() {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference("wg");
-        final String uID = mAuth.getCurrentUser().getUid();
+        try{
+            uID = mAuth.getCurrentUser().getUid();
+        } catch (NullPointerException e){
+            //Logout
+            wg = null;
+            return;
+        }
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -44,26 +61,15 @@ public class Wohngemeinschaft {
             }
 
             public void onCancelled(DatabaseError databaseError) {
+                wg = null;
             }
         });
 
-        mitbewohner = new HashMap<String,Person>();
-        einkaufszettel = new HashMap<String,EinkaufszettelProdukt>();
+        mitbewohner = new HashMap<String, Person>();
+        einkaufszettel = new HashMap<String, EinkaufszettelProdukt>();
         haushaltsbuch = new HashMap<>();
-        putzplan = new HashMap<String,PutzplanAufgabe>();
-}
-
-    public static Wohngemeinschaft getInstance() {
-        if (wg == null) {
-            wg = new Wohngemeinschaft();
-        }
-        return wg;
+        putzplan = new HashMap<String, PutzplanAufgabe>();
     }
-
-    public static void setInstance(Wohngemeinschaft neuewg) {
-        wg = neuewg;
-    }
-
 
     public void addMitbewohner(Person person) {
         mitbewohner.put(person.getName(), person);
@@ -89,16 +95,13 @@ public class Wohngemeinschaft {
         return mitbewohner;
     }
 
-
     public HashMap<String, EinkaufszettelProdukt> getEinkaufszettel() {
         return einkaufszettel;
     }
 
-
     public HashMap<String, HaushaltsbuchAusgabe> getHaushaltsbuch() {
         return haushaltsbuch;
     }
-
 
     public HashMap<String, PutzplanAufgabe> getPutzplan() {
         return putzplan;

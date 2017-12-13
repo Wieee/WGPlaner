@@ -9,5 +9,6 @@
     <color name="haushaltsbuch_plus_money">#00B64F</color>
     <color name="haushaltsbuch_minus_money">#FF3500</color>
     <color name = "transparent" >#0000ffff</color>
+    <color name ="black"> #000000</color>
 
 </resources>
