@@ -16,27 +16,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ActivityLogin extends AppCompatActivity {
 
-    private
-    EditText inputEmail;
-    EditText inputPassword;
-    public Wohngemeinschaft wg ;
-    public FirebaseDatabase database;
-    public DatabaseReference mDatabase;
-    public FirebaseAuth mAuth;
+    private EditText inputEmail;
+    private EditText inputPassword;
+    private FirebaseAuth mAuth;
+    Wohngemeinschaft wg;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        database = FirebaseDatabase.getInstance();
-        mDatabase = database.getReference("wg");
 
         //Views and onClickListener!
         Button signInEmail = (Button) this.findViewById(R.id.login_btn_login);
@@ -56,7 +48,7 @@ public class ActivityLogin extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signUp = new Intent(ActivityLogin.this, ActivitySignUp.class );
+                Intent signUp = new Intent(ActivityLogin.this, ActivitySignUp.class);
                 finish();
                 startActivity(signUp);
             }
@@ -67,7 +59,6 @@ public class ActivityLogin extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
     private void signIn(String email, String password) {
@@ -80,18 +71,14 @@ public class ActivityLogin extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent mainActivity = new Intent(ActivityLogin.this, ActivityMain.class );
                             wg = Wohngemeinschaft.getInstance();
-                            finish();
-                            startActivity(mainActivity);
+                            start_main_activity();
                         } else {
                             Toast.makeText(ActivityLogin.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-
     }
 
     private boolean validateForm(String email, String password) {
@@ -106,5 +93,12 @@ public class ActivityLogin extends AppCompatActivity {
             valid = false;
         }
         return valid;
+    }
+
+    private void start_main_activity(){
+        Intent mainActivity = new Intent(ActivityLogin.this, ActivityMain.class);
+        finish();
+        startActivity(mainActivity);
+
     }
 }

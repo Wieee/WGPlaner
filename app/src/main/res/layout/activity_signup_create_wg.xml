@@ -46,18 +46,10 @@
             android:layout_marginTop="36dp"
             android:layout_marginBottom="6dp"
             android:gravity="center"
-            android:text="Du kannst neue Mitbewohner mit dem folgenden Code einladen:"
+            android:text="Deine Mitbewohner können deiner Butze mit dem oben einegegebenen Namen später beitreten."
+
             android:textSize="16dip" />
 
-
-        <TextView
-            android:id="@+id/signup_create_wg_code_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
-            android:text="Hier wird der generierte Code dargestellt"
-            android:textSize="16dip" />
 
     </LinearLayout>
 </ScrollView>

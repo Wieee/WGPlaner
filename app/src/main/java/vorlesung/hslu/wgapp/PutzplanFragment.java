@@ -34,16 +34,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Meike on 9.11.2017
- */
-
 public class PutzplanFragment extends Fragment {
     View putzplanview;
     ArrayList<PutzplanAufgabe> putzliste = new ArrayList<>();
     String selectedCleaner = "";
     HashMap<String, Person> mitbewohner;
-
 
     public static ArrayList geputzteListe = new ArrayList();
 
@@ -56,11 +51,9 @@ public class PutzplanFragment extends Fragment {
     TextView textview;
     boolean answer;
 
-
     PutzplanCustomAdapter customAdapter;
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
     Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-
 
     @Nullable
     @Override
@@ -74,12 +67,11 @@ public class PutzplanFragment extends Fragment {
         listView.setAdapter(customAdapter);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-             showDialog("Möchtest du diese Aufgabe wirklich löschen?", "" , position);
-               return true;
+                showDialog("Möchtest du diese Aufgabe wirklich löschen?", "", position);
+                return true;
 
             }
         });
-
 
         FloatingActionButton fab = (FloatingActionButton) putzplanview.findViewById(R.id.putzfab_add);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -108,13 +100,10 @@ public class PutzplanFragment extends Fragment {
                             PutzplanAufgabe task = singletask.getValue(PutzplanAufgabe.class);
                             if (task != null) {
                                 putzliste.add(task);
-
                             }
                         }
                         customAdapter.notifyDataSetChanged();
-
                     }
-
                 }
             }
 
@@ -124,11 +113,10 @@ public class PutzplanFragment extends Fragment {
             }
         });
 
-
         return putzplanview;
     }
 
-    public void showDialog(String title, CharSequence message, final int  position) {
+    public void showDialog(String title, CharSequence message, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         if (title != null) builder.setTitle(title);
@@ -143,23 +131,16 @@ public class PutzplanFragment extends Fragment {
             }
         })
                 .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int id) { }
                 });
-
         builder.show();
-
     }
-
 
 
     private void addItem(PutzplanAufgabe daten) {
         putzliste.add(daten);
         customAdapter.notifyDataSetChanged();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        // Schreiben von daten
-        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
         wg.addPutzplanAufgaben(daten);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -167,26 +148,16 @@ public class PutzplanFragment extends Fragment {
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/putzplan/" + daten.aufgabe, postValues);
         mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
-
-
-
     }
-    private void removeItem(int position){
 
+    private void removeItem(int position) {
         PutzplanAufgabe aufgabe;
 
-
-
-            aufgabe = (PutzplanAufgabe) putzliste.get(position);
-                 putzliste.remove(aufgabe);
-
-                wg.removePutzplanAufgabe(aufgabe);
-
-                mDatabase.child(wg.getName()).child("putzplan").child(aufgabe.getAufgabe()).setValue(null);
-            }
-
-
-
+        aufgabe = (PutzplanAufgabe) putzliste.get(position);
+        putzliste.remove(aufgabe);
+        wg.removePutzplanAufgabe(aufgabe);
+        mDatabase.child(wg.getName()).child("putzplan").child(aufgabe.getAufgabe()).setValue(null);
+    }
 
 
     private void itemcleaned() {
@@ -201,10 +172,8 @@ public class PutzplanFragment extends Fragment {
                 geputzteListe.remove(aufgabe);
                 wg.removePutzplanAufgabe(aufgabe);
 
-
                 aufgabe.setFirstCleaner(aufgabe.getNextCleaner());
                 addItem(aufgabe);
-
 
                 Map<String, Object> postValues = aufgabe.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
@@ -213,15 +182,10 @@ public class PutzplanFragment extends Fragment {
             }
         }
         customAdapter.notifyDataSetChanged();
-
-
     }
 
-
-
-
     private void MyCustomAlertDialog() {
-       final  ArrayList<String> cleaner = new ArrayList<String>();
+        final ArrayList<String> cleaner = new ArrayList<String>();
         wg = Wohngemeinschaft.getInstance();
         myDialog = new Dialog(getActivity());
         myDialog.setTitle("Neue Aufgabe erstellen");
@@ -231,11 +195,9 @@ public class PutzplanFragment extends Fragment {
         textview = (TextView) myDialog.findViewById(R.id.putzplan_dialog_haeufigkeit_text);
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
-
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 progress = i;
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -258,15 +220,12 @@ public class PutzplanFragment extends Fragment {
             cleaner.add(value.getName());
         }
 
-
         //Adapter can not work with ArrayList without errors therefore conversion to String[]
         String[] finalcleaner = cleaner.toArray(new String[cleaner.size()]);
 
-
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,finalcleaner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, finalcleaner);
 
         putzerspinner.setAdapter(adapter);
-
 
         putzerspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -297,7 +256,6 @@ public class PutzplanFragment extends Fragment {
                     mMonth = c.get(Calendar.MONTH);
                     mDay = c.get(Calendar.DAY_OF_MONTH);
 
-
                     DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                             new DatePickerDialog.OnDateSetListener() {
 
@@ -314,7 +272,6 @@ public class PutzplanFragment extends Fragment {
             }
         });
 
-
         myDialog.show();
 
         Button button = (Button) myDialog.findViewById(R.id.putzplan_dialog_btn);
@@ -322,26 +279,24 @@ public class PutzplanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String aufgabenname = ((EditText) myDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
-                if(aufgabenname.trim().equals("")) {
+                if (aufgabenname.trim().equals("")) {
 
                     Toast toast = Toast.makeText(
                             view.getContext(),
                             "Bitte gib einen Namen für die Aufgabe an",
                             Toast.LENGTH_SHORT);
                     toast.show();
-                }
-                else{
+                } else {
                     //Nicht lieber String anstatt ein Datum nehmen anstatt den Datentyp Datum?
                     Date datum = new Date(1 - 11 - 2017);
                     String haeufigkeit = textview.getText().toString();
-                    Person cleaner = null ;
+                    Person cleaner = null;
                     for (Person value : mitbewohner.values()) {
-                        if(value.getName().equals(selectedCleaner)){
+                        if (value.getName().equals(selectedCleaner)) {
                             cleaner = value;
-
                         }
                     }
-                    PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum,cleaner);
+                    PutzplanAufgabe neueDaten = new PutzplanAufgabe(aufgabenname, haeufigkeit, datum, cleaner);
 
                     addItem(neueDaten);
 
@@ -351,14 +306,11 @@ public class PutzplanFragment extends Fragment {
                             view.getContext(),
                             "neue Aufgabe wurde hinzugefügt.",
                             Toast.LENGTH_SHORT);
-                    toast.show();}
-
-
+                    toast.show();
+                }
             }
         });
     }
-
-
 }
 
 

@@ -53,12 +53,11 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    EinkaufszettelFragment.gekaufteListe.add((EinkaufszettelProdukt) getItem(position));
+                    EinkaufszettelFragment.gekaufteListe.add(data);
                 }
                 else if (!isChecked){
-                    if (EinkaufszettelFragment.gekaufteListe.equals(data)) {
-                        EinkaufszettelFragment.gekaufteListe.remove(getItem(position));
-                    }
+                    EinkaufszettelFragment.gekaufteListe.remove(data);
+
                 }
             }
         } );

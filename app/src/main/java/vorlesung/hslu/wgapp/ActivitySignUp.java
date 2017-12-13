@@ -73,7 +73,7 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
 
-        //Not necessary
+
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -95,6 +95,7 @@ public class ActivitySignUp extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             person = new Person(inputName.getText().toString(), user.getEmail());
+                            person.setId(mAuth.getCurrentUser().getUid().toString());
                             screen_enter_wg();
 
                         } else {
@@ -141,7 +142,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
                         for (DataSnapshot singlesnap : snapshot) {
                             if (singlesnap.getKey().equals(code)) {
-                                //hier ist das Problem!! Expected List while deserializing,but got a HashMap
+
                                 wg = singlesnap.getValue(Wohngemeinschaft.class);
                                 wg.addMitbewohner(person);
                                 mAuth = FirebaseAuth.getInstance();
@@ -150,7 +151,7 @@ public class ActivitySignUp extends AppCompatActivity {
                                 childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
                                 mDatabase.child(code).updateChildren(childUpdates);
                                 Wohngemeinschaft.setInstance(wg);
-                                start_nexta_activity();
+                                start_next_activity();
                                 return;
                             }
                         }
@@ -183,14 +184,12 @@ public class ActivitySignUp extends AppCompatActivity {
         Button create_wg = (Button) this.findViewById(R.id.signup_btn_new_wg);
         final EditText inputWGname = (EditText) this.findViewById(R.id.signup_wg_input_wgname);
 
-
         create_wg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = inputWGname.getText().toString();
                // Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
               //  wg.setName(name);
-
                 //NEUE WG IN FIREBASE SPEICHERN
                 mDatabase.child(name);
                 //person hinzufügen und ebenfalls speichern
@@ -200,12 +199,9 @@ public class ActivitySignUp extends AppCompatActivity {
                 childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
                 mDatabase.child(inputWGname.getText().toString()).updateChildren(childUpdates);
                 mDatabase.child(name).child("name").setValue(name);
-                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-                wg.setName(name);
-                wg.addMitbewohner(person);
-                Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
-                finish();
-                startActivity(mainActivity);
+                Wohngemeinschaft.getInstance();
+
+                start_next_activity();
             }
         });
 
@@ -213,7 +209,7 @@ public class ActivitySignUp extends AppCompatActivity {
     }
 
 
-    private void start_nexta_activity() {
+    private void start_next_activity() {
         Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
         finish();
         startActivity(mainActivity);

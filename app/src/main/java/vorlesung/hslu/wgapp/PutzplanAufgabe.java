@@ -79,9 +79,6 @@ public class PutzplanAufgabe {
            return  mitbewohnerarray[0];
        }
 
-
-
-
     }
 
     public Map<String,Object> toMap() {
