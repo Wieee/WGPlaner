@@ -231,6 +231,8 @@ public class OptionsFragment extends Fragment {
                     mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            //Checken ob WG Name nicht bereits belegt ist
                             Iterable<DataSnapshot> wohniter = dataSnapshot.getChildren();
                             for(DataSnapshot snap : wohniter){
                                 if(snap.getKey().toString().equals(newValue)){
@@ -344,7 +346,5 @@ public class OptionsFragment extends Fragment {
 
         return valid;
     }
-
-
 
 }
