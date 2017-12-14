@@ -1,5 +1,6 @@
 package vorlesung.hslu.wgapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,6 +34,7 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText inputEmail;
     EditText inputPassword;
     static Person person;
+    private static boolean exists;
     FirebaseDatabase database;
     DatabaseReference mDatabase;
     public Wohngemeinschaft wg;
@@ -190,35 +192,52 @@ public class ActivitySignUp extends AppCompatActivity {
 
         Button create_wg = (Button) this.findViewById(R.id.signup_btn_new_wg);
         final EditText inputWGname = (EditText) this.findViewById(R.id.signup_wg_input_wgname);
-
+        final Context context = this.getApplicationContext();
         create_wg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = inputWGname.getText().toString();
-               // Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-              //  wg.setName(name);
-                //NEUE WG IN FIREBASE SPEICHERN
-                mDatabase.child(name);
-                //person hinzufügen und ebenfalls speichern
-               // wg.addMitbewohner(person);
-                Map<String, Object> postValues = person.toMap();
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
-                mDatabase.child(inputWGname.getText().toString()).updateChildren(childUpdates);
-                mDatabase.child(name).child("name").setValue(name);
-                Wohngemeinschaft.getInstance();
+                final String name = inputWGname.getText().toString();
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Checken ob WG Name nicht bereits belegt ist
+                        Iterable<DataSnapshot> wohniter = dataSnapshot.getChildren();
+                        for (DataSnapshot snap : wohniter) {
+                            String currentWG = snap.getKey().toString();
+                            //Check if WG exists
+                            if (currentWG.equals(name)) {
+                                Toast.makeText(context, "Diesen WG Namen gibt es bereits.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
+                        mDatabase.child(name);
+                        Map<String, Object> postValues = person.toMap();
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
+                        mDatabase.child(inputWGname.getText().toString()).updateChildren(childUpdates);
+                        mDatabase.child(name).child("name").setValue(name);
+                        Wohngemeinschaft.getInstance();
+                        start_next_activity();
 
-                start_next_activity();
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+
+                });
+
+                // CODE FÜR FREUNDE MUSS GENRIERT WERDEN  --> EINMALIG PRO WG? SPÄTER AUCH IN SETTINGS O.Ä. AUFRUFBAR
             }
         });
 
-        // CODE FÜR FREUNDE MUSS GENRIERT WERDEN  --> EINMALIG PRO WG? SPÄTER AUCH IN SETTINGS O.Ä. AUFRUFBAR
     }
 
 
-    private void start_next_activity() {
-        Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
-        finish();
-        startActivity(mainActivity);
-    }
-}
+            private void start_next_activity() {
+                Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
+                finish();
+                startActivity(mainActivity);
+            }
+        }

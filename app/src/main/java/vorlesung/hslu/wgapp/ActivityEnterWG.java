@@ -1,5 +1,6 @@
 package vorlesung.hslu.wgapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class ActivityEnterWG extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
     private Wohngemeinschaft wg;
+    private static boolean exists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class ActivityEnterWG extends AppCompatActivity {
                             }
                         }
                         if (wg == null) {
-                            Toast.makeText( ActivityEnterWG.this , "Das ist keine Butze.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityEnterWG.this, "Das ist keine Butze.", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
@@ -106,23 +108,46 @@ public class ActivityEnterWG extends AppCompatActivity {
 
         Button create_wg = (Button) this.findViewById(R.id.signup_btn_new_wg);
         final EditText inputWGname = (EditText) this.findViewById(R.id.signup_wg_input_wgname);
+        final Context context = this.getApplicationContext();
 
         create_wg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = inputWGname.getText().toString();
-                Wohngemeinschaft.getInstance();
 
-                mDatabase.child(name);
-                Map<String, Object> postValues = currentUser.toMap();
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
-                mDatabase.child(inputWGname.getText().toString()).updateChildren(childUpdates);
-                mDatabase.child(name).child("name").setValue(name);
-                Wohngemeinschaft.getInstance();
+                final String name = inputWGname.getText().toString();
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Checken ob WG Name nicht bereits belegt ist
+                        Iterable<DataSnapshot> wohniter = dataSnapshot.getChildren();
+                        for (DataSnapshot snap : wohniter) {
+                            String currentWG = snap.getKey().toString();
+                            //Check if WG exists
+                            if (currentWG.equals(name)) {
+                                Toast.makeText(context, "Diesen WG Namen gibt es bereits.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
 
-                start_next_activity();
+                        Wohngemeinschaft.getInstance();
+                        mDatabase.child(name);
+                        Map<String, Object> postValues = currentUser.toMap();
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
+                        mDatabase.child(inputWGname.getText().toString()).updateChildren(childUpdates);
+                        mDatabase.child(name).child("name").setValue(name);
+                        Wohngemeinschaft.getInstance();
+
+                        start_next_activity();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+
+                });
             }
+
         });
     }
 

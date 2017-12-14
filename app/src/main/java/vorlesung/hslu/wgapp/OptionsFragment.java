@@ -237,14 +237,14 @@ public class OptionsFragment extends Fragment {
                             for (DataSnapshot snap : wohniter) {
                                 String currentWG = snap.getKey().toString();
                                 if (currentWG.equals(newValue)) {
-                                    Toast.makeText(getActivity(),"Diesen WG Namen gibt es bereits.",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), "Diesen WG Namen gibt es bereits.", Toast.LENGTH_LONG).show();
                                     return;
                                 }
                             }
                             mDatabase.child(wg.getName()).setValue(null);
                             wg.setName(newValue);
                             mDatabase.child(wg.getName()).setValue(wg);
-                            Toast.makeText(getActivity(),"Der WG Name wurde erfolgreich in" + newValue + "geändert!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Der WG Name wurde erfolgreich in" + newValue + "geändert!", Toast.LENGTH_LONG).show();
 
 
                         }

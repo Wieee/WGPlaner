@@ -17,8 +17,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="custom" parent="AppTheme" />
-
     <style name="Widget.DiscreteSeekBar" parent="android:Widget">
         <item name="dsb_indicatorTextAppearance">@style/Widget.DiscreteIndicatorTextAppearance
         </item>
