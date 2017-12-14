@@ -29,7 +29,7 @@ public class EinkaufszettelFragmentTest {
     @Rule
     public ActivityTestRule<ActivityMain> mActivityTestRule = new ActivityTestRule<ActivityMain>(ActivityMain.class);
     private ActivityMain mActivity = null;
-    private EinkaufszettelFragment fragmenttoTest;
+    private EinkaufszettelFragment fragmenttoTest = new EinkaufszettelFragment();
     private FragmentManager fragmentManager;
 
 
@@ -37,13 +37,9 @@ public class EinkaufszettelFragmentTest {
     public void setUp() throws Exception {
         mActivity = mActivityTestRule.getActivity();
         fragmentManager = mActivity.getFragmentManager();
-        fragmenttoTest = new EinkaufszettelFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container,fragmenttoTest);
-        transaction.commit();
-        getInstrumentation().waitForIdleSync();
-
-
+        transaction.commitNow();
     }
     @Test
     public void testLaunch() throws Exception {
@@ -53,11 +49,11 @@ public class EinkaufszettelFragmentTest {
     }
 
     @Test
+    @UiThreadTest
     public void addItem() throws Exception {
         EinkaufszettelProdukt produkt = new EinkaufszettelProdukt("TestProdukt",5,"täglich");
         fragmenttoTest.addItem(produkt);
         assertTrue(fragmenttoTest.einkaufsListe.contains(produkt));
-
     }
 
 

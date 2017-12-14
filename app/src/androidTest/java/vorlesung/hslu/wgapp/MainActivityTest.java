@@ -9,6 +9,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Layout;
 import android.view.ActionProvider;
 import android.view.ContextMenu;
@@ -25,6 +27,7 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -64,6 +67,7 @@ public class MainActivityTest {
 
     @Test
     public void onNavigationItemSelected() throws Exception {
+        //tests if right fragment is started and added to BackStack and Drawer closed
         ActivityMain activity = rule.getActivity();
         View navigationView = activity.findViewById(R.id.nav_view);
         FragmentManager manager = activity.getFragmentManager();
@@ -273,13 +277,10 @@ public class MainActivityTest {
                 return null;
             }
         };
-
-
         assertTrue(activity.onNavigationItemSelected(item));
-
-
-
-
+        assertEquals("einkaufszettel_fragment",manager.getBackStackEntryAt(manager.getBackStackEntryCount()-1).getName());
+        DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+        assertFalse(drawer.isDrawerOpen(GravityCompat.START));
 
     }
 

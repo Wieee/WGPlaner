@@ -28,6 +28,7 @@ import java.util.Map;
 public class ActivitySignUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    boolean signupfail = true;
     EditText inputName;
     EditText inputEmail;
     EditText inputPassword;
@@ -81,10 +82,12 @@ public class ActivitySignUp extends AppCompatActivity {
     public void onStart() {
         super.onStart();
     }
+
+
     //protected for Testing purpose
-    protected void signUp(final String name, final String email, final String password) {
+    protected boolean signUp(final String name, final String email, final String password) {
         if (!validateForm(name, email, password)) {
-            return;
+            return false;
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -97,12 +100,16 @@ public class ActivitySignUp extends AppCompatActivity {
                             person = new Person(inputName.getText().toString(), user.getEmail());
                             person.setId(mAuth.getCurrentUser().getUid().toString());
                             screen_enter_wg();
+                            signupfail = true;
+
 
                         } else {
+                            signupfail =false;
                             Toast.makeText(ActivitySignUp.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+        return signupfail;
     }
 
     private boolean validateForm(String name, String email, String password) {
