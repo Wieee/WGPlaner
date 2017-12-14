@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -9,7 +8,7 @@
     android:focusable="true"
     android:orientation="vertical">
     <EditText
-        android:id="@+id/haushaltsbuch_dialog_product_name"
+        android:id="@+id/haushaltsbuch_dialog_new_expense_product_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -19,7 +18,7 @@
         android:textSize="13sp" />
 
     <EditText
-        android:id="@+id/haushaltsbuch_dialog_amount"
+        android:id="@+id/haushaltsbuch_dialog_new_expense_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -30,40 +29,24 @@
         android:inputType="numberDecimal"
         android:textSize="13sp" />
 
-    <RelativeLayout
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
-
-        <TextView
-            android:id="@+id/haushaltsbuch_dialog_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="16dp"
-            android:hint="DD.MM.YYYY"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/haushaltsbuch_dialog_btn_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Datum"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:text="Für wen hast du es gekauft?"
+        android:textSize="13sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="152dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="6dp"
+        android:padding="2dp">
 
         <ListView
             android:id="@+id/haushaltsbuch_dialog_new_expense_listview"
@@ -74,7 +57,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/haushaltsbuch_dialog_btn"
+        android:id="@+id/haushaltsbuch_dialog_new_expense_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

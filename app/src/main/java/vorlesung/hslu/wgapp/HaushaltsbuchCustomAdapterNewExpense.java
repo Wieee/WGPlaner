@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -46,9 +47,23 @@ public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
             row = inflater.inflate(R.layout.haushaltsbuch_dialog_new_expense_user_item, parent, false);
         }
 
-        Person user = arrayList.get(position);
+        final Person user = arrayList.get(position);
 
         CheckBox check = (CheckBox) row.findViewById(R.id.haushaltsbuch_dialog_new_expense_user_item_checkbox);
+        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    //BoughtFor;
+                    HaushaltsbuchFragment.boughtFor.put(user.getId(), user);
+                }
+                else if (!isChecked){
+                    //Delte from Bought For
+                    HaushaltsbuchFragment.boughtFor.remove(user.getId());
+                }
+            }
+        } );
+
         TextView name = (TextView) row.findViewById(R.id.haushaltsbuch_dialog_new_expense_user_item_name);
 
         check.setChecked(false);

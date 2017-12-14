@@ -2,12 +2,16 @@ package vorlesung.hslu.wgapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class HaushaltsbuchCustomAdapterExpenseList extends BaseAdapter {
@@ -15,11 +19,31 @@ public class HaushaltsbuchCustomAdapterExpenseList extends BaseAdapter {
     Activity activity;
     Wohngemeinschaft wg;
     ArrayList<HaushaltsbuchAusgabe> arrayList;
+    Person user;
+    Person currentUser;
 
-    public HaushaltsbuchCustomAdapterExpenseList(Activity activity){
+    public HaushaltsbuchCustomAdapterExpenseList(Activity activity, Person user) {
         this.activity = activity;
         wg = Wohngemeinschaft.getInstance();
-        //arrayList = new ArrayList<Person>(wg.getHaushaltsbuch().values());
+        ArrayList<HaushaltsbuchAusgabe> holder = new ArrayList<>(wg.getHaushaltsbuch().values());
+        arrayList = new ArrayList<HaushaltsbuchAusgabe>();
+        this.user = user;
+        currentUser = wg.getMitbewohner().get(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+        for (HaushaltsbuchAusgabe item : holder) {
+            if (item.getBoughtBy().getId().equals(currentUser.getId())) {
+                for (Person boughtFor : item.getBoughtFor().values()) {
+                    if (boughtFor.getId().equals(user.getId())) {
+                        arrayList.add(item);
+                    }
+                }
+            } else if (item.getBoughtBy().getId().equals(user.getId())) {
+                for (Person boughtFor : item.getBoughtFor().values()) {
+                    if (boughtFor.getId().equals(currentUser.getId())) {
+                        arrayList.add(item);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -45,15 +69,23 @@ public class HaushaltsbuchCustomAdapterExpenseList extends BaseAdapter {
             row = inflater.inflate(R.layout.haushaltsbuch_dialog_user_screen_item, parent, false);
         }
 
-        HaushaltsbuchAusgabe expense = arrayList.get(position);
         TextView tvName = (TextView) row.findViewById(R.id.haushaltsbuch_dialog_user_screen_name);
         TextView tvExpense = (TextView) row.findViewById(R.id.haushaltsbuch_dialog_user_screen_expense);
         TextView tvAmount = (TextView) row.findViewById(R.id.haushaltsbuch_dialog_user_screen_amount);
 
+        HaushaltsbuchAusgabe expense = arrayList.get(position);
         tvName.setText(expense.getBoughtBy().getName());
         tvExpense.setText(expense.getName());
-        tvAmount.setText(expense.getAmount());
+        DecimalFormat amountDecimal = new DecimalFormat("##.##");
+        if (expense.getBoughtBy().getId().equals(user.getId())) {
+            tvAmount.setText("-" + amountDecimal.format(expense.getAmount()) + "€");
+            tvAmount.setTextColor(ContextCompat.getColor(activity, R.color.haushaltsbuch_minus_money));
+        } else if (expense.getBoughtBy().getId().equals(currentUser.getId())) {
+            tvAmount.setText("+" + amountDecimal.format(expense.getAmount()) + "€");
+            tvAmount.setTextColor(ContextCompat.getColor(activity, R.color.haushaltsbuch_plus_money));
+        }
 
         return row;
+
     }
 }

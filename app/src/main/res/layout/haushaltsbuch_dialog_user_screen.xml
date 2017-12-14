@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/haushaltsbuch_dialog_btn"
+        android:id="@+id/haushaltsbuch_dialog_user_screen_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

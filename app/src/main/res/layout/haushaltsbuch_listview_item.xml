@@ -21,12 +21,21 @@
             android:layout_height="wrap_content"
             android:padding="15dp">
 
+            <CheckBox
+                android:id="@+id/haushaltsbuch_list_item_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
             <TextView
                 android:id="@+id/haushaltsbuch_list_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/haushaltsbuch_list_item_checkbox"
                 android:text="Name oder/und Bild"
                 android:textSize="22sp" />
 
