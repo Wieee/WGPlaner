@@ -30,7 +30,7 @@ public class HaushaltsbuchFragment extends Fragment {
     private Wohngemeinschaft wg;
     public static HashMap<String, Person> boughtFor = new HashMap<>();
     public static ArrayList<Person> payed = new ArrayList<>();
-    private Person currentUser;
+    protected Person currentUser;
     private ListView listView;
     @Nullable
     @Override
@@ -64,6 +64,7 @@ public class HaushaltsbuchFragment extends Fragment {
 
         return haushaltsbuchView;
     }
+
 
     private void dialogAddExpense() {
 
@@ -104,7 +105,7 @@ public class HaushaltsbuchFragment extends Fragment {
 
     }
 
-    private boolean validate(HaushaltsbuchAusgabe expense) {
+    protected boolean validate(HaushaltsbuchAusgabe expense) {
         boolean valid = true;
         if (TextUtils.isEmpty(expense.getName())) {
             Toast.makeText(getActivity(), "Bitte überprüfe den eingegebenen Namen.", Toast.LENGTH_LONG).show();

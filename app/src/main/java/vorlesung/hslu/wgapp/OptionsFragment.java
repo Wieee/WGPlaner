@@ -123,8 +123,8 @@ public class OptionsFragment extends Fragment {
             public void onClick(View v) {
                 String newValue = ((TextView) view.findViewById(R.id.options_dialog_change_newname)).getText().toString();
                 if (validate(currentUser.getName(), newValue)) {
-                    for (Person item : wg.getMitbewohner().values()){
-                        if(item.getName() == newValue){
+                    for (Person item : wg.getMitbewohner().values()) {
+                        if (item.getName() == newValue) {
                             return;
                         }
                     }
@@ -159,8 +159,8 @@ public class OptionsFragment extends Fragment {
                 String newValue = ((TextView) view.findViewById(R.id.options_dialog_change_newname)).getText().toString();
 
                 if (validate(currentUser.getEmail(), newValue)) {
-                    for (Person item : wg.getMitbewohner().values()){
-                        if(item.getEmail() == newValue){
+                    for (Person item : wg.getMitbewohner().values()) {
+                        if (item.getEmail() == newValue) {
                             return;
                         }
                     }
@@ -182,7 +182,7 @@ public class OptionsFragment extends Fragment {
         dialog.show();
     }
 
-    private void openDialogPasswordChange(){
+    private void openDialogPasswordChange() {
         final Dialog dialog = new Dialog(getActivity());
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -234,18 +234,24 @@ public class OptionsFragment extends Fragment {
 
                             //Checken ob WG Name nicht bereits belegt ist
                             Iterable<DataSnapshot> wohniter = dataSnapshot.getChildren();
-                            for(DataSnapshot snap : wohniter){
-                                if(snap.getKey().toString().equals(newValue)){
+                            for (DataSnapshot snap : wohniter) {
+                                String currentWG = snap.getKey().toString();
+                                if (currentWG.equals(newValue)) {
+                                    Toast.makeText(getActivity(),"Diesen WG Namen gibt es bereits.",Toast.LENGTH_LONG).show();
                                     return;
-                                } else{
-                                    mDatabase.child(wg.getName()).setValue(wg);
-                                    mDatabase.child(wg.getName()).setValue(null);
-                                    wg.setName(newValue);
                                 }
                             }
+                            mDatabase.child(wg.getName()).setValue(null);
+                            wg.setName(newValue);
+                            mDatabase.child(wg.getName()).setValue(wg);
+                            Toast.makeText(getActivity(),"Der WG Name wurde erfolgreich in" + newValue + "geändert!",Toast.LENGTH_LONG).show();
+
+
                         }
+
                         @Override
-                        public void onCancelled(DatabaseError databaseError) { }
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
                     });
                     dialog.hide();
                 }
@@ -263,23 +269,23 @@ public class OptionsFragment extends Fragment {
         builder.setTitle("Möchtest du die WG wirklich verlassen?");
 
         builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //User aus WG löschen
-                        wg.getMitbewohner().remove(currentUser.getId());
-                        mDatabase.child(wg.getName()).child("mitbewohner").child(currentUser.getId()).setValue(null);
+            public void onClick(DialogInterface dialog, int id) {
+                //User aus WG löschen
+                wg.getMitbewohner().remove(currentUser.getId());
+                mDatabase.child(wg.getName()).child("mitbewohner").child(currentUser.getId()).setValue(null);
 
-                        if (wg.getMitbewohner().size() == 0){
-                            mDatabase.child(wg.getName()).setValue(null);
-                        }
+                if (wg.getMitbewohner().size() == 0) {
+                    mDatabase.child(wg.getName()).setValue(null);
+                }
 
-                        Wohngemeinschaft.setInstance(null);
-                        wg = Wohngemeinschaft.getInstance();
+                Wohngemeinschaft.setInstance(null);
+                wg = Wohngemeinschaft.getInstance();
 
-                        //Acitivty Sign Up new WG enter öffnen
-                        Intent enterWG = new Intent(getActivity(), ActivityEnterWG.class);
-                        getActivity().finish();
-                        enterWG.putExtra("personName", currentUser.getName());
-                        startActivity(enterWG);
+                //Acitivty Sign Up new WG enter öffnen
+                Intent enterWG = new Intent(getActivity(), ActivityEnterWG.class);
+                getActivity().finish();
+                enterWG.putExtra("personName", currentUser.getName());
+                startActivity(enterWG);
             }
         })
                 .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
@@ -330,17 +336,17 @@ public class OptionsFragment extends Fragment {
     public boolean validate(String oldValue, String newValue) {
         boolean valid = false;
 
-        if (oldValue != null && newValue != null && oldValue != newValue){
+        if (oldValue != null && newValue != null && oldValue != newValue) {
             valid = true;
         }
 
         return valid;
     }
 
-    public boolean validatePw(String newValue, String newValueCheck){
+    public boolean validatePw(String newValue, String newValueCheck) {
         boolean valid = false;
 
-        if (newValue!= null && newValueCheck != null && newValue == newValueCheck) {
+        if (newValue != null && newValueCheck != null && newValue == newValueCheck) {
             valid = true;
         }
 
