@@ -27,11 +27,11 @@ import java.util.Map;
 
 public class EinkaufszettelFragment extends Fragment {
 
-    ArrayList<EinkaufszettelProdukt> einkaufsListe = new ArrayList();
+    public ArrayList<EinkaufszettelProdukt> einkaufsListe = new ArrayList();
     public static ArrayList<EinkaufszettelProdukt> gekaufteListe = new ArrayList();
     EinkaufszettelCustomAdapter customAdapter;
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
-    Wohngemeinschaft wg;
+    public Wohngemeinschaft wg;
 
     @Nullable
     @Override
@@ -120,7 +120,7 @@ public class EinkaufszettelFragment extends Fragment {
         mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
     }
 
-    private void deleteItems() {
+    protected void deleteItems() {
 
         //NOCH NICHT ZU 100 PROZENT RICHTIG
         EinkaufszettelProdukt product;
