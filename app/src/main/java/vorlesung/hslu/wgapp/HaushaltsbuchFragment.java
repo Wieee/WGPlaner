@@ -92,19 +92,11 @@ public class HaushaltsbuchFragment extends Fragment {
                 HashMap<String, Person> boughtForNewExpense = new HashMap<>(boughtFor);
 
                 HaushaltsbuchAusgabe newExpense = new HaushaltsbuchAusgabe(name, amount, boughtBy, boughtForNewExpense);
-                addNewExpense(newExpense);
+                addNewExpense(newExpense, view, myDialog);
 
-                myDialog.hide();
                 customAdapter.notifyDataSetChanged();
-
-                Toast toast = Toast.makeText(
-                        view.getContext(),
-                        newExpense.toString() + " wurde erstellt.",
-                        Toast.LENGTH_SHORT);
-                toast.show();
             }
         });
-
 
         myDialog.setContentView(newExpenseView);
         myDialog.setTitle("Neue Ausgabe erstellen");
@@ -115,21 +107,29 @@ public class HaushaltsbuchFragment extends Fragment {
     private boolean validate(HaushaltsbuchAusgabe expense) {
         boolean valid = true;
         if (TextUtils.isEmpty(expense.getName())) {
-            Toast.makeText(getActivity(), "Bitte überprüfe den eingegebenen Namen", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Bitte überprüfe den eingegebenen Namen.", Toast.LENGTH_LONG).show();
+            valid = false;
+        }
+        if (wg.getHaushaltsbuch().containsKey(expense.getName())){
+            Toast.makeText(getActivity(), "Eine Ausgabe mit dem eingegebenen Namen exisitert bereits!", Toast.LENGTH_LONG).show();
             valid = false;
         }
         if (expense.getAmount() == 0.00) {
-            Toast.makeText(getActivity(), "Bitte überprüfe den eingegebenen Preis", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Bitte überprüfe den eingegebenen Preis.", Toast.LENGTH_LONG).show();
             valid = false;
         }
         if (expense.getBoughtFor().size() == 0){
             Toast.makeText(getActivity(), "Bitte überprüfe für wen diese Ausgabe ist.", Toast.LENGTH_LONG).show();
             valid = false;
         }
+        if (expense.getBoughtFor().size() == 1 && expense.getBoughtFor().containsKey(currentUser.getId())){
+            Toast.makeText(getActivity(), "Du haben nur dich selbst für diese Ausgabe markiert, bitte wähle eine weitere Person aus.", Toast.LENGTH_LONG).show();
+            valid = false;
+        }
         return valid;
     }
 
-    private void addNewExpense(HaushaltsbuchAusgabe newExpense) {
+    private void addNewExpense(HaushaltsbuchAusgabe newExpense, View view, Dialog myDialog) {
         if (validate(newExpense)) {
             wg = Wohngemeinschaft.getInstance();
             wg.addHaushaltsbuchAusgabe(newExpense);
@@ -142,12 +142,19 @@ public class HaushaltsbuchFragment extends Fragment {
 
             boughtFor.clear();
             boughtFor = new HashMap<>();
+
+            Toast toast = Toast.makeText(
+                    view.getContext(),
+                    newExpense.toString() + " wurde erstellt.",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+
+            myDialog.hide();
         }
     }
 
     private void payed() {
 
-        //überarbeiten
         wg = Wohngemeinschaft.getInstance();
         ArrayList<HaushaltsbuchAusgabe> holder = new ArrayList<>(wg.getHaushaltsbuch().values());
         ArrayList<Person> payedHolder = new ArrayList<>(payed);
@@ -160,13 +167,19 @@ public class HaushaltsbuchFragment extends Fragment {
                         if (boughtFor.getId().equals(user.getId())) {
                             if(item.getBoughtFor().size() == 1){
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).setValue(null);
+                                wg.getHaushaltsbuch().remove(item.getName());
                             } else{
                                 double newAmount = item.getAmount() - (item.getAmount()/item.getBoughtFor().size());
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).child("amount").setValue(newAmount);
+                                wg.getHaushaltsbuch().get(item.getName()).setAmount(newAmount);
 
                                 Map<String, Object> childUpdates = new HashMap<>();
                                 childUpdates.put(user.getId(), null);
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).child("boughtFor").updateChildren(childUpdates);
+
+                                HashMap<String, Person> update = new HashMap<>(wg.getHaushaltsbuch().get(item.getName()).getBoughtFor());
+                                update.remove(user.getId());
+                                wg.getHaushaltsbuch().get(item.getName()).setBoughtFor(update);
                             }
                         }
                     }
@@ -175,13 +188,19 @@ public class HaushaltsbuchFragment extends Fragment {
                         if (boughtFor.getId().equals(currentUser.getId())) {
                             if(item.getBoughtFor().size() == 1){
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).setValue(null);
+                                wg.getHaushaltsbuch().remove(item.getName());
                             } else{
                                 double newAmount = item.getAmount() - (item.getAmount()/item.getBoughtFor().size());
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).child("amount").setValue(newAmount);
+                                wg.getHaushaltsbuch().get(item.getName()).setAmount(newAmount);
 
                                 Map<String, Object> childUpdates = new HashMap<>();
                                 childUpdates.put(currentUser.getId(), null);
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).child("boughtFor").updateChildren(childUpdates);
+
+                                HashMap<String, Person> update = new HashMap<>(wg.getHaushaltsbuch().get(item.getName()).getBoughtFor());
+                                update.remove(user.getId());
+                                wg.getHaushaltsbuch().get(item.getName()).setBoughtFor(update);
                             }
                         }
                     }
@@ -189,7 +208,6 @@ public class HaushaltsbuchFragment extends Fragment {
             }
         }
 
-        //klappt noch nicht ganz
         payed.clear();
         payed = new ArrayList<>();
     }

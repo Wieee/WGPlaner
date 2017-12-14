@@ -53,7 +53,7 @@ public class HaushaltsbuchAusgabe {
     }
 
     public String toString() {
-        return name + " wurde von " + boughtBy + " für " + amount + "€ gekauft.";
+        return name + " wurde von " + boughtBy.getName() + " für " + amount + "€ gekauft.";
     }
 
     public Map<String,Object> toMap() {
