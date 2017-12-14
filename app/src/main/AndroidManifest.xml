@@ -18,10 +18,15 @@
         <activity android:name=".ActivityLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivitySignUp"></activity>
+        <activity android:name=".ActivitySignUp" />
+        <activity
+            android:name=".ActivityEnterWG"
+            android:label="@string/title_activity_acitivity_enter_wg"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

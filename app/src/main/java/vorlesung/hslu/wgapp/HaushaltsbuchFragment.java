@@ -123,7 +123,7 @@ public class HaushaltsbuchFragment extends Fragment {
             valid = false;
         }
         if (expense.getBoughtFor().size() == 1 && expense.getBoughtFor().containsKey(currentUser.getId())){
-            Toast.makeText(getActivity(), "Du haben nur dich selbst für diese Ausgabe markiert, bitte wähle eine weitere Person aus.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Du hast nur dich selbst für diese Ausgabe markiert, bitte wähle eine weitere Person aus.", Toast.LENGTH_LONG).show();
             valid = false;
         }
         return valid;
