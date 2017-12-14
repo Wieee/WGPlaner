@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFBF00</color>
-    <color name="colorPrimaryDark">#A67C00</color>
-    <color name="colorAccent">#FFDC73</color>
+    <color name="colorPrimary">#fc7f23</color>
+    <color name="colorPrimaryDark">#c95603</color>
+    <color name="colorAccent">#fdc49b</color>
     <color name="white"> #FFFFFF</color>
+    <color name="accent_material_light_1">#fda668</color>
+    <color name="primary_text_material_light">#A69700</color>
     <color name="haushaltsbuch_plus_money">#00B64F</color>
     <color name="haushaltsbuch_minus_money">#FF3500</color>
     <color name = "transparent" >#0000ffff</color>
