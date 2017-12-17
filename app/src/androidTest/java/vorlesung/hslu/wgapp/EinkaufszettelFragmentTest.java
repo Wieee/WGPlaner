@@ -24,6 +24,7 @@ import org.mockito.Mockito;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -55,15 +56,14 @@ public class EinkaufszettelFragmentTest {
     @Test
     @UiThreadTest
     public void TestAddAndDelete() throws Exception {
-        EinkaufszettelProdukt produkt = new EinkaufszettelProdukt("TestProdukt", 5, "täglich");
+        EinkaufszettelProdukt produkt = new EinkaufszettelProdukt("TestProdukt", 5, "");
         EinkaufszettelFragment spy = Mockito.spy(fragmenttoTest);
         Wohngemeinschaft mock = Mockito.mock(Wohngemeinschaft.class);
         spy.wg.setName("Mannheim");
         Mockito.when(mock.getName()).thenReturn("Mannheim");
 
-        // Test add Item
+        // Test add Item)
         spy.addItem(produkt);
-        verify(mock,times(1));
         assertEquals(spy.einkaufsListe.get(0),produkt);
         EinkaufszettelFragment.gekaufteListe.add(produkt);
         //Test delete Item
@@ -72,12 +72,11 @@ public class EinkaufszettelFragmentTest {
 
 
     }
-
     @After
-    public void tearDown() throws Exception {
-
-
+    public void validate() {
+        validateMockitoUsage();
     }
+
 
 
 }

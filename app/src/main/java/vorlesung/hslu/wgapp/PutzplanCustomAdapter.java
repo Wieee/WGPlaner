@@ -71,9 +71,9 @@ public class PutzplanCustomAdapter extends BaseAdapter {
         });
 
 
-        itemTitel.setText(data.aufgabe);
+        itemTitel.setText(data.getAufgabe());
 
-        itemDescription.setText(data.haeufigkeit);
+        itemDescription.setText(data.getHaeufigkeit());
         itemCleaner.setText(data.getFirstCleaner().getName());
 
         return row;

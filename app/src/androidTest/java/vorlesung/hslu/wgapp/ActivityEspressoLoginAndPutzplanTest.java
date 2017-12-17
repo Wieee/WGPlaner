@@ -36,10 +36,8 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class ActivityEspressoLoginAndPutzplanTest {
-
-    // Class tests Login with User and then adds an Item to the "Putzplan", marks this Item as cleaned and then deletes it. afterwards User is logged out.
+    // Class tests Login with User and then adds an Item to the "Putzplan", marks this Item as cleaned and then deletes it. Afterwards User is logged out.
     // UI Test checks if all Texts, and Items are being displayed
-
     @Rule
     public ActivityTestRule<ActivityLogin> mActivityTestRule = new ActivityTestRule<>(ActivityLogin.class);
 

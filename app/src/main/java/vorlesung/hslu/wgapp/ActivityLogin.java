@@ -96,7 +96,7 @@ public class ActivityLogin extends AppCompatActivity {
         return valid;
     }
 
-    private void start_main_activity(){
+    private void start_main_activity() {
         Intent mainActivity = new Intent(ActivityLogin.this, ActivityMain.class);
         finish();
         startActivity(mainActivity);

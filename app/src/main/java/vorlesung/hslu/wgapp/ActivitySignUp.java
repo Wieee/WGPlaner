@@ -106,7 +106,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
                         } else {
-                            signupfail =false;
+                            signupfail = false;
                             Toast.makeText(ActivitySignUp.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -200,7 +200,7 @@ public class ActivitySignUp extends AppCompatActivity {
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Checken ob WG Name nicht bereits belegt ist
+                        //Checken if WG name is not already used
                         Iterable<DataSnapshot> wohniter = dataSnapshot.getChildren();
                         for (DataSnapshot snap : wohniter) {
                             String currentWG = snap.getKey().toString();
@@ -235,9 +235,9 @@ public class ActivitySignUp extends AppCompatActivity {
     }
 
 
-            private void start_next_activity() {
-                Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
-                finish();
-                startActivity(mainActivity);
-            }
-        }
+    private void start_next_activity() {
+        Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
+        finish();
+        startActivity(mainActivity);
+    }
+}

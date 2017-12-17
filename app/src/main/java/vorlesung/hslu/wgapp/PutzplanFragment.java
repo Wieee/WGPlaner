@@ -124,26 +124,27 @@ public class PutzplanFragment extends Fragment {
             }
         })
                 .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) { }
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
                 });
         builder.show();
     }
 
-
-    private void addItem(PutzplanAufgabe daten) {
-        putzliste.add(daten);
+    // protected for testing purpose
+    protected void addItem(PutzplanAufgabe task) {
+        putzliste.add(task);
         customAdapter.notifyDataSetChanged();
 
-        wg.addPutzplanAufgaben(daten);
+        wg.addPutzplanAufgaben(task);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> postValues = daten.toMap();
+        Map<String, Object> postValues = task.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/putzplan/" + daten.aufgabe, postValues);
+        childUpdates.put("/putzplan/" + task.getAufgabe(), postValues);
         mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
     }
 
-    private void removeItem(int position) {
+    protected void removeItem(int position) {
         PutzplanAufgabe aufgabe;
 
         aufgabe = (PutzplanAufgabe) putzliste.get(position);
@@ -170,7 +171,7 @@ public class PutzplanFragment extends Fragment {
 
                 Map<String, Object> postValues = aufgabe.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/putzplan/" + aufgabe.aufgabe, postValues);
+                childUpdates.put("/putzplan/" + aufgabe.getAufgabe(), postValues);
                 mDatabase.child(wg.getName()).updateChildren(childUpdates);
             }
         }
@@ -188,9 +189,11 @@ public class PutzplanFragment extends Fragment {
         textview = (TextView) myDialog.findViewById(R.id.putzplan_dialog_haeufigkeit_text);
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
+
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 progress = i;
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }

@@ -2,33 +2,18 @@ package vorlesung.hslu.wgapp;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.logging.Logger;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -70,33 +55,6 @@ public class ActivityMain extends AppCompatActivity
                 startActivity(login);
             }
         });
-
-        //Test Upload eines Bildes zu Firebase
-
-       /** StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child("images");
-       File fileImage = new File(getDra
-        Uri file = Uri.fromFile(fileImage);
-        StorageReference riversRef = mStorageRef.child(file.getLastPathSegment().toString());
-
-        UploadTask uploadTask = riversRef.putFile(file);
-                uploadTask.addOnSuccessListener( ActivityMain.this, new OnSuccessListener<UploadTask.TaskSnapshot>(){
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(ActivityMain.this, "Uploaded", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                       Log.d("upload",exception.getMessage());
-
-                        // Handle unsuccessful uploads
-                        // ...
-                    }
-                }); **/
 
     }
 

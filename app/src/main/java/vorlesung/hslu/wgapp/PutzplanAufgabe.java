@@ -10,13 +10,14 @@ import java.util.Map;
 public class PutzplanAufgabe {
 
     private String id;
-    String aufgabe;
-    String haeufigkeit;
-    Person firstCleaner;
+    private String aufgabe;
+    private String haeufigkeit;
+    private Person firstCleaner;
 
     //Liste für Mitbewohner, "wer ist als nächstes dran mit putzen"
 
-    public PutzplanAufgabe(){}
+    public PutzplanAufgabe() {
+    }
 
     public String getId() {
         return id;
@@ -43,39 +44,44 @@ public class PutzplanAufgabe {
         this.haeufigkeit = haeufigkeit;
         this.firstCleaner = firstCleaner;
     }
-    public String getAufgabe(){
-    return this.aufgabe;
-    }
-    public void setFirstCleaner(Person cleaner){firstCleaner = cleaner;}
-    public Person getFirstCleaner() {return firstCleaner;}
 
-    public Person getNextCleaner(){
-      Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-        HashMap<String,Person> mitbewohnermap = wg.getMitbewohner();
+    public String getAufgabe() {
+        return this.aufgabe;
+    }
+
+    public void setFirstCleaner(Person cleaner) {
+        firstCleaner = cleaner;
+    }
+
+    public Person getFirstCleaner() {
+        return firstCleaner;
+    }
+
+    public Person getNextCleaner() {
+        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+        HashMap<String, Person> mitbewohnermap = wg.getMitbewohner();
         Person[] mitbewohnerarray = mitbewohnermap.values().toArray(new Person[mitbewohnermap.size()]);
         int index = 0;
-       for (int i=0; i<mitbewohnerarray.length; i++)
-       {
-           if(mitbewohnerarray[i].getName().equals(firstCleaner.getName()))
-           {index = i;}
-       }
-       if(index < (mitbewohnerarray.length-1))
-       {
-           return mitbewohnerarray[++index];
+        for (int i = 0; i < mitbewohnerarray.length; i++) {
+            if (mitbewohnerarray[i].getName().equals(firstCleaner.getName())) {
+                index = i;
+            }
+        }
+        if (index < (mitbewohnerarray.length - 1)) {
+            return mitbewohnerarray[++index];
 
-       }
-       else{
-           return  mitbewohnerarray[0];
-       }
+        } else {
+            return mitbewohnerarray[0];
+        }
 
     }
 
-    public Map<String,Object> toMap() {
+    public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("aufgabe", aufgabe);
         result.put("haeufigkeit", haeufigkeit);
-        result.put("firstCleaner",firstCleaner);
+        result.put("firstCleaner", firstCleaner);
 
 
         return result;

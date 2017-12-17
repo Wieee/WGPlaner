@@ -32,6 +32,7 @@ public class HaushaltsbuchFragment extends Fragment {
     public static ArrayList<Person> payed = new ArrayList<>();
     protected Person currentUser;
     private ListView listView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -111,7 +112,7 @@ public class HaushaltsbuchFragment extends Fragment {
             Toast.makeText(getActivity(), "Bitte überprüfe den eingegebenen Namen.", Toast.LENGTH_LONG).show();
             valid = false;
         }
-        if (wg.getHaushaltsbuch().containsKey(expense.getName())){
+        if (wg.getHaushaltsbuch().containsKey(expense.getName())) {
             Toast.makeText(getActivity(), "Eine Ausgabe mit dem eingegebenen Namen exisitert bereits!", Toast.LENGTH_LONG).show();
             valid = false;
         }
@@ -119,11 +120,11 @@ public class HaushaltsbuchFragment extends Fragment {
             Toast.makeText(getActivity(), "Bitte überprüfe den eingegebenen Preis.", Toast.LENGTH_LONG).show();
             valid = false;
         }
-        if (expense.getBoughtFor().size() == 0){
+        if (expense.getBoughtFor().size() == 0) {
             Toast.makeText(getActivity(), "Bitte überprüfe für wen diese Ausgabe ist.", Toast.LENGTH_LONG).show();
             valid = false;
         }
-        if (expense.getBoughtFor().size() == 1 && expense.getBoughtFor().containsKey(currentUser.getId())){
+        if (expense.getBoughtFor().size() == 1 && expense.getBoughtFor().containsKey(currentUser.getId())) {
             Toast.makeText(getActivity(), "Du hast nur dich selbst für diese Ausgabe markiert, bitte wähle eine weitere Person aus.", Toast.LENGTH_LONG).show();
             valid = false;
         }
@@ -161,16 +162,16 @@ public class HaushaltsbuchFragment extends Fragment {
         ArrayList<Person> payedHolder = new ArrayList<>(payed);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
 
-        for(Person user : payedHolder){
+        for (Person user : payedHolder) {
             for (HaushaltsbuchAusgabe item : holder) {
                 if (item.getBoughtBy().getId().equals(currentUser.getId())) {
                     for (Person boughtFor : item.getBoughtFor().values()) {
                         if (boughtFor.getId().equals(user.getId())) {
-                            if(item.getBoughtFor().size() == 1){
+                            if (item.getBoughtFor().size() == 1) {
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).setValue(null);
                                 wg.getHaushaltsbuch().remove(item.getName());
-                            } else{
-                                double newAmount = item.getAmount() - (item.getAmount()/item.getBoughtFor().size());
+                            } else {
+                                double newAmount = item.getAmount() - (item.getAmount() / item.getBoughtFor().size());
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).child("amount").setValue(newAmount);
                                 wg.getHaushaltsbuch().get(item.getName()).setAmount(newAmount);
 
@@ -187,11 +188,11 @@ public class HaushaltsbuchFragment extends Fragment {
                 } else if (item.getBoughtBy().getId().equals(user.getId())) {
                     for (Person boughtFor : item.getBoughtFor().values()) {
                         if (boughtFor.getId().equals(currentUser.getId())) {
-                            if(item.getBoughtFor().size() == 1){
+                            if (item.getBoughtFor().size() == 1) {
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).setValue(null);
                                 wg.getHaushaltsbuch().remove(item.getName());
-                            } else{
-                                double newAmount = item.getAmount() - (item.getAmount()/item.getBoughtFor().size());
+                            } else {
+                                double newAmount = item.getAmount() - (item.getAmount() / item.getBoughtFor().size());
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).child("amount").setValue(newAmount);
                                 wg.getHaushaltsbuch().get(item.getName()).setAmount(newAmount);
 

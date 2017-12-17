@@ -63,16 +63,16 @@ public class EinkaufszettelFragment extends Fragment {
         });
 
 
-         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> snapshot = dataSnapshot.getChildren();
                 for (DataSnapshot singlesnap : snapshot) {
                     if (singlesnap.getKey().toString().equals(wg.getName())) {
-                       Iterable<DataSnapshot>  einkaufproducts = singlesnap.child("einkaufszettel").getChildren();
-                        for (DataSnapshot singleproduct : einkaufproducts){
+                        Iterable<DataSnapshot> einkaufproducts = singlesnap.child("einkaufszettel").getChildren();
+                        for (DataSnapshot singleproduct : einkaufproducts) {
                             EinkaufszettelProdukt product = singleproduct.getValue(EinkaufszettelProdukt.class);
-                            if(product!=null) {
+                            if (product != null) {
                                 einkaufsListe.add(product);
 
                             }
@@ -90,34 +90,36 @@ public class EinkaufszettelFragment extends Fragment {
 
         return einkaufszettelView;
     }
+
     // protected to enable testing
     protected void addItem(EinkaufszettelProdukt product) {
         for (int i = 0; i < einkaufsListe.size(); i++) {
             EinkaufszettelProdukt listedItem = einkaufsListe.get(i);
+            // check if the new product is already listed, if so increase the amount of products
             if (listedItem.getName().equals(product.getName())) {
                 listedItem.setAmount(listedItem.getAmount() + product.getAmount());
                 einkaufsListe.set(i, listedItem);
 
                 Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
 
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
                 Map<String, Object> postValues = listedItem.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put("/einkaufszettel/" + listedItem.getName(), postValues);
-                mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
+                mDatabase.child(wg.getName()).updateChildren(childUpdates);
                 customAdapter.notifyDataSetChanged();
                 return;
             }
         }
-    Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
+        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
 
         einkaufsListe.add(product);
         customAdapter.notifyDataSetChanged();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
         Map<String, Object> postValues = product.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/einkaufszettel/" + product.getName(), postValues);
-        mDatabase.child("wg").child(wg.getName()).updateChildren(childUpdates);
+        mDatabase.child(wg.getName()).updateChildren(childUpdates);
     }
 
     protected void deleteItems() {
@@ -150,14 +152,13 @@ public class EinkaufszettelFragment extends Fragment {
             public void onClick(View view) {
 
                 String name = ((EditText) myDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText().toString();
-                if(name.trim().equals("")){
+                if (name.trim().equals("")) {
                     Toast toast = Toast.makeText(
                             view.getContext(),
                             "Bitte einen Produktnamen angeben",
                             Toast.LENGTH_SHORT);
                     toast.show();
-                }
-                else {
+                } else {
                     int amount = ((DiscreteSeekBar) myDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
 
                     EinkaufszettelProdukt newProduct = new EinkaufszettelProdukt(name, amount, "");

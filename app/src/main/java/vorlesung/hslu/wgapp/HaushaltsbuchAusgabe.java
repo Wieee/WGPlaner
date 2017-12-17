@@ -11,7 +11,8 @@ public class HaushaltsbuchAusgabe {
     private HashMap<String, Person> boughtFor;
     private Person boughtBy;
 
-    public HaushaltsbuchAusgabe(){}
+    public HaushaltsbuchAusgabe() {
+    }
 
     public HaushaltsbuchAusgabe(String name, double amount, Person boughtBy, HashMap<String, Person> boughtFor) {
         setName(name);
@@ -56,7 +57,7 @@ public class HaushaltsbuchAusgabe {
         return name + " wurde von " + boughtBy.getName() + " für " + amount + "€ gekauft.";
     }
 
-    public Map<String,Object> toMap() {
+    public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("name", name);

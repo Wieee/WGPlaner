@@ -13,9 +13,10 @@ public class HomeFragment extends Fragment {
 
     FragmentTransaction transaction;
     android.app.FragmentManager fragmentManager;
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View homeView= inflater.inflate(R.layout.home_screen, container, false);
+        View homeView = inflater.inflate(R.layout.home_screen, container, false);
         ((ActivityMain) getActivity()).getSupportActionBar().setTitle("Home");
 
         Button einkaufszettel = (Button) homeView.findViewById(R.id.home_screen_btn1);
@@ -35,7 +36,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        haushaltsbuch.setOnClickListener(new View.OnClickListener(){
+        haushaltsbuch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 transaction.replace(R.id.fragment_container, new HaushaltsbuchFragment());
