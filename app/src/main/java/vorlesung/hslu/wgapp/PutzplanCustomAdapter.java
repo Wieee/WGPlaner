@@ -50,7 +50,6 @@ public class PutzplanCustomAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.putzplan_listview_item, parent, false);
         }
-        ImageView itempicture = (ImageView) row.findViewById((R.id.list_item_picture));
         TextView itemTitel = (TextView) row.findViewById(R.id.list_item_titel);
         TextView itemDescription = (TextView) row.findViewById(R.id.list_item_description);
         TextView itemCleaner = (TextView) row.findViewById(R.id.list_item_firstCleaner);

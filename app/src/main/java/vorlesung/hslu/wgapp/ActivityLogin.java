@@ -74,7 +74,8 @@ public class ActivityLogin extends AppCompatActivity {
                             wg = Wohngemeinschaft.getInstance();
                             start_main_activity();
                         } else {
-                            Toast.makeText(ActivityLogin.this, "Authentication failed.",
+
+                            Toast.makeText(ActivityLogin.this, getString(R.string.ToastAuthentication),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

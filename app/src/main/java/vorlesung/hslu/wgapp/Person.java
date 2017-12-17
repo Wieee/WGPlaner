@@ -12,7 +12,7 @@ public class Person {
     private String id;
     private String name;
     private String email;
-    private int picture;
+
 
     public Person() {
     }
@@ -52,13 +52,6 @@ public class Person {
         this.id = id;
     }
 
-    public int getPicture() {
-        return picture;
-    }
-
-    public void setPicture(int picture) {
-        this.picture = picture;
-    }
 
     public Map<String,Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
@@ -66,7 +59,6 @@ public class Person {
         result.put("name", name);
         result.put("email", email);
 
-        result.put("picture", picture);
         return result;
 }
 
