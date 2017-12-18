@@ -3,21 +3,15 @@ package vorlesung.hslu.wgapp;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Meike on 9.11.2017
- */
-
 public class PutzplanAufgabe {
 
     private String id;
-    private String aufgabe;
+    private String name;
     private String haeufigkeit;
     private Person firstCleaner;
 
-    //Liste für Mitbewohner, "wer ist als nächstes dran mit putzen"
-
-    public PutzplanAufgabe() {
-    }
+    //Needed for Firebase communication
+    public PutzplanAufgabe() { }
 
     public String getId() {
         return id;
@@ -27,8 +21,8 @@ public class PutzplanAufgabe {
         this.id = id;
     }
 
-    public void setAufgabe(String aufgabe) {
-        this.aufgabe = aufgabe;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getHaeufigkeit() {
@@ -39,14 +33,14 @@ public class PutzplanAufgabe {
         this.haeufigkeit = haeufigkeit;
     }
 
-    public PutzplanAufgabe(String aufgabe, String haeufigkeit, Person firstCleaner) {
-        this.aufgabe = aufgabe;
+    public PutzplanAufgabe(String name, String haeufigkeit, Person firstCleaner) {
+        this.name = name;
         this.haeufigkeit = haeufigkeit;
         this.firstCleaner = firstCleaner;
     }
 
-    public String getAufgabe() {
-        return this.aufgabe;
+    public String getName() {
+        return this.name;
     }
 
     public void setFirstCleaner(Person cleaner) {
@@ -79,11 +73,9 @@ public class PutzplanAufgabe {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
-        result.put("aufgabe", aufgabe);
+        result.put("name", name);
         result.put("haeufigkeit", haeufigkeit);
         result.put("firstCleaner", firstCleaner);
-
-
         return result;
     }
 }
