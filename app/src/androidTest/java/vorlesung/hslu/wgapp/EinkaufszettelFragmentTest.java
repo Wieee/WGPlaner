@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by D064744 on 13.12.2017.
@@ -56,19 +57,19 @@ public class EinkaufszettelFragmentTest {
     @Test
     @UiThreadTest
     public void TestAddAndDelete() throws Exception {
-        EinkaufszettelProdukt produkt = new EinkaufszettelProdukt("TestProdukt", 5, "");
+        EinkaufszettelProdukt produkt = new EinkaufszettelProdukt("TestProdukt", 5);
         EinkaufszettelFragment spy = Mockito.spy(fragmenttoTest);
         Wohngemeinschaft mock = Mockito.mock(Wohngemeinschaft.class);
         spy.wg.setName("Mannheim");
-        Mockito.when(mock.getName()).thenReturn("Mannheim");
+
 
         // Test add Item)
         spy.addItem(produkt);
-        assertEquals(spy.einkaufsListe.get(0),produkt);
-        EinkaufszettelFragment.gekaufteListe.add(produkt);
+        assertFalse(mock.getEinkaufszettel().containsValue(produkt));
+        EinkaufszettelFragment.gekaufteListe.put(produkt.getName(),produkt);
         //Test delete Item
         spy.deleteItems();
-        assertFalse(spy.einkaufsListe.contains(produkt));
+        assertFalse(mock.getEinkaufszettel().containsValue(produkt));
 
 
     }

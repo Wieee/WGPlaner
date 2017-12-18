@@ -30,7 +30,8 @@ public class EinkaufszettelFragment extends Fragment {
     public static HashMap<String, EinkaufszettelProdukt> gekaufteListe;
     private EinkaufszettelCustomAdapter customAdapter;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
-    private Wohngemeinschaft wg;
+    //protected for testing purpose
+    protected Wohngemeinschaft wg;
 
     @Nullable
     @Override
