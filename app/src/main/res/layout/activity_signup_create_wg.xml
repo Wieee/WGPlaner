@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:hint="Butzen Name"
+            android:hint="Name der neuen Butze"
             android:inputType="textCapWords" />
 
         <android.support.v7.widget.AppCompatButton
