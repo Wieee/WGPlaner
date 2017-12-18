@@ -27,11 +27,14 @@ import java.util.Map;
 
 public class EinkaufszettelFragment extends Fragment {
 
+    //public for checked function in the customAdapter
     public static HashMap<String, EinkaufszettelProdukt> gekaufteListe;
-    private EinkaufszettelCustomAdapter customAdapter;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
+
     //protected for testing purpose
     protected Wohngemeinschaft wg;
+
+    private EinkaufszettelCustomAdapter customAdapter;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
 
     @Nullable
     @Override
@@ -63,7 +66,6 @@ public class EinkaufszettelFragment extends Fragment {
             }
         });
 
-
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -85,14 +87,12 @@ public class EinkaufszettelFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
         return einkaufszettelView;
     }
 
-    // protected to enable testing
     protected void addItem(EinkaufszettelProdukt product) {
 
         // check if the new product is already listed, if so increase the amount of products
@@ -102,7 +102,7 @@ public class EinkaufszettelFragment extends Fragment {
             mDatabase.child(wg.getName()).child("einkaufszettel").child(product.getName()).setValue(null);
         }
 
-        wg.getEinkaufszettel().put(product.getName(), product);
+        wg.addEinkaufszettelProdukt(product);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
         Map<String, Object> postValues = product.toMap();
@@ -114,10 +114,9 @@ public class EinkaufszettelFragment extends Fragment {
     }
 
     protected void deleteItems() {
-
         ArrayList<EinkaufszettelProdukt> arrayList = new ArrayList<>(wg.getEinkaufszettel().values());
-        for(EinkaufszettelProdukt product : arrayList){
-            if(gekaufteListe.containsKey(product.getName())){
+        for (EinkaufszettelProdukt product : arrayList) {
+            if (gekaufteListe.containsKey(product.getName())) {
                 wg.getEinkaufszettel().remove(product.getName());
                 mDatabase.child(wg.getName()).child("einkaufszettel").child(product.getName()).setValue(null);
             }
@@ -125,7 +124,6 @@ public class EinkaufszettelFragment extends Fragment {
 
         gekaufteListe = new HashMap<>();
         customAdapter.notifyDataSetChanged();
-
     }
 
     private void customAlertDialog() {
@@ -141,29 +139,18 @@ public class EinkaufszettelFragment extends Fragment {
 
                 String name = ((EditText) myDialog.findViewById(R.id.einkaufszettel_dialog_product_name)).getText().toString();
                 if (name.trim().equals("")) {
-                    Toast toast = Toast.makeText(
-                            view.getContext(),
-                            "Bitte einen Produktnamen angeben",
-                            Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(view.getContext(), "Bitte einen Produktnamen angeben", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
                     int amount = ((DiscreteSeekBar) myDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
-
                     EinkaufszettelProdukt newProduct = new EinkaufszettelProdukt(name, amount);
-
                     addItem(newProduct);
-
                     myDialog.hide();
 
-                    Toast toast = Toast.makeText(
-                            view.getContext(),
-                            newProduct.toString() + " wurde zum Einkaufzettel hinzugefügt.",
-                            Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(view.getContext(), newProduct.toString() + " wurde zum Einkaufzettel hinzugefügt.", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
         });
-
-
     }
 }

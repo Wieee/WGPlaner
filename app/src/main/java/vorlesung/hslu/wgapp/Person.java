@@ -3,19 +3,14 @@ package vorlesung.hslu.wgapp;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by lukas on 08.11.2017.
- */
-
 public class Person {
 
     private String id;
     private String name;
     private String email;
 
-
-    public Person() {
-    }
+    //Needed for Firebase communication
+    public Person() { }
 
     public Person(String name, String email) {
         this.name = name;
@@ -51,7 +46,6 @@ public class Person {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public Map<String,Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();

@@ -5,11 +5,10 @@ import java.util.Map;
 
 public class EinkaufszettelProdukt {
 
-    private String id;
     private String name;
     private int amount;
-    private String description;
 
+    //Needed for Firebase communication
     public EinkaufszettelProdukt() {
     }
 
@@ -40,7 +39,6 @@ public class EinkaufszettelProdukt {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
         result.put("name", name);
         result.put("amount", amount);
         return result;

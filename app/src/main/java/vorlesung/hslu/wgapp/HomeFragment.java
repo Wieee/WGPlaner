@@ -11,8 +11,8 @@ import android.widget.Button;
 
 public class HomeFragment extends Fragment {
 
-    FragmentTransaction transaction;
-    android.app.FragmentManager fragmentManager;
+    private FragmentTransaction transaction;
+    private android.app.FragmentManager fragmentManager;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
@@ -22,7 +22,7 @@ public class HomeFragment extends Fragment {
         Button einkaufszettel = (Button) homeView.findViewById(R.id.home_screen_btn1);
         Button haushaltsbuch = (Button) homeView.findViewById(R.id.home_screen_btn2);
         Button putzplan = (Button) homeView.findViewById(R.id.home_screen_btn3);
-        Button option = (Button) homeView.findViewById(R.id.home_screen_btn4);
+        Button einstellungen = (Button) homeView.findViewById(R.id.home_screen_btn4);
 
         fragmentManager = getFragmentManager();
         transaction = fragmentManager.beginTransaction();
@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        option.setOnClickListener(new View.OnClickListener() {
+        einstellungen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 transaction.replace(R.id.fragment_container, new OptionsFragment());

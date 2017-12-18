@@ -85,7 +85,7 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
         final DecimalFormat amountDecimal = new DecimalFormat("##.##");
         if (amount < 0) {
             itemAmount.setTextColor(ContextCompat.getColor(activity, R.color.haushaltsbuch_minus_money));
-            itemAmount.setText("" + amountDecimal.format(amount) + "€");
+            itemAmount.setText(amountDecimal.format(amount) + "€");
         } else {
             itemAmount.setTextColor(ContextCompat.getColor(activity, R.color.haushaltsbuch_plus_money));
             itemAmount.setText("+" + amountDecimal.format(amount) + "€");

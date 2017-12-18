@@ -29,7 +29,6 @@ public class ActivityEnterWG extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
     private Wohngemeinschaft wg;
-    private static boolean exists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +45,7 @@ public class ActivityEnterWG extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String name = bundle.getString("personName");
         currentUser = new Person(name, firebaseUser.getEmail(), firebaseUser.getUid());
-
     }
-
 
     private void screen_enter_wg() {
         setContentView(R.layout.activity_signup_enter_wg);
@@ -118,7 +115,6 @@ public class ActivityEnterWG extends AppCompatActivity {
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Checken ob WG Name nicht bereits belegt ist
                         Iterable<DataSnapshot> wohniter = dataSnapshot.getChildren();
                         for (DataSnapshot snap : wohniter) {
                             String currentWG = snap.getKey().toString();
@@ -150,7 +146,6 @@ public class ActivityEnterWG extends AppCompatActivity {
 
         });
     }
-
 
     private void start_next_activity() {
         Intent mainActivity = new Intent(ActivityEnterWG.this, ActivityMain.class);

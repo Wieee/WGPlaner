@@ -14,14 +14,15 @@ import java.util.ArrayList;
 
 public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
 
-    Activity activity;
-    Wohngemeinschaft wg;
-    ArrayList<Person> arrayList;
+    private Activity activity;
+    private Wohngemeinschaft wg;
+    private ArrayList<Person> arrayList;
+    private Person user;
 
     public HaushaltsbuchCustomAdapterNewExpense(Activity activity){
         this.activity = activity;
         wg = Wohngemeinschaft.getInstance();
-        arrayList = new ArrayList<Person>(wg.getMitbewohner().values());
+        arrayList = new ArrayList<>(wg.getMitbewohner().values());
     }
     @Override
     public int getCount() {
@@ -30,7 +31,7 @@ public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return arrayList.get(position);
     }
 
     @Override
@@ -47,18 +48,16 @@ public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
             row = inflater.inflate(R.layout.haushaltsbuch_dialog_new_expense_user_item, parent, false);
         }
 
-        final Person user = arrayList.get(position);
+        user = arrayList.get(position);
 
         CheckBox check = (CheckBox) row.findViewById(R.id.haushaltsbuch_dialog_new_expense_user_item_checkbox);
         check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    //BoughtFor;
                     HaushaltsbuchFragment.boughtFor.put(user.getId(), user);
                 }
                 else if (!isChecked){
-                    //Delte from Bought For
                     HaushaltsbuchFragment.boughtFor.remove(user.getId());
                 }
             }

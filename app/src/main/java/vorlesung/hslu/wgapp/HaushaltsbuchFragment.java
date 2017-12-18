@@ -25,12 +25,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HaushaltsbuchFragment extends Fragment {
+
+    public static ArrayList<Person> payed = new ArrayList<>();
+    public static HashMap<String, Person> boughtFor = new HashMap<>();
+
+    //for testing
+    protected Person currentUser;
+
     private View haushaltsbuchView;
     private HaushaltsbuchCustomAdapter customAdapter;
     private Wohngemeinschaft wg;
-    public static HashMap<String, Person> boughtFor = new HashMap<>();
-    public static ArrayList<Person> payed = new ArrayList<>();
-    protected Person currentUser;
     private ListView listView;
 
     @Nullable
@@ -65,7 +69,6 @@ public class HaushaltsbuchFragment extends Fragment {
 
         return haushaltsbuchView;
     }
-
 
     private void dialogAddExpense() {
 
@@ -153,10 +156,7 @@ public class HaushaltsbuchFragment extends Fragment {
             boughtFor.clear();
             boughtFor = new HashMap<>();
 
-            Toast toast = Toast.makeText(
-                    view.getContext(),
-                    newExpense.toString() + " wurde erstellt.",
-                    Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(view.getContext(), newExpense.toString(), Toast.LENGTH_SHORT);
             toast.show();
 
             customAdapter.notifyDataSetChanged();

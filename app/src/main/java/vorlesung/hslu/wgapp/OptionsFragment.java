@@ -50,13 +50,13 @@ public class OptionsFragment extends Fragment {
 
         ListView listViewUser = (ListView) optionsView.findViewById(R.id.options_fragment_listview_user);
         ListView listViewWG = (ListView) optionsView.findViewById(R.id.options_fragment_listview_wg);
-        optionsListUser = new ArrayList<String>();
+        optionsListUser = new ArrayList<>();
         optionsListUser.add("Namen ändern");
         optionsListUser.add("eMail ändern");
         optionsListUser.add("Passwort ändern");
         optionsListUser.add("Konto löschen");
 
-        optionsListWG = new ArrayList<String>();
+        optionsListWG = new ArrayList<>();
         optionsListWG.add("WG umbenennen");
         optionsListWG.add("Aus WG austreten");
         optionsListWG.add("WG löschen");
@@ -133,7 +133,6 @@ public class OptionsFragment extends Fragment {
                     wg.getMitbewohner().get(currentUser.getId()).setName(newValue);
                     dialog.hide();
                 }
-                ;
             }
         });
 
@@ -173,7 +172,6 @@ public class OptionsFragment extends Fragment {
                         Toast.makeText(getActivity(), "E-Mail konnte nicht aktualisiert werden.", Toast.LENGTH_LONG).show();
                     }
                 }
-                ;
             }
         });
 
@@ -203,7 +201,6 @@ public class OptionsFragment extends Fragment {
                         Toast.makeText(getActivity(), "Das Passwort konnte nicht aktualisiert werden.", Toast.LENGTH_LONG).show();
                     }
                 }
-                ;
             }
         });
 
@@ -255,7 +252,6 @@ public class OptionsFragment extends Fragment {
                     });
                     dialog.hide();
                 }
-                ;
             }
         });
 
@@ -270,7 +266,6 @@ public class OptionsFragment extends Fragment {
 
         builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                //User aus WG löschen
                 wg.getMitbewohner().remove(currentUser.getId());
                 mDatabase.child(wg.getName()).child("mitbewohner").child(currentUser.getId()).setValue(null);
 
@@ -281,7 +276,6 @@ public class OptionsFragment extends Fragment {
                 Wohngemeinschaft.setInstance(null);
                 wg = Wohngemeinschaft.getInstance();
 
-                //Acitivty Sign Up new WG enter öffnen
                 Intent enterWG = new Intent(getActivity(), ActivityEnterWG.class);
                 getActivity().finish();
                 enterWG.putExtra("personName", currentUser.getName());
@@ -293,7 +287,6 @@ public class OptionsFragment extends Fragment {
                     }
                 });
         builder.show();
-
     }
 
     private void openDialogDeleteAccount() {
@@ -302,12 +295,10 @@ public class OptionsFragment extends Fragment {
 
         builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                //User aus WG löschen
                 wg.getMitbewohner().remove(currentUser.getId());
                 mDatabase.child(wg.getName()).child("mitbewohner").child(currentUser.getId()).setValue(null);
                 Wohngemeinschaft.setInstance(null);
 
-                //start of login activity
                 Intent login = new Intent(getActivity(), ActivityLogin.class);
                 getActivity().finish();
                 startActivity(login);

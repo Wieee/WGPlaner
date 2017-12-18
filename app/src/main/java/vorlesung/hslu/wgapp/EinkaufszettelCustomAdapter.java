@@ -13,10 +13,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class EinkaufszettelCustomAdapter extends BaseAdapter {
+
     private Activity activity;
     private EinkaufszettelProdukt data;
     private Wohngemeinschaft wg;
-    ArrayList<EinkaufszettelProdukt> arrayList;
+    private ArrayList<EinkaufszettelProdukt> arrayList;
 
     public EinkaufszettelCustomAdapter(Activity activity) {
         wg = Wohngemeinschaft.getInstance();
@@ -25,14 +26,12 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return
-
-                wg.getEinkaufszettel().size();
+        return wg.getEinkaufszettel().size();
     }
 
     @Override
     public Object getItem(int position) {
-        ArrayList<EinkaufszettelProdukt> arrayList = new ArrayList<>(wg.getEinkaufszettel().values());
+        arrayList = new ArrayList<>(wg.getEinkaufszettel().values());
         return arrayList.get(position);
     }
 
@@ -50,8 +49,8 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.einkaufszettel_listview_item, parent, false);
         }
-        final TextView itemTitel = (TextView) row.findViewById(R.id.einkaufszettel_list_item_titel);
-        final CheckBox itemCheck = (CheckBox) row.findViewById(R.id.einkaufszettel_list_item_checkbox);
+        TextView itemTitel = (TextView) row.findViewById(R.id.einkaufszettel_list_item_titel);
+        CheckBox itemCheck = (CheckBox) row.findViewById(R.id.einkaufszettel_list_item_checkbox);
 
         data = arrayList.get(position);
         itemCheck.setChecked(false);
@@ -68,7 +67,8 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
             }
         });
 
-        itemTitel.setText(data.getAmount() + "x " + data.getName());
+        itemTitel.setText(data.toString());
+
         return row;
     }
 

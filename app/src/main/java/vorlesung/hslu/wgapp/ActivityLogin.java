@@ -22,15 +22,13 @@ public class ActivityLogin extends AppCompatActivity {
     private EditText inputEmail;
     private EditText inputPassword;
     private FirebaseAuth mAuth;
-    Wohngemeinschaft wg;
-
+    private Wohngemeinschaft wg;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Views and onClickListener!
         Button signInEmail = (Button) this.findViewById(R.id.login_btn_login);
         inputEmail = (EditText) this.findViewById(R.id.login_input_email);
         inputPassword = (EditText) this.findViewById(R.id.login_input_password);
@@ -100,6 +98,5 @@ public class ActivityLogin extends AppCompatActivity {
         Intent mainActivity = new Intent(ActivityLogin.this, ActivityMain.class);
         finish();
         startActivity(mainActivity);
-
     }
 }

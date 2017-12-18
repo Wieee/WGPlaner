@@ -5,12 +5,12 @@ import java.util.Map;
 
 public class HaushaltsbuchAusgabe {
 
-    private String id;
     private String name;
     private double amount;
     private HashMap<String, Person> boughtFor;
     private Person boughtBy;
 
+    //Needed for Firebase communication
     public HaushaltsbuchAusgabe() {
     }
 
@@ -54,12 +54,11 @@ public class HaushaltsbuchAusgabe {
     }
 
     public String toString() {
-        return name + " wurde von " + boughtBy.getName() + " für " + amount + "€ gekauft.";
+        return name + " wurde von " + boughtBy.getName() + " gekauft.";
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
         result.put("name", name);
         result.put("amount", amount);
         result.put("boughtBy", boughtBy);

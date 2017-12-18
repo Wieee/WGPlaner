@@ -29,15 +29,19 @@ import java.util.Map;
 public class ActivitySignUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    boolean signupfail = true;
-    EditText inputName;
-    EditText inputEmail;
-    EditText inputPassword;
-    static Person person;
-    private static boolean exists;
-    FirebaseDatabase database;
-    DatabaseReference mDatabase;
-    public Wohngemeinschaft wg;
+    private boolean signupfail = true;
+    private EditText inputName;
+    private EditText inputEmail;
+    private EditText inputPassword;
+    private static Person person;
+    private FirebaseDatabase database;
+    private DatabaseReference mDatabase;
+    private Wohngemeinschaft wg;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +68,6 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
 
-
         //Nav to Activity Login
         TextView login = (TextView) this.findViewById(R.id.signup_link_login);
         login.setOnClickListener(new View.OnClickListener() {
@@ -76,15 +79,8 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
 
-
         mAuth = FirebaseAuth.getInstance();
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
 
     //protected for Testing purpose
     protected boolean signUp(final String name, final String email, final String password) {
@@ -103,7 +99,6 @@ public class ActivitySignUp extends AppCompatActivity {
                             person.setId(mAuth.getCurrentUser().getUid().toString());
                             screen_enter_wg();
                             signupfail = true;
-
 
                         } else {
                             signupfail = false;
@@ -143,7 +138,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
                 final String code = inputCode.getText().toString();
 
-                //lesen von daten
+                //read from database
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,7 +146,6 @@ public class ActivitySignUp extends AppCompatActivity {
 
                         for (DataSnapshot singlesnap : snapshot) {
                             if (singlesnap.getKey().equals(code)) {
-
                                 wg = singlesnap.getValue(Wohngemeinschaft.class);
                                 wg.addMitbewohner(person);
                                 mAuth = FirebaseAuth.getInstance();
@@ -160,7 +154,7 @@ public class ActivitySignUp extends AppCompatActivity {
                                 childUpdates.put("/mitbewohner/" + mAuth.getCurrentUser().getUid() + "/", postValues);
                                 mDatabase.child(code).updateChildren(childUpdates);
                                 Wohngemeinschaft.setInstance(wg);
-                                start_next_activity();
+                                start_main_activity();
                                 return;
                             }
                         }
@@ -200,7 +194,7 @@ public class ActivitySignUp extends AppCompatActivity {
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Checken if WG name is not already used
+                        //Check if WG name is not already used
                         Iterable<DataSnapshot> wohniter = dataSnapshot.getChildren();
                         for (DataSnapshot snap : wohniter) {
                             String currentWG = snap.getKey().toString();
@@ -217,25 +211,18 @@ public class ActivitySignUp extends AppCompatActivity {
                         mDatabase.child(inputWGname.getText().toString()).updateChildren(childUpdates);
                         mDatabase.child(name).child("name").setValue(name);
                         Wohngemeinschaft.getInstance();
-                        start_next_activity();
-
-
+                        start_main_activity();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
-
                 });
-
-                // CODE FÜR FREUNDE MUSS GENRIERT WERDEN  --> EINMALIG PRO WG? SPÄTER AUCH IN SETTINGS O.Ä. AUFRUFBAR
             }
         });
-
     }
 
-
-    private void start_next_activity() {
+    private void start_main_activity() {
         Intent mainActivity = new Intent(ActivitySignUp.this, ActivityMain.class);
         finish();
         startActivity(mainActivity);

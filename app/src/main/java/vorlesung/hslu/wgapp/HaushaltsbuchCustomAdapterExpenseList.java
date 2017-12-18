@@ -31,6 +31,8 @@ public class HaushaltsbuchCustomAdapterExpenseList extends BaseAdapter {
         this.user = user;
         currentUser = wg.getMitbewohner().get(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
 
+        //fill holder with data,
+        //1. if the current user bought the product and the selected user is in the "boughtFor" list,
         for (HaushaltsbuchAusgabe item : holder) {
             if (item.getBoughtBy().getId().equals(currentUser.getId())) {
                 for (Person boughtFor : item.getBoughtFor().values()) {
@@ -38,6 +40,7 @@ public class HaushaltsbuchCustomAdapterExpenseList extends BaseAdapter {
                         arrayList.add(item);
                     }
                 }
+                //2. if the selected user bought the product and the current user is in the "boughtFor" list
             } else if (item.getBoughtBy().getId().equals(user.getId())) {
                 for (Person boughtFor : item.getBoughtFor().values()) {
                     if (boughtFor.getId().equals(currentUser.getId())) {
