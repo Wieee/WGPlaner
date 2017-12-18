@@ -149,7 +149,6 @@ public class PutzplanFragment extends Fragment {
 
     private void AddTaskCustomDialog() {
         final ArrayList<String> cleaner = new ArrayList<>();
-
         wg = Wohngemeinschaft.getInstance();
 
         final Dialog myDialog = new Dialog(getActivity());
@@ -189,6 +188,7 @@ public class PutzplanFragment extends Fragment {
         for (Person value : wg.getMitbewohner().values()) {
             cleaner.add(value.getName());
         }
+
         //Adapter can not work with ArrayList without errors therefore conversion to String[]
         String[] finalcleaner = cleaner.toArray(new String[cleaner.size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, finalcleaner);
