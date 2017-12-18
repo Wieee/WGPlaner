@@ -2,29 +2,27 @@ package vorlesung.hslu.wgapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-/**
- * Created by Meike on 9.11.2017
- */
 
 public class PutzplanCustomAdapter extends BaseAdapter {
-    Activity activity;
-    ArrayList arrayList;
-    PutzplanAufgabe data;
+
+    private Activity activity;
+    private PutzplanAufgabe data;
+    private Wohngemeinschaft wg;
+    private ArrayList<PutzplanAufgabe> arrayList;
 
     public PutzplanCustomAdapter(Activity activity, ArrayList arrayList) {
         this.activity = activity;
         this.arrayList = arrayList;
+        wg = Wohngemeinschaft.getInstance();
     }
 
     @Override
@@ -44,8 +42,8 @@ public class PutzplanCustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         View row = convertView;
+
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.putzplan_listview_item, parent, false);
@@ -53,26 +51,26 @@ public class PutzplanCustomAdapter extends BaseAdapter {
         TextView itemTitel = (TextView) row.findViewById(R.id.list_item_titel);
         TextView itemDescription = (TextView) row.findViewById(R.id.list_item_description);
         TextView itemCleaner = (TextView) row.findViewById(R.id.list_item_firstCleaner);
-        data = (PutzplanAufgabe) arrayList.get(position);
+
+        data = arrayList.get(position);
         CheckBox itemCheck = (CheckBox) row.findViewById(R.id.putzplan_checkbox);
         itemCheck.setChecked(false);
+
         itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                data  = arrayList.get(position);
                 if (isChecked) {
-                    PutzplanFragment.geputzteListe.add((PutzplanAufgabe) getItem(position));
+                    PutzplanFragment.cleanedList.add((PutzplanAufgabe) getItem(position));
                 } else if (!isChecked) {
-                    if (PutzplanFragment.geputzteListe.equals(data)) {
-
-                        PutzplanFragment.geputzteListe.remove(getItem(position));
+                    if (PutzplanFragment.cleanedList.equals(data)) {
+                        PutzplanFragment.cleanedList.remove(getItem(position));
                     }
                 }
             }
         });
 
-
-        itemTitel.setText(data.getAufgabe());
-
+        itemTitel.setText(data.getName());
         itemDescription.setText(data.getHaeufigkeit());
         itemCleaner.setText(data.getFirstCleaner().getName());
 
