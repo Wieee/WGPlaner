@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/putzplan_dialog_aufgaben_name"
+        android:id="@+id/putzplan_dialog_task_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -24,11 +24,11 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="12dp"
-        android:labelFor="@+id/putzplan_dialog_start_putzer"
+        android:labelFor="@+id/putzplan_dialog_starting_cleaner_textview"
         android:text="Wer soll anfangen zu putzen?" />
 
     <Spinner
-        android:id="@+id/putzplan_dialog_start_putzer"
+        android:id="@+id/putzplan_dialog_starting_cleaner_spinner"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:layout_marginLeft="24dp"
@@ -37,17 +37,15 @@
         android:backgroundTint="@color/colorAccent" />
 
     <TextView
-        android:id="@+id/haeufigkeit_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="12dp"
-        android:labelFor="@+id/putzplan_dialog_haeufigkeit"
         android:text="Wie oft soll geputzt werden?" />
 
     <SeekBar
-        android:id="@+id/putzplan_dialog_haeufigkeit"
+        android:id="@+id/putzplan_dialog_frequency_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -59,7 +57,7 @@
         android:thumbTint="@color/transparent" />
 
     <TextView
-        android:id="@+id/putzplan_dialog_haeufigkeit_text"
+        android:id="@+id/putzplan_dialog_frequency_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

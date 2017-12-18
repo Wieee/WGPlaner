@@ -41,9 +41,9 @@ public class Wohngemeinschaft {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference("wg");
-        try{
+        try {
             uID = mAuth.getCurrentUser().getUid();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             //Logout
             wg = null;
             return;

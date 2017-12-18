@@ -10,14 +10,15 @@ public class Person {
     private String email;
 
     //Needed for Firebase communication
-    public Person() { }
+    public Person() {
+    }
 
     public Person(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public Person(String name, String email, String id){
+    public Person(String name, String email, String id) {
         this.name = name;
         this.email = email;
         this.id = id;
@@ -47,13 +48,13 @@ public class Person {
         this.id = id;
     }
 
-    public Map<String,Object> toMap(){
+    public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("name", name);
         result.put("email", email);
 
         return result;
-}
+    }
 
 }

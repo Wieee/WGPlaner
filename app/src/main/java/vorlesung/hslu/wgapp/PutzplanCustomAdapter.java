@@ -48,18 +48,18 @@ public class PutzplanCustomAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.putzplan_listview_item, parent, false);
         }
-        TextView itemTitel = (TextView) row.findViewById(R.id.list_item_titel);
-        TextView itemDescription = (TextView) row.findViewById(R.id.list_item_description);
-        TextView itemCleaner = (TextView) row.findViewById(R.id.list_item_firstCleaner);
+        TextView itemTitel = (TextView) row.findViewById(R.id.putzplan_list_view_item_titel);
+        TextView itemDescription = (TextView) row.findViewById(R.id.putzplan_list_view_item_frequency);
+        TextView itemCleaner = (TextView) row.findViewById(R.id.putzplan_list_view_item_firstCleaner);
 
         data = arrayList.get(position);
-        CheckBox itemCheck = (CheckBox) row.findViewById(R.id.putzplan_checkbox);
+        CheckBox itemCheck = (CheckBox) row.findViewById(R.id.putzplan_listview_item_checkbox);
         itemCheck.setChecked(false);
 
         itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                data  = arrayList.get(position);
+                data = arrayList.get(position);
                 if (isChecked) {
                     PutzplanFragment.cleanedList.add((PutzplanAufgabe) getItem(position));
                 } else if (!isChecked) {

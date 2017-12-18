@@ -6,6 +6,7 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical">
+
     <EditText
         android:id="@+id/haushaltsbuch_dialog_new_expense_product_name"
         android:layout_width="match_parent"
@@ -27,7 +28,6 @@
         android:hint="Wie viel hat es gekostet?"
         android:inputType="numberDecimal"
         android:textSize="13sp" />
-
 
     <TextView
         android:layout_width="match_parent"

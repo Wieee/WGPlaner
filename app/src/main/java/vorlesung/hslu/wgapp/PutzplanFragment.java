@@ -48,7 +48,7 @@ public class PutzplanFragment extends Fragment {
 
         customAdapter = new PutzplanCustomAdapter(getActivity(), cleaningList);
 
-        ListView listView = (ListView) putzplanView.findViewById(R.id.putzplan_ListView);
+        ListView listView = (ListView) putzplanView.findViewById(R.id.putzplan_listview);
         listView.setLongClickable(true);
         listView.setAdapter(customAdapter);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -58,7 +58,7 @@ public class PutzplanFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) putzplanView.findViewById(R.id.putzfab_add);
+        FloatingActionButton fab = (FloatingActionButton) putzplanView.findViewById(R.id.putzplan_fab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +66,7 @@ public class PutzplanFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fabDelete = (FloatingActionButton) putzplanView.findViewById(R.id.putzfab_delete);
+        FloatingActionButton fabDelete = (FloatingActionButton) putzplanView.findViewById(R.id.putzplan_fab_delete);
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,9 +155,9 @@ public class PutzplanFragment extends Fragment {
         myDialog.setTitle("Neue Aufgabe erstellen");
         myDialog.setContentView(R.layout.putzplan_dialog_add_item);
 
-        final Spinner putzerspinner = (Spinner) myDialog.findViewById(R.id.putzplan_dialog_start_putzer);
-        final SeekBar seekBar = (SeekBar) myDialog.findViewById(R.id.putzplan_dialog_haeufigkeit);
-        final TextView textview = (TextView) myDialog.findViewById(R.id.putzplan_dialog_haeufigkeit_text);
+        final Spinner putzerspinner = (Spinner) myDialog.findViewById(R.id.putzplan_dialog_starting_cleaner_spinner);
+        final SeekBar seekBar = (SeekBar) myDialog.findViewById(R.id.putzplan_dialog_frequency_seekbar);
+        final TextView textview = (TextView) myDialog.findViewById(R.id.putzplan_dialog_frequency_textview);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
@@ -167,7 +167,8 @@ public class PutzplanFragment extends Fragment {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -179,7 +180,7 @@ public class PutzplanFragment extends Fragment {
                         textview.setText("wöchentlich");
                         break;
                     case 3:
-                        textview.setText("1 mal im Monat");
+                        textview.setText("einmal im Monat");
                         break;
                 }
             }
@@ -213,14 +214,14 @@ public class PutzplanFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                String aufgabenname = ((EditText) myDialog.findViewById(R.id.putzplan_dialog_aufgaben_name)).getText().toString();
+                String aufgabenname = ((EditText) myDialog.findViewById(R.id.putzplan_dialog_task_name)).getText().toString();
                 if (aufgabenname.trim().equals("")) {
                     Toast toast = Toast.makeText(view.getContext(), "Bitte gib einen Namen für die Aufgabe an", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
                     String haeufigkeit = textview.getText().toString();
                     Person cleaner = null;
-                    for (Person value :  wg.getMitbewohner().values()) {
+                    for (Person value : wg.getMitbewohner().values()) {
                         if (value.getName().equals(selectedStartCleaner)) {
                             cleaner = value;
                         }

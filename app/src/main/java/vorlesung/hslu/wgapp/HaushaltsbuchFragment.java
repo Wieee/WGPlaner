@@ -139,7 +139,7 @@ public class HaushaltsbuchFragment extends Fragment {
             wg = Wohngemeinschaft.getInstance();
 
             //The current user won*t get money from himself
-            if(newExpense.getBoughtFor().containsKey(currentUser.getId())){
+            if (newExpense.getBoughtFor().containsKey(currentUser.getId())) {
                 double currentUsersPart = newExpense.getAmount() - (newExpense.getAmount() / newExpense.getBoughtFor().size());
                 newExpense.setAmount(currentUsersPart);
                 newExpense.getBoughtFor().remove(currentUser.getId());

@@ -118,7 +118,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
 
 
         ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.putzfab_add),
+                allOf(withId(R.id.putzplan_fab_add),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.support.design.widget.CoordinatorLayout")),
@@ -128,7 +128,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
         floatingActionButton.perform(click());
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.putzplan_dialog_aufgaben_name),
+                allOf(withId(R.id.putzplan_dialog_task_name),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -140,7 +140,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
         ViewInteraction checkedTextView = onView(
                 allOf(withId(android.R.id.text1),
                         childAtPosition(
-                                allOf(withId(R.id.putzplan_dialog_start_putzer),
+                                allOf(withId(R.id.putzplan_dialog_starting_cleaner_spinner),
                                         childAtPosition(
                                                 IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                                 2)),
@@ -149,7 +149,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
         checkedTextView.check(matches(isDisplayed()));
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.putzplan_dialog_haeufigkeit_text), withText("nie"),
+                allOf(withId(R.id.putzplan_dialog_frequency_textview), withText("nie"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -169,17 +169,17 @@ public class ActivityEspressoLoginAndPutzplanTest {
         appCompatButton3.perform(click());
 
         ViewInteraction appCompatCheckBox = onView(
-                allOf(withId(R.id.putzplan_checkbox),
+                allOf(withId(R.id.putzplan_listview_item_checkbox),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.cardView),
+                                        withId(R.id.putzplan_listview_item_cardview),
                                         0),
                                 0),
                         isDisplayed()));
         appCompatCheckBox.perform(click());
 
         ViewInteraction floatingActionButton3 = onView(
-                allOf(withId(R.id.putzfab_delete),
+                allOf(withId(R.id.putzplan_fab_delete),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.support.design.widget.CoordinatorLayout")),
@@ -189,10 +189,10 @@ public class ActivityEspressoLoginAndPutzplanTest {
         floatingActionButton3.perform(click());
 
         ViewInteraction checkBox = onView(
-                allOf(withId(R.id.putzplan_checkbox),
+                allOf(withId(R.id.putzplan_listview_item_checkbox),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.cardView),
+                                        withId(R.id.putzplan_listview_item_cardview),
                                         0),
                                 0),
                         isDisplayed()));
@@ -201,7 +201,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
 
         ViewInteraction relativeLayout = onView(
                 allOf(childAtPosition(
-                        allOf(withId(R.id.cardView),
+                        allOf(withId(R.id.putzplan_listview_item_cardview),
                                 childAtPosition(
                                         withId(R.id.putzplan_cardView_cardView),
                                         0)),
@@ -220,7 +220,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
 
         ViewInteraction relativeLayout2 = onView(
                 allOf(childAtPosition(
-                        allOf(withId(R.id.cardView),
+                        allOf(withId(R.id.putzplan_listview_item_cardview),
                                 childAtPosition(
                                         withId(R.id.putzplan_cardView_cardView),
                                         0)),
@@ -231,7 +231,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
 
         ViewInteraction relativeLayout3 = onView(
                 allOf(childAtPosition(
-                        allOf(withId(R.id.cardView),
+                        allOf(withId(R.id.putzplan_listview_item_cardview),
                                 childAtPosition(
                                         withId(R.id.putzplan_cardView_cardView),
                                         0)),
@@ -266,7 +266,7 @@ public class ActivityEspressoLoginAndPutzplanTest {
                         childAtPosition(
                                 allOf(withId(R.id.nav_view),
                                         childAtPosition(
-                                                withId(R.id.drawer_layout),
+                                                withId(R.id.nav_view_drawer_layout),
                                                 1)),
                                 1),
                         isDisplayed()));

@@ -65,18 +65,17 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
         user = arrayList.get(position);
 
         itemCheck.setChecked(false);
-        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 user = arrayList.get(position);
-                if (isChecked){
+                if (isChecked) {
                     HaushaltsbuchFragment.payed.add(user);
-                }
-                else if (!isChecked){
+                } else if (!isChecked) {
                     HaushaltsbuchFragment.payed.remove(user);
                 }
             }
-        } );
+        });
 
         itemTitel.setText(user.getName());
 
@@ -130,7 +129,7 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
         return row;
     }
 
-    public double calculateAmount(Person user){
+    public double calculateAmount(Person user) {
         double amount = 0;
         wg = Wohngemeinschaft.getInstance();
         ArrayList<HaushaltsbuchAusgabe> holder = new ArrayList<>(wg.getHaushaltsbuch().values());
@@ -152,12 +151,12 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
                 }
             }
         }
-        for(HaushaltsbuchAusgabe item : getFromUser){
+        for (HaushaltsbuchAusgabe item : getFromUser) {
 
-            amount = amount + (item.getAmount()/item.getBoughtFor().size());
+            amount = amount + (item.getAmount() / item.getBoughtFor().size());
         }
-        for(HaushaltsbuchAusgabe item : payToUser){
-            amount = amount - (item.getAmount()/item.getBoughtFor().size());
+        for (HaushaltsbuchAusgabe item : payToUser) {
+            amount = amount - (item.getAmount() / item.getBoughtFor().size());
         }
         return amount;
     }

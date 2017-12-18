@@ -8,32 +8,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textSize="20dp"
         android:text="Nutzer Einstellungen"
-        android:textStyle="bold"/>
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <ListView
+        android:id="@+id/options_fragment_listview_user"
         android:layout_width="wrap_content"
         android:layout_height="180dp"
-        android:id="@+id/options_fragment_listview_user"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-    </ListView>
+        android:layout_marginRight="20dp"></ListView>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textSize="20dp"
         android:text="WG Einstellungen"
-        android:textStyle="bold"/>
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <ListView
+        android:id="@+id/options_fragment_listview_wg"
         android:layout_width="wrap_content"
         android:layout_height="144dp"
-        android:id="@+id/options_fragment_listview_wg"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-    </ListView>
+        android:layout_marginRight="20dp"></ListView>
 
 </LinearLayout>

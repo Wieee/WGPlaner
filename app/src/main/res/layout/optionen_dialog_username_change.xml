@@ -9,12 +9,12 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/options_dialog_show_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:textSize="14dp"
-        android:id="@+id/options_dialog_show_user"
-        android:text="Username"/>
+        android:text="Username"
+        android:textSize="14dp" />
 
     <EditText
         android:id="@+id/options_dialog_change_newname"

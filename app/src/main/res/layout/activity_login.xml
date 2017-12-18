@@ -5,18 +5,19 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="24dp"
+        android:orientation="vertical"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        android:paddingTop="24dp">
 
-        <ImageView android:src="@mipmap/ic_logo"
+        <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
+            android:src="@mipmap/ic_logo" />
 
         <EditText
             android:id="@+id/login_input_email"
@@ -24,8 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:inputType="textEmailAddress"
-            android:hint="Email" />
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/login_input_password"
@@ -33,28 +34,29 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:inputType="textPassword"
-            android:hint="Password" />
+            android:hint="Password"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/login_btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="12dp"
             android:layout_margin="8dp"
             android:backgroundTint="@color/colorPrimary"
-            android:textColor="@color/white"
+            android:padding="12dp"
             android:text="Einloggen"
-            android:textStyle="bold"/>
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-        <TextView android:id="@+id/login_link_signup"
+        <TextView
+            android:id="@+id/login_link_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Noch keinen Account? Dann hier entlang..."
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:text="Noch keinen Account? Dann hier entlang..."
+            android:textSize="16dip" />
 
     </LinearLayout>
 </ScrollView>

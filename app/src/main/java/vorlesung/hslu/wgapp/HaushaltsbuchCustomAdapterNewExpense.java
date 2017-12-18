@@ -19,11 +19,12 @@ public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
     private ArrayList<Person> arrayList;
     private Person user;
 
-    public HaushaltsbuchCustomAdapterNewExpense(Activity activity){
+    public HaushaltsbuchCustomAdapterNewExpense(Activity activity) {
         this.activity = activity;
         wg = Wohngemeinschaft.getInstance();
         arrayList = new ArrayList<>(wg.getMitbewohner().values());
     }
+
     @Override
     public int getCount() {
         return wg.getMitbewohner().size();
@@ -43,25 +44,24 @@ public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         View row = convertView;
-        if (row==null) {
-            LayoutInflater inflater=(LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (row == null) {
+            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.haushaltsbuch_dialog_new_expense_user_item, parent, false);
         }
 
         user = arrayList.get(position);
 
         CheckBox check = (CheckBox) row.findViewById(R.id.haushaltsbuch_dialog_new_expense_user_item_checkbox);
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     HaushaltsbuchFragment.boughtFor.put(user.getId(), user);
-                }
-                else if (!isChecked){
+                } else if (!isChecked) {
                     HaushaltsbuchFragment.boughtFor.remove(user.getId());
                 }
             }
-        } );
+        });
 
         TextView name = (TextView) row.findViewById(R.id.haushaltsbuch_dialog_new_expense_user_item_name);
 

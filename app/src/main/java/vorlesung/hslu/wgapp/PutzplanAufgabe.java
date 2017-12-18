@@ -11,7 +11,8 @@ public class PutzplanAufgabe {
     private Person firstCleaner;
 
     //Needed for Firebase communication
-    public PutzplanAufgabe() { }
+    public PutzplanAufgabe() {
+    }
 
     public String getId() {
         return id;
