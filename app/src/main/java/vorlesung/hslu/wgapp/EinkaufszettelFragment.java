@@ -27,22 +27,22 @@ import java.util.Map;
 
 public class EinkaufszettelFragment extends Fragment {
 
-    public ArrayList<EinkaufszettelProdukt> einkaufsListe = new ArrayList();
-    public static ArrayList<EinkaufszettelProdukt> gekaufteListe = new ArrayList();
-    EinkaufszettelCustomAdapter customAdapter;
-    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
-    public Wohngemeinschaft wg;
+    public static HashMap<String, EinkaufszettelProdukt> gekaufteListe;
+    private EinkaufszettelCustomAdapter customAdapter;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
+    private Wohngemeinschaft wg;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         wg = Wohngemeinschaft.getInstance();
-
+        gekaufteListe = new HashMap<>();
 
         final View einkaufszettelView = inflater.inflate(R.layout.einkaufszettel_fragment, container, false);
         ((ActivityMain) getActivity()).getSupportActionBar().setTitle("Einkaufszettel");
 
-        customAdapter = new EinkaufszettelCustomAdapter(getActivity(), einkaufsListe);
+        customAdapter = new EinkaufszettelCustomAdapter(getActivity());
+
         ListView listView = (ListView) einkaufszettelView.findViewById(R.id.einkaufszettel_ListView);
         listView.setAdapter(customAdapter);
 
@@ -73,7 +73,7 @@ public class EinkaufszettelFragment extends Fragment {
                         for (DataSnapshot singleproduct : einkaufproducts) {
                             EinkaufszettelProdukt product = singleproduct.getValue(EinkaufszettelProdukt.class);
                             if (product != null) {
-                                einkaufsListe.add(product);
+                                wg.getEinkaufszettel().put(product.getName(), product);
 
                             }
                         }
@@ -93,51 +93,38 @@ public class EinkaufszettelFragment extends Fragment {
 
     // protected to enable testing
     protected void addItem(EinkaufszettelProdukt product) {
-        for (int i = 0; i < einkaufsListe.size(); i++) {
-            EinkaufszettelProdukt listedItem = einkaufsListe.get(i);
-            // check if the new product is already listed, if so increase the amount of products
-            if (listedItem.getName().equals(product.getName())) {
-                listedItem.setAmount(listedItem.getAmount() + product.getAmount());
-                einkaufsListe.set(i, listedItem);
 
-                Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
-
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
-                Map<String, Object> postValues = listedItem.toMap();
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/einkaufszettel/" + listedItem.getName(), postValues);
-                mDatabase.child(wg.getName()).updateChildren(childUpdates);
-                customAdapter.notifyDataSetChanged();
-                return;
-            }
+        // check if the new product is already listed, if so increase the amount of products
+        if (wg.getEinkaufszettel().containsKey(product.getName())) {
+            product.setAmount(wg.getEinkaufszettel().get(product.getName()).getAmount() + product.getAmount());
+            wg.getEinkaufszettel().remove(product.getName());
+            mDatabase.child(wg.getName()).child("einkaufszettel").child(product.getName()).setValue(null);
         }
-        Wohngemeinschaft wg = Wohngemeinschaft.getInstance();
 
-        einkaufsListe.add(product);
-        customAdapter.notifyDataSetChanged();
+        wg.getEinkaufszettel().put(product.getName(), product);
+
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("wg");
         Map<String, Object> postValues = product.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/einkaufszettel/" + product.getName(), postValues);
         mDatabase.child(wg.getName()).updateChildren(childUpdates);
+
+        customAdapter.notifyDataSetChanged();
     }
 
     protected void deleteItems() {
 
-        //NOCH NICHT ZU 100 PROZENT RICHTIG
-        EinkaufszettelProdukt product;
-        int i = gekaufteListe.size();
-
-        while (i > 0) {
-            product = (EinkaufszettelProdukt) gekaufteListe.get(--i);
-            if (einkaufsListe.containsAll(gekaufteListe)) {
-                einkaufsListe.remove(product);
-                gekaufteListe.remove(product);
+        ArrayList<EinkaufszettelProdukt> arrayList = new ArrayList<>(wg.getEinkaufszettel().values());
+        for(EinkaufszettelProdukt product : arrayList){
+            if(gekaufteListe.containsKey(product.getName())){
+                wg.getEinkaufszettel().remove(product.getName());
                 mDatabase.child(wg.getName()).child("einkaufszettel").child(product.getName()).setValue(null);
-
             }
         }
+
+        gekaufteListe = new HashMap<>();
         customAdapter.notifyDataSetChanged();
+
     }
 
     private void customAlertDialog() {

@@ -14,21 +14,25 @@ import java.util.ArrayList;
 
 public class EinkaufszettelCustomAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList arrayList;
     private EinkaufszettelProdukt data;
+    private Wohngemeinschaft wg;
+    ArrayList<EinkaufszettelProdukt> arrayList;
 
-    public EinkaufszettelCustomAdapter(Activity activity, ArrayList arrayList) {
+    public EinkaufszettelCustomAdapter(Activity activity) {
+        wg = Wohngemeinschaft.getInstance();
         this.activity = activity;
-        this.arrayList = arrayList;
     }
 
     @Override
     public int getCount() {
-        return arrayList.size();
+        return
+
+                wg.getEinkaufszettel().size();
     }
 
     @Override
     public Object getItem(int position) {
+        ArrayList<EinkaufszettelProdukt> arrayList = new ArrayList<>(wg.getEinkaufszettel().values());
         return arrayList.get(position);
     }
 
@@ -39,30 +43,32 @@ public class EinkaufszettelCustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
+        arrayList = new ArrayList<>(wg.getEinkaufszettel().values());
         View row = convertView;
-        if (row==null) {
-            LayoutInflater inflater=(LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if (row == null) {
+            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.einkaufszettel_listview_item, parent, false);
         }
         final TextView itemTitel = (TextView) row.findViewById(R.id.einkaufszettel_list_item_titel);
-        CheckBox itemCheck = (CheckBox) row.findViewById(R.id.einkaufszettel_list_item_checkbox);
-        data = (EinkaufszettelProdukt) arrayList.get(position);
+        final CheckBox itemCheck = (CheckBox) row.findViewById(R.id.einkaufszettel_list_item_checkbox);
+
+        data = arrayList.get(position);
         itemCheck.setChecked(false);
-        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
+        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    EinkaufszettelFragment.gekaufteListe.add(data);
-                }
-                else if (!isChecked){
-                    EinkaufszettelFragment.gekaufteListe.remove(data);
-
+                data = arrayList.get(position);
+                if (isChecked) {
+                    EinkaufszettelFragment.gekaufteListe.put(data.getName(), data);
+                } else if (!isChecked) {
+                    EinkaufszettelFragment.gekaufteListe.remove(data.getName());
                 }
             }
-        } );
+        });
 
-        itemTitel.setText(data.getAmount() +"x " + data.getName());
+        itemTitel.setText(data.getAmount() + "x " + data.getName());
         return row;
     }
 
