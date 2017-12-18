@@ -3,10 +3,6 @@ package vorlesung.hslu.wgapp;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by lukas on 08.11.2017.
- */
-
 public class EinkaufszettelProdukt {
 
     private String id;
@@ -15,13 +11,6 @@ public class EinkaufszettelProdukt {
     private String description;
 
     public EinkaufszettelProdukt() {
-    }
-
-    public EinkaufszettelProdukt(String name, int amount, String description) {
-        this.name = name;
-        this.amount = amount;
-        this.description = description;
-        this.amount = amount;
     }
 
     public EinkaufszettelProdukt(String name, int amount) {
@@ -45,14 +34,6 @@ public class EinkaufszettelProdukt {
         this.amount = amount;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String toString() {
         return amount + "x " + name;
     }
@@ -61,7 +42,6 @@ public class EinkaufszettelProdukt {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("name", name);
-        result.put("description", description);
         result.put("amount", amount);
         return result;
     }

@@ -148,7 +148,7 @@ public class EinkaufszettelFragment extends Fragment {
                 } else {
                     int amount = ((DiscreteSeekBar) myDialog.findViewById(R.id.einkaufszettel_dialog_product_count)).getProgress();
 
-                    EinkaufszettelProdukt newProduct = new EinkaufszettelProdukt(name, amount, "");
+                    EinkaufszettelProdukt newProduct = new EinkaufszettelProdukt(name, amount);
 
                     addItem(newProduct);
 
