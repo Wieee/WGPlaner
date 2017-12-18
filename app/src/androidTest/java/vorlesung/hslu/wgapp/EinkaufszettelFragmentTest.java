@@ -61,11 +61,11 @@ public class EinkaufszettelFragmentTest {
         EinkaufszettelFragment spy = Mockito.spy(fragmenttoTest);
         Wohngemeinschaft mock = Mockito.mock(Wohngemeinschaft.class);
         spy.wg.setName("Mannheim");
+        spy.wg.addEinkaufszettelProdukt(produkt);
 
 
         // Test add Item)
         spy.addItem(produkt);
-        assertFalse(mock.getEinkaufszettel().containsValue(produkt));
         EinkaufszettelFragment.gekaufteListe.put(produkt.getName(),produkt);
         //Test delete Item
         spy.deleteItems();
