@@ -21,16 +21,17 @@ import java.util.ArrayList;
 
 public class HaushaltsbuchCustomAdapter extends BaseAdapter {
 
-    Activity activity;
-    Wohngemeinschaft wg;
-    ArrayList<Person> arrayList;
-    Person currentUser;
-    Dialog myDialog;
+    private Activity activity;
+    private Wohngemeinschaft wg;
+    private ArrayList<Person> arrayList;
+    private Person currentUser;
+    private Person user;
+    private Dialog myDialog;
 
     public HaushaltsbuchCustomAdapter(Activity activity) {
         this.activity = activity;
         wg = Wohngemeinschaft.getInstance();
-        arrayList = new ArrayList<Person>(wg.getMitbewohner().values());
+        arrayList = new ArrayList<>(wg.getMitbewohner().values());
         currentUser = wg.getMitbewohner().get(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
         arrayList.remove(currentUser);
     }
@@ -61,12 +62,13 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
         TextView itemTitel = (TextView) row.findViewById(R.id.haushaltsbuch_list_item_name);
         TextView itemAmount = (TextView) row.findViewById(R.id.haushaltsbuch_list_item_amount);
 
-        final Person user = arrayList.get(position);
+        user = arrayList.get(position);
 
         itemCheck.setChecked(false);
         itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                user = arrayList.get(position);
                 if (isChecked){
                     HaushaltsbuchFragment.payed.add(user);
                 }
@@ -78,19 +80,23 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
 
         itemTitel.setText(user.getName());
 
+        //Set Amount
         final double amount = calculateAmount(user);
         final DecimalFormat amountDecimal = new DecimalFormat("##.##");
         if (amount < 0) {
             itemAmount.setTextColor(ContextCompat.getColor(activity, R.color.haushaltsbuch_minus_money));
-            itemAmount.setText("-" + amountDecimal.format(amount) + "€");
+            itemAmount.setText("" + amountDecimal.format(amount) + "€");
         } else {
             itemAmount.setTextColor(ContextCompat.getColor(activity, R.color.haushaltsbuch_plus_money));
             itemAmount.setText("+" + amountDecimal.format(amount) + "€");
         }
 
+        //Show all expenses which the onclicked user has with the current user
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                user = arrayList.get(position);
+
                 myDialog = new Dialog(activity);
 
                 LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -120,6 +126,7 @@ public class HaushaltsbuchCustomAdapter extends BaseAdapter {
                 myDialog.show();
             }
         });
+
         return row;
     }
 

@@ -134,6 +134,14 @@ public class HaushaltsbuchFragment extends Fragment {
     private void addNewExpense(HaushaltsbuchAusgabe newExpense, View view, Dialog myDialog) {
         if (validate(newExpense)) {
             wg = Wohngemeinschaft.getInstance();
+
+            //The current user won*t get money from himself
+            if(newExpense.getBoughtFor().containsKey(currentUser.getId())){
+                double currentUsersPart = newExpense.getAmount() - (newExpense.getAmount() / newExpense.getBoughtFor().size());
+                newExpense.setAmount(currentUsersPart);
+                newExpense.getBoughtFor().remove(currentUser.getId());
+            }
+
             wg.addHaushaltsbuchAusgabe(newExpense);
 
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -151,6 +159,7 @@ public class HaushaltsbuchFragment extends Fragment {
                     Toast.LENGTH_SHORT);
             toast.show();
 
+            customAdapter.notifyDataSetChanged();
             myDialog.hide();
         }
     }
@@ -201,7 +210,7 @@ public class HaushaltsbuchFragment extends Fragment {
                                 mDatabase.child(wg.getName()).child("haushaltsbuch").child(item.getName()).child("boughtFor").updateChildren(childUpdates);
 
                                 HashMap<String, Person> update = new HashMap<>(wg.getHaushaltsbuch().get(item.getName()).getBoughtFor());
-                                update.remove(user.getId());
+                                update.remove(currentUser.getId());
                                 wg.getHaushaltsbuch().get(item.getName()).setBoughtFor(update);
                             }
                         }

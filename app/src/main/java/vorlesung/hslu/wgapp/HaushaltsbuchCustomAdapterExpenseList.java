@@ -16,19 +16,21 @@ import java.util.ArrayList;
 
 public class HaushaltsbuchCustomAdapterExpenseList extends BaseAdapter {
 
-    Activity activity;
-    Wohngemeinschaft wg;
-    ArrayList<HaushaltsbuchAusgabe> arrayList;
-    Person user;
-    Person currentUser;
+    private Activity activity;
+    private Wohngemeinschaft wg;
+    private ArrayList<HaushaltsbuchAusgabe> arrayList;
+    private Person user;
+    private Person currentUser;
 
     public HaushaltsbuchCustomAdapterExpenseList(Activity activity, Person user) {
         this.activity = activity;
         wg = Wohngemeinschaft.getInstance();
+
         ArrayList<HaushaltsbuchAusgabe> holder = new ArrayList<>(wg.getHaushaltsbuch().values());
-        arrayList = new ArrayList<HaushaltsbuchAusgabe>();
+        arrayList = new ArrayList<>();
         this.user = user;
         currentUser = wg.getMitbewohner().get(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+
         for (HaushaltsbuchAusgabe item : holder) {
             if (item.getBoughtBy().getId().equals(currentUser.getId())) {
                 for (Person boughtFor : item.getBoughtFor().values()) {
