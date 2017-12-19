@@ -55,6 +55,7 @@ public class HaushaltsbuchCustomAdapterNewExpense extends BaseAdapter {
         check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                user = arrayList.get(position);
                 if (isChecked) {
                     HaushaltsbuchFragment.boughtFor.put(user.getId(), user);
                 } else if (!isChecked) {
